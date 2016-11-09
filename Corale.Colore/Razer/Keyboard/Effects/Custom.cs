@@ -86,7 +86,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
             for (var index = 0; index < Constants.MaxKeys; index++)
             {
                 _colors[index] = other[index];
-                _keys[index] = other[(Key)index];
+                _keys[index] = other[index];
             }
         }
 

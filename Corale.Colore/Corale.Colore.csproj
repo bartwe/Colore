@@ -145,7 +145,9 @@
     <Compile Include="Razer\Effects\StarlightType.cs" />
     <Compile Include="Razer\Effects\Static.cs" />
     <Compile Include="Razer\Effects\Wave.cs" />
+    <Compile Include="Razer\Headset\Constants.cs" />
     <Compile Include="Razer\Headset\Effects\Breathing.cs" />
+    <Compile Include="Razer\Headset\Effects\Custom.cs" />
     <Compile Include="Razer\Headset\Effects\Effect.cs" />
     <Compile Include="Razer\Headset\Effects\Static.cs" />
     <Compile Include="Razer\Keyboard\Constants.cs" />

@@ -41,9 +41,19 @@ namespace Corale.Colore.Core
         private static readonly ILog Log = LogManager.GetLogger(typeof(Headset));
 
         /// <summary>
+        /// Lock object for thread-safe init.
+        /// </summary>
+        private static readonly object InitLock = new object();
+
+        /// <summary>
         /// Holds the application-wide instance of the <see cref="IHeadset" /> interface.
         /// </summary>
         private static IHeadset _instance;
+
+        /// <summary>
+        /// Internal <see cref="Custom" /> struct used for effects.
+        /// </summary>
+        private Custom _custom;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="Headset" /> class from being created.
@@ -52,12 +62,41 @@ namespace Corale.Colore.Core
         {
             Log.Info("Headset is initializing");
             Chroma.InitInstance();
+            _custom = Custom.Create();
         }
 
         /// <summary>
         /// Gets the application-wide instance of the <see cref="IHeadset" /> interface.
         /// </summary>
-        public static IHeadset Instance => _instance ?? (_instance = new Headset());
+        public static IHeadset Instance
+        {
+            get
+            {
+                lock (InitLock)
+                {
+                    return _instance ?? (_instance = new Headset());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a specific LED on the headset.
+        /// </summary>
+        /// <param name="index">The index to access.</param>
+        /// <returns>The current <see cref="Color" /> at the <paramref name="index"/>.</returns>
+        public Color this[int index]
+        {
+            get
+            {
+                return _custom[index];
+            }
+
+            set
+            {
+                _custom[index] = value;
+                SetCustom(_custom);
+            }
+        }
 
         /// <summary>
         /// Sets the color of all components on this device.
@@ -65,7 +104,8 @@ namespace Corale.Colore.Core
         /// <param name="color">Color to set.</param>
         public override void SetAll(Color color)
         {
-            SetStatic(new Static(color));
+            _custom.Set(color);
+            SetCustom(_custom);
         }
 
         /// <summary>
@@ -124,11 +164,29 @@ namespace Corale.Colore.Core
         }
 
         /// <summary>
+        /// Sets a spectrum effect on the headset.
+        /// </summary>
+        public void SetSpectrum()
+        {
+            SetGuid(NativeWrapper.CreateHeadsetEffect(Effect.SpectrumCycling, IntPtr.Zero));
+        }
+
+        /// <summary>
+        /// Sets a custom effect on the mouse pad.
+        /// </summary>
+        /// <param name="effect">An instance of the <see cref="Custom" /> struct.</param>
+        public void SetCustom(Custom effect)
+        {
+            SetGuid(NativeWrapper.CreateHeadsetEffect(Effect.Custom, effect));
+        }
+
+        /// <summary>
         /// Clears the current effect on the Headset.
         /// </summary>
         public override void Clear()
         {
             SetEffect(Effect.None);
         }
+
     }
 }

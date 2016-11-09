@@ -348,6 +348,8 @@
                                 Margin="0,6,0,0" Command="{Binding AllCommand, Mode=OneWay}" />
                         <Button x:Name="SetBreathingButton4" Content="SetBreathing" VerticalAlignment="Top" Width="75"
                                 Margin="0,6,0,0" Command="{Binding BreathingCommand, Mode=OneWay}" />
+                        <Button x:Name="SpectrumButton" Content="SetSpectrum" VerticalAlignment="Top" Width="75"
+                                Margin="84,6,84,0" Command="{Binding SpectrumCommand, Mode=OneWay}" />
                         <Button x:Name="SetStaticButton4" Content="SetStatic" VerticalAlignment="Top" Width="75"
                                 Margin="0,6,0,0" Command="{Binding StaticCommand, Mode=OneWay}" />
                         <Button x:Name="HeadsetClearButton" Content="Clear" VerticalAlignment="Top" Width="75"
