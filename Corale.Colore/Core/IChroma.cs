@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
 // <copyright file="IChroma.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
 //
@@ -104,6 +104,13 @@ namespace Corale.Colore.Core
         /// </summary>
         [PublicAPI]
         IKeypad Keypad { get; }
+
+        /// <summary>
+        /// Gets an instance of the <see cref="IChromaLink" /> interface
+        /// for interacting with ChromaLink devices.
+        /// </summary>
+        [PublicAPI]
+        IChromaLink ChromaLink { get; }
 
         /// <summary>
         /// Gets a value indicating whether the Chroma

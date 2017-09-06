@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
 // <copyright file="NativeWrapper.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
 //
@@ -133,6 +133,21 @@ namespace Corale.Colore.Core
             var result = NativeMethods.CreateKeypadEffect(effect, param, ref guid);
             if (!result)
                 throw new NativeCallException("CreateKeypadEffect", result);
+            return guid;
+        }
+
+        /// <summary>
+        /// Creates a Chroma Link effect with the specified parameters.
+        /// </summary>
+        /// <param name="effect">The type of Chroma Link effect to create.</param>
+        /// <param name="param">Effect-specific parameters.</param>
+        /// <returns>A <see cref="Guid" /> for the created effect.</returns>
+        internal static Guid CreateChromaLinkEffect(Razer.ChromaLink.Effects.Effect effect, IntPtr param)
+        {
+            var guid = Guid.Empty;
+            var result = NativeMethods.CreateChromaLinkEffect(effect, param, ref guid);
+            if (!result)
+                throw new NativeCallException("CreateChromaLinkEffect", result);
             return guid;
         }
 
@@ -356,6 +371,28 @@ namespace Corale.Colore.Core
             try
             {
                 return CreateKeypadEffect(effect, ptr);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
+
+        /// <summary>
+        /// Helper method for creating Chroma Link effects with parameter struct.
+        /// </summary>
+        /// <typeparam name="T">The effect struct type.</typeparam>
+        /// <param name="effect">The type of effect to create.</param>
+        /// <param name="struct">Effect options struct.</param>
+        /// <returns>A <see cref="Guid" /> for the created effect.</returns>
+        internal static Guid CreateChromaLinkEffect<T>(Razer.ChromaLink.Effects.Effect effect, T @struct) where T : struct
+        {
+            var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
+            Marshal.StructureToPtr(@struct, ptr, false);
+
+            try
+            {
+                return CreateChromaLinkEffect(effect, ptr);
             }
             finally
             {

@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
 // <copyright file="Chroma.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
 //
@@ -169,6 +169,12 @@ namespace Corale.Colore.Core
         /// for interacting with a Razer Chroma keypad.
         /// </summary>
         public IKeypad Keypad => Core.Keypad.Instance;
+
+        /// <summary>
+        /// Gets an instance of the <see cref="IChromaLink" /> interface
+        /// for interacting with ChromaLink devices.
+        /// </summary>
+        public IChromaLink ChromaLink => Core.ChromaLink.Instance;
 
         /// <summary>
         /// Gets a value indicating whether the Chroma
