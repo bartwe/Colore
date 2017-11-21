@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------------
-// <copyright file="Effect.cs" company="Corale">
+// <copyright file="Constants.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
 //
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -23,49 +23,19 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Headset.Effects
+namespace Corale.Colore.Razer.Headset
 {
     using Corale.Colore.Annotations;
 
     /// <summary>
-    /// Standard effects for headsets.
+    /// Holds various keyboard constants used in Razer's API.
     /// </summary>
-    public enum Effect
+    public static class Constants
     {
         /// <summary>
-        /// No effect.
+        /// The maximum number of rows on the keyboard
         /// </summary>
         [PublicAPI]
-        None = 0,
-
-        /// <summary>
-        /// Static color.
-        /// </summary>
-        [PublicAPI]
-        Static,
-
-        /// <summary>
-        /// Slow fade between two colors.
-        /// </summary>
-        [PublicAPI]
-        Breathing,
-
-        /// <summary>
-        /// Cycles the entire spectrum.
-        /// </summary>
-        [PublicAPI]
-        SpectrumCycling,
-
-        /// <summary>
-        /// Custom effect.
-        /// </summary>
-        [PublicAPI]
-        Custom,
-
-        /// <summary>
-        /// Invalid effect.
-        /// </summary>
-        [PublicAPI]
-        Invalid
+        public const int MaxLeds = 5;
     }
 }

@@ -33,14 +33,14 @@ namespace Corale.Colore.Core
     /// </summary>
     public interface IHeadset : IDevice
     {
+
         /// <summary>
-        /// Sets an effect on the headset that doesn't
-        /// take any parameters, currently only valid
-        /// for the <see cref="Effect.SpectrumCycling" /> effect.
+        /// Gets or sets a specific LED on the headset.
         /// </summary>
-        /// <param name="effect">The type of effect to set.</param>
+        /// <param name="index">The index to access.</param>
+        /// <returns>The current <see cref="Color" /> at the <paramref name="index"/>.</returns>
         [PublicAPI]
-        void SetEffect(Effect effect);
+        Color this[int index] { get; set; }
 
         /// <summary>
         /// Sets a new static effect on the headset.
@@ -77,5 +77,27 @@ namespace Corale.Colore.Core
         /// <param name="color"><see cref="Color"/> of the effect.</param>
         [PublicAPI]
         void SetBreathing(Color color);
+
+        /// <summary>
+        /// Sets the spectrum cycling effect on the headset.
+        /// </summary>
+        [PublicAPI]
+        void SetSpectrum();
+
+        /// <summary>
+        /// Sets a custom effect on the mouse pad.
+        /// </summary>
+        /// <param name="effect">An instance of the <see cref="Custom" /> struct.</param>
+        [PublicAPI]
+        void SetCustom(Custom effect);
+
+        /// <summary>
+        /// Sets an effect on the headset that doesn't
+        /// take any parameters, currently only valid
+        /// for the <see cref="Effect.SpectrumCycling" /> effect.
+        /// </summary>
+        /// <param name="effect">The type of effect to set.</param>
+        [PublicAPI]
+        void SetEffect(Effect effect);
     }
 }

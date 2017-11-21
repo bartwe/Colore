@@ -55,6 +55,8 @@ namespace Corale.Colore.Tester.ViewModels
         public ICommand StaticCommand
             => new DelegateCommand(() => Core.Headset.Instance.SetStatic(ColorOne.Color.ToColoreColor()));
 
+        public ICommand SpectrumCommand => new DelegateCommand(() => Core.Headset.Instance.SetSpectrum());
+
         public ICommand ClearCommand => new DelegateCommand(() => Core.Headset.Instance.Clear());
 
         [NotifyPropertyChangedInvocator]
