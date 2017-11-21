@@ -1,100 +1,115 @@
 // ---------------------------------------------------------------------------------------
 // <copyright file="Chroma.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
-//
+// 
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
 //     this software and associated documentation files (the "Software"), to deal in
 //     the Software without restriction, including without limitation the rights to
 //     use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //     of the Software, and to permit persons to whom the Software is furnished to do
 //     so, subject to the following conditions:
-//
+// 
 //     The above copyright notice and this permission notice shall be included in all
 //     copies or substantial portions of the Software.
-//
+// 
 //     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 //     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 //     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// 
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
-
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Security;
 
     using Corale.Colore.Annotations;
     using Corale.Colore.Events;
     using Corale.Colore.Logging;
     using Corale.Colore.Razer;
 
+    using Microsoft.Win32;
+
     /// <summary>
     /// Main class for interacting with the Chroma SDK.
     /// </summary>
-    public sealed class Chroma : IChroma
-    {
+    public sealed class Chroma : IChroma {
         /// <summary>
         /// Logger instance for this class.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Chroma));
+        static readonly ILog Log = LogManager.GetLogger(typeof(Chroma));
 
         /// <summary>
         /// Mutex lock for thread-safe init calls.
         /// </summary>
-        private static readonly object InitLock = new object();
+        static readonly object InitLock = new object();
 
         /// <summary>
         /// Holds the application-wide instance of the <see cref="IChroma" /> interface.
         /// </summary>
-        private static IChroma _instance;
+        static IChroma _instance;
 
         /// <summary>
         /// Keeps a record of connected devices.
         /// </summary>
-        private static IDictionary<Guid, DeviceInfo> _connectedDevices;
+        static IDictionary<Guid, DeviceInfo> _connectedDevices;
+
+        /// <summary>
+        /// Gets the <see cref="System.Version" /> of Colore.
+        /// </summary>
+        public Version Version { get; set;}
 
         /// <summary>
         /// Keeps track of whether we have registered to receive Chroma events.
         /// </summary>
-        private bool _registered;
+        bool _registered;
 
         /// <summary>
         /// Keeps track of the window handle that is registered to receive events.
         /// </summary>
-        private IntPtr _registeredHandle;
+        IntPtr _registeredHandle;
 
         /// <summary>
         /// Version of the Chroma SDK as retrieved from the registry at
         /// the point of initialization.
         /// </summary>
-        private SdkVersion _sdkVersion;
+        SdkVersion _sdkVersion;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="Chroma" /> class from being created.
         /// </summary>
-        private Chroma()
-        {
+        Chroma() {
             Version = typeof(Chroma).Assembly.GetName().Version;
             Initialize();
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="Chroma" /> class.
+        /// Gets the application-wide instance of the <see cref="IChroma" /> interface.
         /// </summary>
-        /// <remarks>
-        /// Calls the SDK <c>UnInit</c> function.
-        /// </remarks>
-        ~Chroma()
-        {
-            Uninitialize();
+        [PublicAPI]
+        public static IChroma Instance {
+            get {
+                lock (InitLock) {
+                    return _instance ?? (_instance = new Chroma());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the SDK is available on this system.
+        /// </summary>
+        [PublicAPI]
+        public static bool SdkAvailable {
+            get {
+                return RegistryHelper.IsSdkAvailable();
+            }
         }
 
         /// <summary>
@@ -128,45 +143,21 @@ namespace Corale.Colore.Core
         public event EventHandler<SdkSupportEventArgs> SdkSupport;
 
         /// <summary>
-        /// Gets the application-wide instance of the <see cref="IChroma" /> interface.
-        /// </summary>
-        [PublicAPI]
-        public static IChroma Instance
-        {
-            get
-            {
-                lock (InitLock)
-                {
-                    return _instance ?? (_instance = new Chroma());
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the SDK is available on this system.
-        /// </summary>
-        [PublicAPI]
-        public static bool SdkAvailable => RegistryHelper.IsSdkAvailable();
-        
-        /// <summary>
         /// Gets a list of currently connected devices.
         /// </summary>
         [PublicAPI]
-        public IDictionary<Guid, DeviceInfo> ConnectedDevices
-        {
-            get
-            {
+        public IDictionary<Guid, DeviceInfo> ConnectedDevices {
+            get {
                 _connectedDevices = new Dictionary<Guid, DeviceInfo>();
 
-            var devices = (from field in typeof(Devices).GetFields() where field.FieldType == typeof(Guid) select (Guid)field.GetValue(typeof(Devices))).ToList();
-            foreach (Guid deviceId in devices)
-            {
-                var deviceInfo = Query(deviceId);
-                if (deviceInfo.Connected)
-                    _connectedDevices.Add(deviceId, deviceInfo);
-            }
+                var devices = (from field in typeof(Devices).GetFields() where field.FieldType == typeof(Guid) select (Guid)field.GetValue(typeof(Devices))).ToList();
+                foreach (Guid deviceId in devices) {
+                    var deviceInfo = Query(deviceId);
+                    if (deviceInfo.Connected)
+                        _connectedDevices.Add(deviceId, deviceInfo);
+                }
 
-            return _connectedDevices;
+                return _connectedDevices;
             }
         }
 
@@ -174,37 +165,61 @@ namespace Corale.Colore.Core
         /// Gets an instance of the <see cref="IKeyboard" /> interface
         /// for interacting with a Razer Chroma keyboard.
         /// </summary>
-        public IKeyboard Keyboard => Core.Keyboard.Instance;
+        public IKeyboard Keyboard {
+            get {
+                return Core.Keyboard.Instance;
+            }
+        }
 
         /// <summary>
         /// Gets an instance of the <see cref="IMouse" /> interface
         /// for interacting with a Razer Chroma mouse.
         /// </summary>
-        public IMouse Mouse => Core.Mouse.Instance;
+        public IMouse Mouse {
+            get {
+                return Core.Mouse.Instance;
+            }
+        }
 
         /// <summary>
         /// Gets an instance of the <see cref="IHeadset" /> interface
         /// for interacting with a Razer Chroma headset.
         /// </summary>
-        public IHeadset Headset => Core.Headset.Instance;
+        public IHeadset Headset {
+            get {
+                return Core.Headset.Instance;
+            }
+        }
 
         /// <summary>
         /// Gets an instance of the <see cref="IMousepad" /> interface
         /// for interacting with a Razer Chroma mouse pad.
         /// </summary>
-        public IMousepad Mousepad => Core.Mousepad.Instance;
+        public IMousepad Mousepad {
+            get {
+                return Core.Mousepad.Instance;
+            }
+        }
 
         /// <summary>
         /// Gets an instance of the <see cref="IKeypad" /> interface
         /// for interacting with a Razer Chroma keypad.
         /// </summary>
-        public IKeypad Keypad => Core.Keypad.Instance;
+        public IKeypad Keypad {
+            get {
+                return Core.Keypad.Instance;
+            }
+        }
 
         /// <summary>
         /// Gets an instance of the <see cref="IChromaLink" /> interface
         /// for interacting with ChromaLink devices.
         /// </summary>
-        public IChromaLink ChromaLink => Core.ChromaLink.Instance;
+        public IChromaLink ChromaLink {
+            get {
+                return Core.ChromaLink.Instance;
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the Chroma
@@ -215,79 +230,10 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets the version of the Chroma SDK that Colore is currently using.
         /// </summary>
-        public SdkVersion SdkVersion => _sdkVersion;
-
-        /// <summary>
-        /// Gets the <see cref="System.Version" /> of Colore.
-        /// </summary>
-        public Version Version { get; }
-        
-        /// <summary>
-        /// Checks if the Chroma SDK is available on this system.
-        /// </summary>
-        /// <returns><c>true</c> if Chroma SDK is available, otherwise <c>false</c>.</returns>
-        [PublicAPI]
-        [SecurityCritical]
-        public static bool IsSdkAvailable()
-        {
-            bool dllValid;
-            var regKey = @"SOFTWARE\Razer Chroma SDK";
-
-#if ANYCPU
-            if (EnvironmentHelper.Is64BitProcess() && EnvironmentHelper.Is64BitOperatingSystem())
-            {
-                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
-                regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";
+        public SdkVersion SdkVersion {
+            get {
+                return _sdkVersion;
             }
-            else
-                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
-#elif WIN64
-            dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
-            regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";
-#else
-            dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
-#endif
-
-            bool regEnabled;
-
-            try
-            {
-                using (var key = Registry.LocalMachine.OpenSubKey(regKey))
-                {
-                    if (key != null)
-                    {
-                        var value = key.GetValue("Enable");
-
-                        if (value is int)
-                            regEnabled = (int)value == 1;
-                        else
-                        {
-                            regEnabled = true;
-                            Log.Warn(
-                                "Chroma SDK has changed registry setting format. Please update Colore to latest version.");
-                            Log.DebugFormat("New Enabled type: {0}", value.GetType());
-                        }
-                    }
-                    else
-                        regEnabled = false;
-                }
-            }
-            catch (SecurityException ex)
-            {
-                // If we can't access the registry, best to just assume
-                // it is enabled.
-                Log.Warn("System raised SecurityException during read of SDK enable flag in registry.", ex);
-                regEnabled = true;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                // If we can't access the registry, best to just assume
-                // it is enabled.
-                Log.Warn("Not authorized to read registry for SDK enable flag.", ex);
-                regEnabled = true;
-            }
-
-            return dllValid && regEnabled;
         }
 
 
@@ -301,8 +247,7 @@ namespace Corale.Colore.Core
         /// <strong>at your own risk</strong>.</span>
         /// </remarks>
         [SecuritySafeCritical]
-        public void Initialize()
-        {
+        public void Initialize() {
             if (Initialized)
                 return;
 
@@ -335,8 +280,7 @@ namespace Corale.Colore.Core
         /// advised against</strong> and <emph>WILL</emph> result in catastrophic
         /// failure. <strong>YOU HAVE BEEN WARNED</strong>.</span>
         /// </remarks>
-        public void Uninitialize()
-        {
+        public void Uninitialize() {
             if (!Initialized)
                 return;
 
@@ -359,10 +303,9 @@ namespace Corale.Colore.Core
         /// <param name="deviceId">The device ID to query for, valid IDs can be found in <see cref="Devices" />.</param>
         /// <returns>A struct with information regarding the device type and whether it's connected.</returns>
         [SecurityCritical]
-        public DeviceInfo Query(Guid deviceId)
-        {
+        public DeviceInfo Query(Guid deviceId) {
             if (!Devices.IsValidId(deviceId))
-                throw new ArgumentException("The specified ID does not match any of the valid IDs.", nameof(deviceId));
+                throw new ArgumentException("The specified ID does not match any of the valid IDs.", "deviceId");
 
             Log.DebugFormat("Information for {0} requested", deviceId);
             return NativeWrapper.QueryDevice(deviceId);
@@ -374,8 +317,7 @@ namespace Corale.Colore.Core
         /// <param name="deviceType">The device type to query for, valid types can be found in <see cref="DeviceType" />.</param>
         /// <returns>A list with information regarding the devices that are connected.</returns>
         [SecurityCritical]
-        public List<Guid> Query(DeviceType deviceType)
-        {
+        public List<Guid> Query(DeviceType deviceType) {
             Log.DebugFormat("Information for {0} requested", deviceType);
             return Instance.ConnectedDevices.Where(x => x.Value.Type == DeviceType.Headset).Select(x => x.Key).ToList();
         }
@@ -389,8 +331,7 @@ namespace Corale.Colore.Core
         /// valid IDs can be found in <see cref="Devices" />.
         /// </param>
         /// <returns>An instance of <see cref="IGenericDevice" />.</returns>
-        public IGenericDevice Get(Guid deviceId)
-        {
+        public IGenericDevice Get(Guid deviceId) {
             Log.DebugFormat("Device {0} requested", deviceId);
             return GenericDevice.Get(deviceId);
         }
@@ -406,16 +347,14 @@ namespace Corale.Colore.Core
         /// <remarks>Non-Chroma messages will be ignored.</remarks>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation",
             Justification = "Parameter names match those in the Message struct.")]
-        public bool HandleMessage(IntPtr handle, int msgId, IntPtr wParam, IntPtr lParam)
-        {
+        public bool HandleMessage(IntPtr handle, int msgId, IntPtr wParam, IntPtr lParam) {
             if (!_registered)
                 throw new InvalidOperationException("Register must be called before event handling can be performed.");
 
-            if (handle != _registeredHandle)
-            {
+            if (handle != _registeredHandle) {
                 throw new ArgumentException(
                     "The specified window handle does not match the currently registered one.",
-                    nameof(handle));
+                    "handle");
             }
 
             if (msgId != Constants.WmChromaEvent)
@@ -426,8 +365,7 @@ namespace Corale.Colore.Core
             var type = wParam.ToInt32();
             var state = lParam.ToInt32();
 
-            switch (type)
-            {
+            switch (type) {
                 case 1: // Chroma SDK support
                     OnSdkSupport(state != 0);
                     handled = true;
@@ -456,12 +394,10 @@ namespace Corale.Colore.Core
         /// Windows messages to receive them. Messages need to be passed to the message handler in Colore to
         /// be processed, as this cannot be automated.
         /// </remarks>
-        public void Register(IntPtr handle)
-        {
+        public void Register(IntPtr handle) {
             Log.Debug("Registering for Chroma event notifications");
 
-            if (_registered)
-            {
+            if (_registered) {
                 Log.Debug("Already registered, unregistering before continuing with registration");
                 NativeWrapper.UnregisterEventNotification();
             }
@@ -474,8 +410,7 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Unregisters from receiving Chroma events.
         /// </summary>
-        public void Unregister()
-        {
+        public void Unregister() {
             if (!_registered)
                 return;
 
@@ -490,13 +425,82 @@ namespace Corale.Colore.Core
         /// Sets all Chroma devices to the specified <see cref="Color" />.
         /// </summary>
         /// <param name="color">The <see cref="Color" /> to set.</param>
-        public void SetAll(Color color)
-        {
+        public void SetAll(Color color) {
             Keyboard.SetAll(color);
             Mouse.SetAll(color);
             Mousepad.SetAll(color);
             Keypad.SetAll(color);
             Headset.SetAll(color);
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="Chroma" /> class.
+        /// </summary>
+        /// <remarks>
+        /// Calls the SDK <c>UnInit</c> function.
+        /// </remarks>
+        ~Chroma() {
+            Uninitialize();
+        }
+
+        /// <summary>
+        /// Checks if the Chroma SDK is available on this system.
+        /// </summary>
+        /// <returns><c>true</c> if Chroma SDK is available, otherwise <c>false</c>.</returns>
+        [PublicAPI]
+        [SecurityCritical]
+        public static bool IsSdkAvailable() {
+            bool dllValid;
+            var regKey = @"SOFTWARE\Razer Chroma SDK";
+
+#if ANYCPU
+            if (EnvironmentHelper.Is64BitProcess() && EnvironmentHelper.Is64BitOperatingSystem()) {
+                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
+                regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";
+            }
+            else
+                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
+#elif WIN64
+            dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
+            regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";
+#else
+            dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
+#endif
+
+            bool regEnabled;
+
+            try {
+                using (var key = Registry.LocalMachine.OpenSubKey(regKey)) {
+                    if (key != null) {
+                        var value = key.GetValue("Enable");
+
+                        if (value is int)
+                            regEnabled = (int)value == 1;
+                        else {
+                            regEnabled = true;
+                            Log.Warn(
+                                "Chroma SDK has changed registry setting format. Please update Colore to latest version.");
+                            Log.DebugFormat("New Enabled type: {0}", value.GetType());
+                        }
+                    }
+                    else
+                        regEnabled = false;
+                }
+            }
+            catch (SecurityException ex) {
+                // If we can't access the registry, best to just assume
+                // it is enabled.
+                Log.Warn("System raised SecurityException during read of SDK enable flag in registry.", ex);
+                regEnabled = true;
+            }
+            catch (UnauthorizedAccessException ex) {
+                // If we can't access the registry, best to just assume
+                // it is enabled.
+                Log.Warn("Not authorized to read registry for SDK enable flag.", ex);
+                regEnabled = true;
+            }
+
+            return dllValid && regEnabled;
         }
 
         /// <summary>
@@ -506,8 +510,7 @@ namespace Corale.Colore.Core
         /// <remarks>
         /// For internal use by singleton accessors in device interface implementations.
         /// </remarks>
-        internal static void InitInstance()
-        {
+        internal static void InitInstance() {
             Instance.Initialize();
         }
 
@@ -515,27 +518,29 @@ namespace Corale.Colore.Core
         /// Invokes the application state event handlers with the specified parameter.
         /// </summary>
         /// <param name="enabled">Whether or not the application was put in an enabled state.</param>
-        private void OnApplicationState(bool enabled)
-        {
-            ApplicationState?.Invoke(this, new ApplicationStateEventArgs(enabled));
+        void OnApplicationState(bool enabled) {
+            if (ApplicationState != null)
+                ApplicationState.Invoke(this, new ApplicationStateEventArgs(enabled));
         }
 
         /// <summary>
         /// Invokes the device access event handlers with the specified parameter.
         /// </summary>
         /// <param name="granted">Whether or not access to the device was granted.</param>
-        private void OnDeviceAccess(bool granted)
-        {
-            DeviceAccess?.Invoke(this, new DeviceAccessEventArgs(granted));
+        void OnDeviceAccess(bool granted) {
+            if (DeviceAccess != null)
+                DeviceAccess.Invoke(this, new DeviceAccessEventArgs(granted));
         }
 
         /// <summary>
         /// Invokes the SDK support event handlers with the specified parameter.
         /// </summary>
         /// <param name="enabled">Whether or not the SDK is supported.</param>
-        private void OnSdkSupport(bool enabled)
-        {
-            SdkSupport?.Invoke(this, new SdkSupportEventArgs(enabled));
+        void OnSdkSupport(bool enabled) {
+            if (SdkSupport != null) {
+                SdkSupport.
+                    Invoke(this, new SdkSupportEventArgs(enabled));
+            }
         }
     }
 }

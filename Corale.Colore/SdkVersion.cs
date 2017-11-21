@@ -245,7 +245,7 @@ namespace Corale.Colore
         public int CompareTo(object obj)
         {
             if (!(obj is SdkVersion))
-                throw new ArgumentException("Object must be of type SdkVersion", nameof(obj));
+                throw new ArgumentException("Object must be of type SdkVersion", "obj");
 
             return CompareTo((SdkVersion)obj);
         }
@@ -258,7 +258,7 @@ namespace Corale.Colore
         /// </returns>
         public override string ToString()
         {
-            return $"{Major}.{Minor}.{Revision}";
+            return Major+"."+Minor+"."+Revision;
         }
     }
 }

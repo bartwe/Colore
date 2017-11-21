@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corale.Colore", "Corale.Colore\Corale.Colore.csproj", "{5FE57EFB-EF8F-4C1B-8C13-0F85F3BEFFFA}"
 EndProject
@@ -21,6 +21,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corale.Colore.Wpf.Tests", "Corale.Colore.Wpf.Tests\Corale.Colore.Wpf.Tests.csproj", "{22498217-34AD-44FE-BE49-E9C627030A03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corale.Colore.WinForms.Tests", "Corale.Colore.WinForms.Tests\Corale.Colore.WinForms.Tests.csproj", "{F6D7B0BB-0200-47E9-A803-174D0238F388}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7407ACF4-1577-4C23-B231-C669F4D04322}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

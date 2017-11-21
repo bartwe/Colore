@@ -47,6 +47,6 @@ namespace Corale.Colore.Events
         /// Gets a value indicating whether or not the application has been enabled.
         /// </summary>
         [PublicAPI]
-        public bool Enabled { get; }
+        public bool Enabled;
     }
 }

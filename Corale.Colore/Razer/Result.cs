@@ -137,22 +137,22 @@ namespace Corale.Colore.Razer
         /// <summary>
         /// Gets the help description for the current error value.
         /// </summary>
-        public string Description => FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Description : "Unknown.";
+        public string Description { get {return FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Description : "Unknown.";}}
 
         /// <summary>
         /// Gets a value indicating whether the result means failure.
         /// </summary>
-        public bool Failed => this != RzSuccess;
+        public bool Failed { get {return this != RzSuccess;}}
 
         /// <summary>
         /// Gets the name of the error as defined in source code.
         /// </summary>
-        public string Name => FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Name : "Unknown";
+        public string Name { get {return FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Name : "Unknown";}}
 
         /// <summary>
         /// Gets a value indicating whether the result was a success.
         /// </summary>
-        public bool Success => this == RzSuccess;
+        public bool Success { get {return this == RzSuccess;}}
 
         /// <summary>
         /// Indicates whether an instance of the <see cref="Result" /> struct is
@@ -304,7 +304,7 @@ namespace Corale.Colore.Razer
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return $"{Name}: {Description} ({_value})";
+            return Name+": "+Description+" ("+_value+")";
         }
 
         /// <summary>
@@ -347,12 +347,12 @@ namespace Corale.Colore.Razer
             /// <summary>
             /// Gets a human-readable description for the result.
             /// </summary>
-            internal string Description { get; }
+            internal string Description;
 
             /// <summary>
             /// Gets the name of the result.
             /// </summary>
-            internal string Name { get; }
+            internal string Name;
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace Corale.Colore.Razer
             /// <summary>
             /// Gets a human-readable description of the result.
             /// </summary>
-            internal string Description { get; }
+            internal string Description;
         }
     }
 }

@@ -104,7 +104,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
                 if (row < 0 || row >= Constants.MaxRows)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(row),
+                        "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
@@ -112,7 +112,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
                 if (column < 0 || column >= Constants.MaxColumns)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(column),
+                        "column",
                         column,
                         "Attempted to access a column that does not exist.");
                 }
@@ -125,7 +125,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
                 if (row < 0 || row >= Constants.MaxRows)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(row),
+                        "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
@@ -133,7 +133,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
                 if (column < 0 || column >= Constants.MaxColumns)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(column),
+                        "column",
                         column,
                         "Attempted to access a column that does not exist.");
                 }
@@ -158,7 +158,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
                 if (index < 0 || index >= Constants.MaxKeys)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }
@@ -171,7 +171,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
                 if (index < 0 || index >= Constants.MaxKeys)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }

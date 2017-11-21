@@ -57,9 +57,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         {
             if (colors.Length != Constants.MaxLeds)
             {
-                throw new ArgumentException(
-                    $"Colors array has incorrect number of elements, should be {Constants.MaxLeds}, actual is {colors.Length}.",
-                    nameof(colors));
+                throw new ArgumentException("Colors array has incorrect number of elements, should be "+Constants.MaxLeds+", actual is "+colors.Length+".");
             }
 
             _colors = new Color[Constants.MaxLeds];
@@ -79,9 +77,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         {
             if (colors.Count != Constants.MaxLeds)
             {
-                throw new ArgumentException(
-                    $"Colors array has incorrect size, should be {Constants.MaxLeds}, actual is {colors.Count}.",
-                    nameof(colors));
+                throw new ArgumentException("Colors array has incorrect size, should be "+Constants.MaxLeds+", actual is "+colors.Count+".");
             }
 
             _colors = new Color[Constants.MaxLeds];
@@ -126,7 +122,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
                 if (index < 0 || index >= Constants.MaxLeds)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }
@@ -139,7 +135,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
                 if (index < 0 || index >= Constants.MaxLeds)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }
@@ -202,7 +198,9 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return _colors?.GetHashCode() ?? 0;
+            if (_colors == null)
+                return 0;
+            return _colors.GetHashCode();
         }
 
         /// <summary>

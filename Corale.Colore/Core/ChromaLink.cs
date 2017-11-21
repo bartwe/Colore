@@ -72,6 +72,12 @@ namespace Corale.Colore.Core
             _custom = Custom.Create();
         }
 
+        public override List<Guid> ConnectedDevices {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
         /// <summary>
         /// Gets the application-wide instance of the <see cref="IChromaLink" /> interface.
         /// </summary>

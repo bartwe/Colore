@@ -47,6 +47,6 @@ namespace Corale.Colore.Events
         /// Gets a value indicating whether device access has been granted.
         /// </summary>
         [PublicAPI]
-        public bool Granted { get; }
+        public bool Granted;
     }
 }

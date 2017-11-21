@@ -1,30 +1,29 @@
 ﻿// ---------------------------------------------------------------------------------------
 // <copyright file="KeypadViewModel.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
-//
+// 
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
 //     this software and associated documentation files (the "Software"), to deal in
 //     the Software without restriction, including without limitation the rights to
 //     use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //     of the Software, and to permit persons to whom the Software is furnished to do
 //     so, subject to the following conditions:
-//
+// 
 //     The above copyright notice and this permission notice shall be included in all
 //     copies or substantial portions of the Software.
-//
+// 
 //     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 //     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 //     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// 
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Tester.ViewModels
-{
+namespace Corale.Colore.Tester.ViewModels {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -33,156 +32,170 @@ namespace Corale.Colore.Tester.ViewModels
     using System.Windows.Input;
     using System.Windows.Media;
 
-    using Classes;
+    using Corale.Colore.Razer.Keypad.Effects;
+    using Corale.Colore.Razer.Mouse;
+    using Corale.Colore.Tester.Classes;
+    using Corale.Colore.Wpf;
 
-    using Razer.Keypad.Effects;
-    using Razer.Mouse;
+    using Duration = Corale.Colore.Razer.Keypad.Effects.Duration;
+    using Key = Corale.Colore.Razer.Keyboard.Key;
 
-    using Wpf;
+    public class KeypadViewModel : INotifyPropertyChanged {
+        Key _selectedKey;
+        Duration _selectedReactiveDuration;
+        Direction _selectedWaveDirection;
 
-    using Duration = Razer.Keypad.Effects.Duration;
-    using Key = Razer.Keyboard.Key;
-
-    public class KeypadViewModel : INotifyPropertyChanged
-    {
-        private Key _selectedKey;
-        private Duration _selectedReactiveDuration;
-        private Direction _selectedWaveDirection;
-
-        public KeypadViewModel()
-        {
+        public KeypadViewModel() {
             SelectedKey = Key.A;
             SelectedReactiveDuration = Duration.Long;
             SelectedWaveDirection = Direction.LeftToRight;
+            ColorOne = new SolidColorBrush();
+            ColorTwo = new SolidColorBrush();
             ColorOne.Color = Core.Color.Red.ToWpfColor();
             ColorTwo.Color = Core.Color.Blue.ToWpfColor();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public int Col { get; set; }
 
         public int Row { get; set; }
 
-        public SolidColorBrush ColorOne { get; set; } = new SolidColorBrush();
+        public SolidColorBrush ColorOne { get; set; }
 
-        public SolidColorBrush ColorTwo { get; set; } = new SolidColorBrush();
+        public SolidColorBrush ColorTwo { get; set; }
 
         public Led Keys { get; set; }
 
-        public Key SelectedKey
-        {
-            get
-            {
+        public Key SelectedKey {
+            get {
                 return _selectedKey;
             }
 
-            set
-            {
+            set {
                 _selectedKey = value;
-                OnPropertyChanged(nameof(SelectedKey));
+                OnPropertyChanged("SelectedKey");
             }
         }
 
-        public Duration SelectedReactiveDuration
-        {
-            get
-            {
+        public Duration SelectedReactiveDuration {
+            get {
                 return _selectedReactiveDuration;
             }
 
-            set
-            {
+            set {
                 _selectedReactiveDuration = value;
-                OnPropertyChanged(nameof(SelectedReactiveDuration));
+                OnPropertyChanged("SelectedReactiveDuration");
             }
         }
 
-        public Direction SelectedWaveDirection
-        {
-            get
-            {
+        public Direction SelectedWaveDirection {
+            get {
                 return _selectedWaveDirection;
             }
 
-            set
-            {
+            set {
                 _selectedWaveDirection = value;
-                OnPropertyChanged(nameof(SelectedWaveDirection));
+                OnPropertyChanged("SelectedWaveDirection");
             }
         }
 
-        public ICommand AllCommand
-            => new DelegateCommand(() => Core.Keypad.Instance.SetAll(ColorOne.Color.ToColoreColor()));
+        public ICommand AllCommand {
+            get {
+                return new DelegateCommand(() => Core.Keypad.Instance.SetAll(ColorOne.Color.ToColoreColor()));
+            }
+        }
 
-        public ICommand BreathingCommand
-            =>
-                new DelegateCommand(
-                    () =>
-                        Core.Keypad.Instance.SetBreathing(
-                            ColorOne.Color.ToColoreColor(),
-                            ColorTwo.Color.ToColoreColor()))
-            ;
+        public ICommand BreathingCommand {
+            get {
+                return
+                    new DelegateCommand(
+                        () =>
+                            Core.Keypad.Instance.SetBreathing(
+                                ColorOne.Color.ToColoreColor(),
+                                ColorTwo.Color.ToColoreColor()))
+                    ;
+            }
+        }
 
-        public ICommand ReactiveCommand
-            =>
-                new DelegateCommand(SetReactiveEffect);
+        public ICommand ReactiveCommand {
+            get {
+                return
+                    new DelegateCommand(SetReactiveEffect);
+            }
+        }
 
-        public ICommand WaveCommand
-            => new DelegateCommand(SetWaveEffect);
+        public ICommand WaveCommand {
+            get {
+                return new DelegateCommand(SetWaveEffect);
+            }
+        }
 
-        public ICommand StaticCommand
-            => new DelegateCommand(() => Core.Keypad.Instance.SetStatic(new Static(ColorOne.Color.ToColoreColor())));
+        public ICommand StaticCommand {
+            get {
+                return new DelegateCommand(() => Core.Keypad.Instance.SetStatic(new Static(ColorOne.Color.ToColoreColor())));
+            }
+        }
 
-        public ICommand IndexerCommand
-            => new DelegateCommand(SetIndexerEffect);
+        public ICommand IndexerCommand {
+            get {
+                return new DelegateCommand(SetIndexerEffect);
+            }
+        }
 
-        public IEnumerable<Direction> WaveDirectionValues => Enum.GetValues(typeof(Direction)).Cast<Direction>();
+        public IEnumerable<Direction> WaveDirectionValues {
+            get {
+                return Enum.GetValues(typeof(Direction)).Cast<Direction>();
+            }
+        }
 
-        public IEnumerable<Duration> ReactiveDurationValues => Enum.GetValues(typeof(Duration)).Cast<Duration>();
+        public IEnumerable<Duration> ReactiveDurationValues {
+            get {
+                return Enum.GetValues(typeof(Duration)).Cast<Duration>();
+            }
+        }
 
-        public ICommand ClearCommand => new DelegateCommand(() => Core.Keypad.Instance.Clear());
+        public ICommand ClearCommand {
+            get {
+                return new DelegateCommand(() => Core.Keypad.Instance.Clear());
+            }
+        }
 
-        public string Connected => "Connected: " + Core.Keypad.Instance.Connected.ToString();
+        public string Connected {
+            get {
+                return "Connected: " + Core.Keypad.Instance.Connected.ToString();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [Annotations.NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged(string propertyName) {
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void SetReactiveEffect()
-        {
-            try
-            {
+        void SetReactiveEffect() {
+            try {
                 Core.Keypad.Instance.SetReactive(ColorOne.Color.ToColoreColor(), SelectedReactiveDuration);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 MessageBox.Show(ex.ToString());
             }
         }
 
-        private void SetWaveEffect()
-        {
-            try
-            {
+        void SetWaveEffect() {
+            try {
                 Core.Keypad.Instance.SetWave(SelectedWaveDirection);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 MessageBox.Show(ex.ToString());
             }
         }
 
-        private void SetIndexerEffect()
-        {
-            try
-            {
+        void SetIndexerEffect() {
+            try {
                 Core.Keypad.Instance[Row, Col] = ColorOne.Color.ToColoreColor();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 MessageBox.Show(ex.ToString());
             }
         }

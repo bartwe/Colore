@@ -40,12 +40,12 @@ namespace Corale.Colore.Razer
         /// The type of device this is.
         /// </summary>
         [PublicAPI]
-        public readonly DeviceType Type;
+        public DeviceType Type;
 
         /// <summary>
         /// Whether this device is connected.
         /// </summary>
         [PublicAPI]
-        public readonly bool Connected;
+        public bool Connected;
     }
 }

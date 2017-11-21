@@ -65,7 +65,7 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets the <see cref="Guid" /> of this device.
         /// </summary>
-        public Guid DeviceId { get; }
+        public Guid DeviceId { get; set;}
 
         /// <inheritdoc/>
         public override bool Connected

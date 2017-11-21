@@ -40,7 +40,7 @@ namespace Corale.Colore.Tester
             InitializeComponent();
 
             // Update the window title to include SDK version
-            Title = $"{Title} | SDK v{Chroma.Instance.SdkVersion}";
+            Title = ""+Title+" | SDK v"+Chroma.Instance.SdkVersion;
         }
 
         private void TextValidation(object sender, TextCompositionEventArgs e)

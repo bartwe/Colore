@@ -44,7 +44,7 @@ namespace Corale.Colore.Tests.Razer
             foreach (var info in infos)
             {
                 var guid = (Guid)info.GetValue(null);
-                Assert.True(Devices.IsValidId(guid), $"Device {info.Name} should validate but does not");
+                Assert.True(Devices.IsValidId(guid), "Device "+info.Name+" should validate but does not");
             }
         }
     }

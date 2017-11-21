@@ -1,30 +1,29 @@
 ﻿// ---------------------------------------------------------------------------------------
 // <copyright file="CustomGrid.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
-//
+// 
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
 //     this software and associated documentation files (the "Software"), to deal in
 //     the Software without restriction, including without limitation the rights to
 //     use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //     of the Software, and to permit persons to whom the Software is furnished to do
 //     so, subject to the following conditions:
-//
+// 
 //     The above copyright notice and this permission notice shall be included in all
 //     copies or substantial portions of the Software.
-//
+// 
 //     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 //     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 //     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// 
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
@@ -35,8 +34,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
     /// <summary>
     /// Custom grid effect for mouse LEDs.
     /// </summary>
-    public struct CustomGrid : IEquatable<CustomGrid>, IEquatable<Color[][]>, IEquatable<Color[]>
-    {
+    public struct CustomGrid : IEquatable<CustomGrid>, IEquatable<Color[][]>, IEquatable<Color[]> {
         /// <summary>
         /// Color definitions for each led on the mouse.
         /// </summary>
@@ -46,33 +44,29 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// according to: <c>column + row * Constants.MaxColumns</c>
         /// </remarks>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.MaxGridLeds)]
-        private readonly Color[] _colors;
+        readonly Color[] _colors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomGrid" /> struct.
         /// </summary>
         /// <param name="colors">The colors to use.</param>
         /// <exception cref="ArgumentException">Thrown if the colors array supplied is of an incorrect size.</exception>
-        public CustomGrid(Color[][] colors)
-        {
+        public CustomGrid(Color[][] colors) {
             var rows = colors.GetLength(0);
 
-            if (rows != Constants.MaxRows)
-            {
+            if (rows != Constants.MaxRows) {
                 throw new ArgumentException(
-                    $"Colors array has incorrect number of rows, should be {Constants.MaxRows}, received {rows}.",
-                    nameof(colors));
+                    "Colors array has incorrect number of rows, should be " + Constants.MaxRows + ", received " + rows + ".", "colors");
             }
 
             _colors = new Color[Constants.MaxGridLeds];
 
-            for (var row = 0; row < Constants.MaxRows; row++)
-            {
-                if (colors[row].Length != Constants.MaxColumns)
-                {
+            for (var row = 0; row < Constants.MaxRows; row++) {
+                if (colors[row].Length != Constants.MaxColumns) {
                     throw new ArgumentException(
-                        $"Colors array has incorrect number of columns, should be {Constants.MaxColumns}, received {colors[row].Length} for row {row}.",
-                        nameof(colors));
+                    "Colors array has incorrect number of columns, should be " + Constants.MaxColumns + ", received " + colors[row].Length + " for row " + row + ".",
+                    "colors")
+                    ;
                 }
 
                 for (var column = 0; column < Constants.MaxColumns; column++)
@@ -85,13 +79,13 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// </summary>
         /// <param name="colors">The colors to use.</param>
         /// <exception cref="ArgumentException">Thrown if the colors array supplied is of an invalid size.</exception>
-        public CustomGrid(IList<Color> colors)
-        {
-            if (colors.Count != Constants.MaxGridLeds)
-            {
+        public CustomGrid(IList<Color> colors) {
+            if (colors.Count != Constants.MaxGridLeds) {
                 throw new ArgumentException(
-                    $"Colors array has incorrect size, should be {Constants.MaxGridLeds}, actual is {colors.Count}.",
-                    nameof(colors));
+
+                "Colors array has incorrect size, should be "+Constants.MaxGridLeds+", actual is "+colors.Count+".",
+                "colors")
+                ;
             }
 
             _colors = new Color[Constants.MaxGridLeds];
@@ -105,8 +99,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// with every position set to a specific color.
         /// </summary>
         /// <param name="color">The <see cref="Color" /> to set each position to.</param>
-        public CustomGrid(Color color)
-        {
+        public CustomGrid(Color color) {
             _colors = new Color[Constants.MaxGridLeds];
 
             for (var index = 0; index < Constants.MaxGridLeds; index++)
@@ -119,9 +112,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// </summary>
         /// <param name="other">The <see cref="CustomGrid" /> struct to copy data from.</param>
         public CustomGrid(CustomGrid other)
-            : this(other._colors)
-        {
-        }
+            : this(other._colors) {}
 
         /// <summary>
         /// Gets or sets cells in the <see cref="CustomGrid" />.
@@ -130,22 +121,18 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="column">Column to access, zero indexed.</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
         [PublicAPI]
-        public Color this[int row, int column]
-        {
-            get
-            {
-                if (row < 0 || row >= Constants.MaxRows)
-                {
+        public Color this[int row, int column] {
+            get {
+                if (row < 0 || row >= Constants.MaxRows) {
                     throw new ArgumentOutOfRangeException(
-                        nameof(row),
+                        "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
 
-                if (column < 0 || column >= Constants.MaxColumns)
-                {
+                if (column < 0 || column >= Constants.MaxColumns) {
                     throw new ArgumentOutOfRangeException(
-                        nameof(column),
+                        "column",
                         column,
                         "Attempted to access a column that does not exist.");
                 }
@@ -155,20 +142,17 @@ namespace Corale.Colore.Razer.Mouse.Effects
 #pragma warning restore SA1407 // Arithmetic expressions must declare precedence
             }
 
-            set
-            {
-                if (row < 0 || row >= Constants.MaxRows)
-                {
+            set {
+                if (row < 0 || row >= Constants.MaxRows) {
                     throw new ArgumentOutOfRangeException(
-                        nameof(row),
+                        "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
 
-                if (column < 0 || column >= Constants.MaxColumns)
-                {
+                if (column < 0 || column >= Constants.MaxColumns) {
                     throw new ArgumentOutOfRangeException(
-                        nameof(column),
+                        "column",
                         column,
                         "Attempted to access a column that does not exist.");
                 }
@@ -185,14 +169,11 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="index">The index to access, zero indexed.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the requested index is out of range.</exception>
         [PublicAPI]
-        public Color this[int index]
-        {
-            get
-            {
-                if (index < 0 || index >= Constants.MaxGridLeds)
-                {
+        public Color this[int index] {
+            get {
+                if (index < 0 || index >= Constants.MaxGridLeds) {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }
@@ -200,12 +181,10 @@ namespace Corale.Colore.Razer.Mouse.Effects
                 return _colors[index];
             }
 
-            set
-            {
-                if (index < 0 || index >= Constants.MaxGridLeds)
-                {
+            set {
+                if (index < 0 || index >= Constants.MaxGridLeds) {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }
@@ -220,134 +199,18 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="led">The <see cref="GridLed" /> to access.</param>
         /// <returns>The <see cref="Color" /> for the specified led.</returns>
         [PublicAPI]
-        public Color this[GridLed led]
-        {
-            get
-            {
+        public Color this[GridLed led] {
+            get {
                 var row = (int)led >> 8;
                 var column = (int)led & 0xFF;
                 return this[row, column];
             }
 
-            set
-            {
+            set {
                 var row = (int)led >> 8;
                 var column = (int)led & 0xFF;
                 this[row, column] = value;
             }
-        }
-
-        /// <summary>
-        /// Compares an instance of <see cref="CustomGrid" /> with
-        /// another object for equality.
-        /// </summary>
-        /// <param name="left">The left operand, an instance of <see cref="CustomGrid" />.</param>
-        /// <param name="right">The right operand, any type of object.</param>
-        /// <returns><c>true</c> if the two objects are equal, otherwise <c>false</c>.</returns>
-        public static bool operator ==(CustomGrid left, object right)
-        {
-            return left.Equals(right);
-        }
-
-        /// <summary>
-        /// Compares an instance of <see cref="CustomGrid" /> with
-        /// another object for inequality.
-        /// </summary>
-        /// <param name="left">The left operand, an instance of <see cref="CustomGrid" />.</param>
-        /// <param name="right">The right operand, any type of object.</param>
-        /// <returns><c>true</c> if the two objects are not equal, otherwise <c>false</c>.</returns>
-        public static bool operator !=(CustomGrid left, object right)
-        {
-            return !left.Equals(right);
-        }
-
-        /// <summary>
-        /// Creates a new empty <see cref="CustomGrid" /> struct.
-        /// </summary>
-        /// <returns>An instance of <see cref="CustomGrid" />
-        /// filled with the color black.</returns>
-        [PublicAPI]
-        public static CustomGrid Create()
-        {
-            return new CustomGrid(Color.Black);
-        }
-
-        /// <summary>
-        /// Returns a copy of this struct.
-        /// </summary>
-        /// <returns>A copy of this struct.</returns>
-        [PublicAPI]
-        public CustomGrid Clone()
-        {
-            return new CustomGrid(this);
-        }
-
-        /// <summary>
-        /// Returns the hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A 32-bit signed integer that is the hash code for this instance.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            return _colors?.GetHashCode() ?? 0;
-        }
-
-        /// <summary>
-        /// Clears the colors from the grid, setting them to <see cref="Color.Black" />.
-        /// </summary>
-        [PublicAPI]
-        public void Clear()
-        {
-            Set(Color.Black);
-        }
-
-        /// <summary>
-        /// Indicates whether this instance and a specified object are equal.
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> if <paramref name="obj"/> and this instance are of compatible types
-        /// and represent the same value; otherwise, <c>false</c>.
-        /// </returns>
-        /// <param name="obj">Another object to compare to. </param>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(obj, null))
-                return false;
-
-            if (obj is CustomGrid)
-                return Equals((CustomGrid)obj);
-
-            var arr2D = obj as Color[][];
-
-            if (arr2D != null)
-                return Equals(arr2D);
-
-            var arr1D = obj as Color[];
-
-            return arr1D != null && Equals(arr1D);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">A <see cref="CustomGrid" /> to compare with this object.</param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter;
-        /// otherwise, <c>false</c>.
-        /// </returns>
-        public bool Equals(CustomGrid other)
-        {
-            for (var row = 0; row < Constants.MaxRows; row++)
-            {
-                for (var col = 0; col < Constants.MaxColumns; col++)
-                {
-                    if (this[row, col] != other[row, col])
-                        return false;
-                }
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -361,18 +224,15 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <c>true</c> if the <paramref name="other" /> object has the same
         /// number of rows and columns, and contain matching colors; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Color[][] other)
-        {
+        public bool Equals(Color[][] other) {
             if (other == null || other.GetLength(0) != Constants.MaxRows)
                 return false;
 
-            for (var row = 0; row < Constants.MaxRows; row++)
-            {
+            for (var row = 0; row < Constants.MaxRows; row++) {
                 if (other[row].Length != Constants.MaxColumns)
                     return false;
 
-                for (var col = 0; col < Constants.MaxColumns; col++)
-                {
+                for (var col = 0; col < Constants.MaxColumns; col++) {
                     if (this[row, col] != other[row][col])
                         return false;
                 }
@@ -390,13 +250,11 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <c>true</c> if the <paramref name="other" /> object has the same
         /// number of elements, and contain matching colors; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Color[] other)
-        {
+        public bool Equals(Color[] other) {
             if (other == null || other.Length != Constants.MaxGridLeds)
                 return false;
 
-            for (var index = 0; index < Constants.MaxColumns; index++)
-            {
+            for (var index = 0; index < Constants.MaxColumns; index++) {
                 if (this[index] != other[index])
                     return false;
             }
@@ -405,12 +263,116 @@ namespace Corale.Colore.Razer.Mouse.Effects
         }
 
         /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">A <see cref="CustomGrid" /> to compare with this object.</param>
+        /// <returns>
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter;
+        /// otherwise, <c>false</c>.
+        /// </returns>
+        public bool Equals(CustomGrid other) {
+            for (var row = 0; row < Constants.MaxRows; row++) {
+                for (var col = 0; col < Constants.MaxColumns; col++) {
+                    if (this[row, col] != other[row, col])
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares an instance of <see cref="CustomGrid" /> with
+        /// another object for equality.
+        /// </summary>
+        /// <param name="left">The left operand, an instance of <see cref="CustomGrid" />.</param>
+        /// <param name="right">The right operand, any type of object.</param>
+        /// <returns><c>true</c> if the two objects are equal, otherwise <c>false</c>.</returns>
+        public static bool operator ==(CustomGrid left, object right) {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Compares an instance of <see cref="CustomGrid" /> with
+        /// another object for inequality.
+        /// </summary>
+        /// <param name="left">The left operand, an instance of <see cref="CustomGrid" />.</param>
+        /// <param name="right">The right operand, any type of object.</param>
+        /// <returns><c>true</c> if the two objects are not equal, otherwise <c>false</c>.</returns>
+        public static bool operator !=(CustomGrid left, object right) {
+            return !left.Equals(right);
+        }
+
+        /// <summary>
+        /// Creates a new empty <see cref="CustomGrid" /> struct.
+        /// </summary>
+        /// <returns>An instance of <see cref="CustomGrid" />
+        /// filled with the color black.</returns>
+        [PublicAPI]
+        public static CustomGrid Create() {
+            return new CustomGrid(Color.Black);
+        }
+
+        /// <summary>
+        /// Returns a copy of this struct.
+        /// </summary>
+        /// <returns>A copy of this struct.</returns>
+        [PublicAPI]
+        public CustomGrid Clone() {
+            return new CustomGrid(this);
+        }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A 32-bit signed integer that is the hash code for this instance.
+        /// </returns>
+        public override int GetHashCode() {
+            if (_colors == null)
+                return 0;
+            return _colors.GetHashCode();
+        }
+
+        /// <summary>
+        /// Clears the colors from the grid, setting them to <see cref="Color.Black" />.
+        /// </summary>
+        [PublicAPI]
+        public void Clear() {
+            Set(Color.Black);
+        }
+
+        /// <summary>
+        /// Indicates whether this instance and a specified object are equal.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if <paramref name="obj"/> and this instance are of compatible types
+        /// and represent the same value; otherwise, <c>false</c>.
+        /// </returns>
+        /// <param name="obj">Another object to compare to. </param>
+        public override bool Equals(object obj) {
+            if (ReferenceEquals(obj, null))
+                return false;
+
+            if (obj is CustomGrid)
+                return Equals((CustomGrid)obj);
+
+            var arr2D = obj as Color[][];
+
+            if (arr2D != null)
+                return Equals(arr2D);
+
+            var arr1D = obj as Color[];
+
+            return arr1D != null && Equals(arr1D);
+        }
+
+        /// <summary>
         /// Sets the entire grid to a specific <see cref="Color" />.
         /// </summary>
         /// <param name="color">The <see cref="Color" /> to apply.</param>
         [PublicAPI]
-        public void Set(Color color)
-        {
+        public void Set(Color color) {
             for (var index = 0; index < Constants.MaxGridLeds; index++)
                 this[index] = color;
         }

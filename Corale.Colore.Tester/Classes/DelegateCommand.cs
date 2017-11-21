@@ -39,7 +39,7 @@ namespace Corale.Colore.Tester.Classes
         public event EventHandler CanExecuteChanged;
 #pragma warning restore CS0067
 
-        public Action CommandAction { get; }
+        public Action CommandAction;
 
         public void Execute(object parameter)
         {

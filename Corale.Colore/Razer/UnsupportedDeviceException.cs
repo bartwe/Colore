@@ -73,7 +73,7 @@ namespace Corale.Colore.Razer
         /// Gets the <see cref="Guid" /> of the device.
         /// </summary>
         [PublicAPI]
-        public Guid DeviceId { get; }
+        public Guid DeviceId;
 
         /// <summary>
         /// Adds object data to serialization object.

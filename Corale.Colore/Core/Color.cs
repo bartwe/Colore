@@ -1,30 +1,29 @@
 ﻿// ---------------------------------------------------------------------------------------
 // <copyright file="Color.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
-//
+// 
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
 //     this software and associated documentation files (the "Software"), to deal in
 //     the Software without restriction, including without limitation the rights to
 //     use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //     of the Software, and to permit persons to whom the Software is furnished to do
 //     so, subject to the following conditions:
-//
+// 
 //     The above copyright notice and this permission notice shall be included in all
 //     copies or substantial portions of the Software.
-//
+// 
 //     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 //     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 //     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// 
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Runtime.InteropServices;
 
@@ -34,16 +33,14 @@ namespace Corale.Colore.Core
     /// Represents an RGB color.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = sizeof(uint))]
-    public partial struct Color : IEquatable<Color>, IEquatable<uint>
-    {
+    public partial struct Color : IEquatable<Color>, IEquatable<uint> {
         /// <summary>
         /// Initializes a new instance of the <see cref="Color" /> struct using an integer
         /// color value in the format <c>0xKKBBGGRR</c>.
         /// </summary>
         /// <param name="value">Value to create the color from.</param>
         [PublicAPI]
-        public Color(uint value)
-        {
+        public Color(uint value) {
             Value = value;
         }
 
@@ -56,9 +53,7 @@ namespace Corale.Colore.Core
         /// <param name="blue">The blue component.</param>
         [PublicAPI]
         public Color(byte red, byte green, byte blue)
-            : this(red + ((uint)green << 8) + ((uint)blue << 16))
-        {
-        }
+            : this(red + ((uint)green << 8) + ((uint)blue << 16)) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Color" /> struct using
@@ -73,9 +68,7 @@ namespace Corale.Colore.Core
         /// </remarks>
         [PublicAPI]
         public Color(float red, float green, float blue)
-            : this((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255))
-        {
-        }
+            : this((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255)) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Color" /> struct using
@@ -89,34 +82,44 @@ namespace Corale.Colore.Core
         /// </remarks>
         [PublicAPI]
         public Color(double red, double green, double blue)
-            : this((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255))
-        {
-        }
+            : this((byte)(red * 255), (byte)(green * 255), (byte)(blue * 255)) {}
 
         /// <summary>
         /// Gets the blue component of the color as a byte.
         /// </summary>
         [PublicAPI]
-        public byte B => (byte)((Value >> 16) & 0xFF);
+        public byte B {
+            get {
+                return (byte)((Value >> 16) & 0xFF);
+            }
+        }
 
         /// <summary>
         /// Gets the green component of the color as a byte.
         /// </summary>
         [PublicAPI]
-        public byte G => (byte)((Value >> 8) & 0xFF);
+        public byte G {
+            get {
+                return (byte)((Value >> 8) & 0xFF);
+            }
+        }
 
         /// <summary>
         /// Gets the red component of the color as a byte.
         /// </summary>
         [PublicAPI]
-        public byte R => (byte)(Value & 0xFF);
+        public byte R {
+            get {
+                return (byte)(Value & 0xFF);
+            }
+        }
 
         /// <summary>
         /// Gets the unsigned integer representing
         /// the color. On the form <c>0xKKBBGGRR</c>.
         /// </summary>
         [PublicAPI]
-        public uint Value { get; }
+        public uint Value;
 
         /// <summary>
         /// Converts a <see cref="Color" /> struct to a <see cref="uint" />.
@@ -124,8 +127,7 @@ namespace Corale.Colore.Core
         /// <param name="color">The <see cref="Color" /> to convert.</param>
         /// <returns>A <see cref="uint" /> representing the value of the <paramref name="color" /> argument.</returns>
         /// <remarks>The returned <see cref="uint" /> has a format of <c>0xAABBGGRR</c>.</remarks>
-        public static implicit operator uint(Color color)
-        {
+        public static implicit operator uint(Color color) {
             return color.Value;
         }
 
@@ -135,8 +137,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="value">The <see cref="uint" /> to convert, on the form <c>0x00BBGGRR</c>.</param>
         /// <returns>An instance of <see cref="Color" /> representing the color value of <paramref name="value" />.</returns>
-        public static implicit operator Color(uint value)
-        {
+        public static implicit operator Color(uint value) {
             return new Color(value);
         }
 
@@ -146,8 +147,7 @@ namespace Corale.Colore.Core
         /// <param name="left">Left operand, an instance of the <see cref="Color" /> struct.</param>
         /// <param name="right">Right operand, an <see cref="object" />.</param>
         /// <returns><c>true</c> if the two instances are equal, <c>false</c> otherwise.</returns>
-        public static bool operator ==(Color left, object right)
-        {
+        public static bool operator ==(Color left, object right) {
             return left.Equals(right);
         }
 
@@ -157,8 +157,7 @@ namespace Corale.Colore.Core
         /// <param name="left">Left operand, an instance of the <see cref="Color" /> struct.</param>
         /// <param name="right">Right operand, an <see cref="object" />.</param>
         /// <returns><c>true</c> if the two instances are not equal, <c>false</c> otherwise.</returns>
-        public static bool operator !=(Color left, object right)
-        {
+        public static bool operator !=(Color left, object right) {
             return !left.Equals(right);
         }
 
@@ -169,8 +168,7 @@ namespace Corale.Colore.Core
         /// <param name="value">The RGB value to convert from.</param>
         /// <returns>A new instance of the <see cref="Color" /> struct.</returns>
         [PublicAPI]
-        public static Color FromRgb(uint value)
-        {
+        public static Color FromRgb(uint value) {
             return new Color(((value & 0xFF0000) >> 16) | (value & 0xFF00) | ((value & 0xFF) << 16));
         }
 
@@ -180,8 +178,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="other">The <see cref="object" /> to check equality against.</param>
         /// <returns><c>true</c> if the two are equal, <c>false</c> otherwise.</returns>
-        public override bool Equals(object other)
-        {
+        public override bool Equals(object other) {
             if (ReferenceEquals(null, other))
                 return false;
 
@@ -204,8 +201,7 @@ namespace Corale.Colore.Core
         /// Only compares the lower 32 bits of each color value, in order to
         /// be able to compare a keymode color to a non-keymode color.
         /// </remarks>
-        public bool Equals(Color other)
-        {
+        public bool Equals(Color other) {
             return Value.Equals(other.Value);
         }
 
@@ -219,8 +215,7 @@ namespace Corale.Colore.Core
         /// Only compares the lower 32 bits of each value, in order to
         /// be able to compare a keymode color to a non-keymode color.
         /// </remarks>
-        public bool Equals(uint other)
-        {
+        public bool Equals(uint other) {
             return Value.Equals(other);
         }
 
@@ -228,8 +223,7 @@ namespace Corale.Colore.Core
         /// Gets the unique hash code for this <see cref="Color" />.
         /// </summary>
         /// <returns>A unique has code.</returns>
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return (int)Value;
         }
     }

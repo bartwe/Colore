@@ -86,7 +86,7 @@ namespace Corale.Colore.Razer.Effects
             : this(parameter)
         {
             if (colors.Count != Constants.MaxColors)
-                throw new ArgumentException("Color array must contain correct number of colors.", nameof(colors));
+                throw new ArgumentException("Color array must contain correct number of colors.", "colors");
 
             for (var index = 0; index < Constants.MaxColors; index++)
                 this[index] = colors[index];
@@ -101,10 +101,10 @@ namespace Corale.Colore.Razer.Effects
             : this(parameter)
         {
             if (colors.GetLength(0) != Constants.MaxRows)
-                throw new ArgumentException("Color array has invalid number of rows.", nameof(colors));
+                throw new ArgumentException("Color array has invalid number of rows.", "colors");
 
             if (colors.GetLength(1) != Constants.MaxColumns)
-                throw new ArgumentException("Color array has invalid number of columns.", nameof(colors));
+                throw new ArgumentException("Color array has invalid number of columns.", "colors");
 
             for (var row = 0; row < Constants.MaxRows; row++)
             {
@@ -137,7 +137,7 @@ namespace Corale.Colore.Razer.Effects
                 if (index < 0 || index >= Constants.MaxColors)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }
@@ -150,7 +150,7 @@ namespace Corale.Colore.Razer.Effects
                 if (index < 0 || index >= Constants.MaxColors)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(index),
+                        "index",
                         index,
                         "Attempted to access an index that does not exist.");
                 }
@@ -173,7 +173,7 @@ namespace Corale.Colore.Razer.Effects
                 if (row < 0 || row >= Constants.MaxRows)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(row),
+                        "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
@@ -181,7 +181,7 @@ namespace Corale.Colore.Razer.Effects
                 if (column < 0 || column >= Constants.MaxColumns)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(column),
+                        "column",
                         column,
                         "Attempted to access a column that does not exist.");
                 }
@@ -194,7 +194,7 @@ namespace Corale.Colore.Razer.Effects
                 if (row < 0 || row >= Constants.MaxRows)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(row),
+                        "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
@@ -202,7 +202,7 @@ namespace Corale.Colore.Razer.Effects
                 if (column < 0 || column >= Constants.MaxColumns)
                 {
                     throw new ArgumentOutOfRangeException(
-                        nameof(column),
+                        "column",
                         column,
                         "Attempted to access a column that does not exist.");
                 }
@@ -313,7 +313,8 @@ namespace Corale.Colore.Razer.Effects
             {
                 var hashCode = Size;
                 hashCode = (hashCode * 397) ^ Parameter;
-                hashCode = (hashCode * 397) ^ (_colors?.GetHashCode() ?? 0);
+                if (_colors != null)
+                hashCode = (hashCode * 397) ^ (_colors.GetHashCode());
                 return hashCode;
             }
         }

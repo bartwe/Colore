@@ -1,30 +1,29 @@
 // ---------------------------------------------------------------------------------------
 // <copyright file="IChroma.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
-//
+// 
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
 //     this software and associated documentation files (the "Software"), to deal in
 //     the Software without restriction, including without limitation the rights to
 //     use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //     of the Software, and to permit persons to whom the Software is furnished to do
 //     so, subject to the following conditions:
-//
+// 
 //     The above copyright notice and this permission notice shall be included in all
 //     copies or substantial portions of the Software.
-//
+// 
 //     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 //     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 //     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// 
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -36,41 +35,7 @@ namespace Corale.Colore.Core
     /// <summary>
     /// Interface for basic Chroma functionality.
     /// </summary>
-    public interface IChroma
-    {
-        /// <summary>
-        /// Raised when information about application state is received from messages.
-        /// </summary>
-        /// <remarks>
-        /// Requires that application has registered for receiving messages with
-        /// <see cref="Register" /> and that Windows messages are being forwarded to
-        /// Colore using <see cref="HandleMessage" />.
-        /// </remarks>
-        [PublicAPI]
-        event EventHandler<ApplicationStateEventArgs> ApplicationState;
-
-        /// <summary>
-        /// Raised when information about device access is received from messages.
-        /// </summary>
-        /// <remarks>
-        /// Requires that application has registered for receiving messages with
-        /// <see cref="Register" /> and that Windows messages are being forwarded to
-        /// Colore using <see cref="HandleMessage" />.
-        /// </remarks>
-        [PublicAPI]
-        event EventHandler<DeviceAccessEventArgs> DeviceAccess;
-
-        /// <summary>
-        /// Raised when information about SDK support is received from messages.
-        /// </summary>
-        /// <remarks>
-        /// Requires that application has registered for receiving messages with
-        /// <see cref="Register" /> and that Windows messages are being forwarded to
-        /// Colore using <see cref="HandleMessage" />.
-        /// </remarks>
-        [PublicAPI]
-        event EventHandler<SdkSupportEventArgs> SdkSupport;
-
+    public interface IChroma {
         /// <summary>
         /// Gets an instance of the <see cref="IKeyboard" /> interface
         /// for interacting with a Razer Chroma keyboard.
@@ -138,6 +103,39 @@ namespace Corale.Colore.Core
         /// </summary>
         [PublicAPI]
         IDictionary<Guid, DeviceInfo> ConnectedDevices { get; }
+
+        /// <summary>
+        /// Raised when information about application state is received from messages.
+        /// </summary>
+        /// <remarks>
+        /// Requires that application has registered for receiving messages with
+        /// <see cref="Register" /> and that Windows messages are being forwarded to
+        /// Colore using <see cref="HandleMessage" />.
+        /// </remarks>
+        [PublicAPI]
+        event EventHandler<ApplicationStateEventArgs> ApplicationState;
+
+        /// <summary>
+        /// Raised when information about device access is received from messages.
+        /// </summary>
+        /// <remarks>
+        /// Requires that application has registered for receiving messages with
+        /// <see cref="Register" /> and that Windows messages are being forwarded to
+        /// Colore using <see cref="HandleMessage" />.
+        /// </remarks>
+        [PublicAPI]
+        event EventHandler<DeviceAccessEventArgs> DeviceAccess;
+
+        /// <summary>
+        /// Raised when information about SDK support is received from messages.
+        /// </summary>
+        /// <remarks>
+        /// Requires that application has registered for receiving messages with
+        /// <see cref="Register" /> and that Windows messages are being forwarded to
+        /// Colore using <see cref="HandleMessage" />.
+        /// </remarks>
+        [PublicAPI]
+        event EventHandler<SdkSupportEventArgs> SdkSupport;
 
         /// <summary>
         /// Initializes the SDK if it hasn't already.

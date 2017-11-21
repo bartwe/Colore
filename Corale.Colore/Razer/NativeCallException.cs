@@ -72,13 +72,13 @@ namespace Corale.Colore.Razer
         /// <summary>
         /// Gets the name of the native function that was called.
         /// </summary>
-        public string Function { get; }
+        public string Function;
 
         /// <summary>
         /// Gets the <see cref="Result" /> object indicating
         /// the result returned from the native function.
         /// </summary>
-        public Result Result { get; }
+        public Result Result;
 
         /// <summary>
         /// Adds object data to serialization object.

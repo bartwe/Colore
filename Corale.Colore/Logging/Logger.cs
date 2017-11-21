@@ -45,12 +45,12 @@ namespace Corale.Colore.Logging
         /// <summary>
         /// Gets the name of the logger.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set;}
 
         /// <summary>
         /// Gets the configured level threshold.
         /// </summary>
-        public LogLevel Level { get; }
+        public LogLevel Level { get; set;}
 
         /// <summary>
         /// Logs a message.

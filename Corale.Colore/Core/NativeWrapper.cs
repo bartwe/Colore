@@ -1,33 +1,31 @@
 // ---------------------------------------------------------------------------------------
 // <copyright file="NativeWrapper.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
-//
+// 
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
 //     this software and associated documentation files (the "Software"), to deal in
 //     the Software without restriction, including without limitation the rights to
 //     use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //     of the Software, and to permit persons to whom the Software is furnished to do
 //     so, subject to the following conditions:
-//
+// 
 //     The above copyright notice and this permission notice shall be included in all
 //     copies or substantial portions of the Software.
-//
+// 
 //     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 //     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 //     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// 
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Runtime.InteropServices;
-    using System.Security;
 
     using Corale.Colore.Logging;
     using Corale.Colore.Razer;
@@ -35,12 +33,11 @@ namespace Corale.Colore.Core
     /// <summary>
     /// Helper class to more easily make calls to native Chroma SDK functions.
     /// </summary>
-    internal static class NativeWrapper
-    {
+    static class NativeWrapper {
         /// <summary>
         /// Logger instance for this class.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(typeof(NativeWrapper));
+        static readonly ILog Log = LogManager.GetLogger(typeof(NativeWrapper));
 
         /// <summary>
         /// Creates an effect for a device.
@@ -50,8 +47,7 @@ namespace Corale.Colore.Core
         /// <param name="param">Effect-specific parameter.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
         /// <seealso cref="Razer.NativeMethods.CreateEffect" />
-        internal static Guid CreateEffect(Guid device, Effect effect, IntPtr param)
-        {
+        internal static Guid CreateEffect(Guid device, Effect effect, IntPtr param) {
             var guid = Guid.Empty;
             var result = NativeMethods.CreateEffect(device, effect, param, ref guid);
             if (!result)
@@ -66,8 +62,7 @@ namespace Corale.Colore.Core
         /// <param name="param">Context-sensitive effect parameter.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
         /// <seealso cref="Razer.NativeMethods.CreateKeyboardEffect" />
-        internal static Guid CreateKeyboardEffect(Razer.Keyboard.Effects.Effect effect, IntPtr param)
-        {
+        internal static Guid CreateKeyboardEffect(Razer.Keyboard.Effects.Effect effect, IntPtr param) {
             var guid = Guid.Empty;
             var result = NativeMethods.CreateKeyboardEffect(effect, param, ref guid);
             if (!result)
@@ -82,8 +77,7 @@ namespace Corale.Colore.Core
         /// <param name="param">Context-sensitive effect parameter.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
         /// <seealso cref="Razer.NativeMethods.CreateMouseEffect" />
-        internal static Guid CreateMouseEffect(Razer.Mouse.Effects.Effect effect, IntPtr param)
-        {
+        internal static Guid CreateMouseEffect(Razer.Mouse.Effects.Effect effect, IntPtr param) {
             var guid = Guid.Empty;
             var result = NativeMethods.CreateMouseEffect(effect, param, ref guid);
             if (!result)
@@ -97,8 +91,7 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="param">Effect-specific parameter.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateHeadsetEffect(Razer.Headset.Effects.Effect effect, IntPtr param)
-        {
+        internal static Guid CreateHeadsetEffect(Razer.Headset.Effects.Effect effect, IntPtr param) {
             var guid = Guid.Empty;
             var result = NativeMethods.CreateHeadsetEffect(effect, param, ref guid);
             if (!result)
@@ -112,8 +105,7 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="param">Effect-specific parameter.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateMousepadEffect(Razer.Mousepad.Effects.Effect effect, IntPtr param)
-        {
+        internal static Guid CreateMousepadEffect(Razer.Mousepad.Effects.Effect effect, IntPtr param) {
             var guid = Guid.Empty;
             var result = NativeMethods.CreateMousepadEffect(effect, param, ref guid);
             if (!result)
@@ -127,8 +119,7 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="param">Effect-specific parameters.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateKeypadEffect(Razer.Keypad.Effects.Effect effect, IntPtr param)
-        {
+        internal static Guid CreateKeypadEffect(Razer.Keypad.Effects.Effect effect, IntPtr param) {
             var guid = Guid.Empty;
             var result = NativeMethods.CreateKeypadEffect(effect, param, ref guid);
             if (!result)
@@ -142,8 +133,7 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of Chroma Link effect to create.</param>
         /// <param name="param">Effect-specific parameters.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateChromaLinkEffect(Razer.ChromaLink.Effects.Effect effect, IntPtr param)
-        {
+        internal static Guid CreateChromaLinkEffect(Razer.ChromaLink.Effects.Effect effect, IntPtr param) {
             var guid = Guid.Empty;
             var result = NativeMethods.CreateChromaLinkEffect(effect, param, ref guid);
             if (!result)
@@ -155,8 +145,7 @@ namespace Corale.Colore.Core
         /// Deletes an effect with the specified <see cref="Guid" />.
         /// </summary>
         /// <param name="guid">Effect ID to delete.</param>
-        internal static void DeleteEffect(Guid guid)
-        {
+        internal static void DeleteEffect(Guid guid) {
             var result = NativeMethods.DeleteEffect(guid);
             if (!result)
                 throw new NativeCallException("DeleteEffect", result);
@@ -165,8 +154,7 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Initializes the Chroma SDK.
         /// </summary>
-        internal static void Init()
-        {
+        internal static void Init() {
             var result = NativeMethods.Init();
             if (!result)
                 throw new NativeCallException("Init", result);
@@ -176,8 +164,7 @@ namespace Corale.Colore.Core
         /// Registers for Chroma SDK notifications.
         /// </summary>
         /// <param name="hwnd">App handle for the window handling events.</param>
-        internal static void RegisterEventNotification(IntPtr hwnd)
-        {
+        internal static void RegisterEventNotification(IntPtr hwnd) {
             var result = NativeMethods.RegisterEventNotification(hwnd);
             if (!result)
                 throw new NativeCallException("RegisterEventNotification", result);
@@ -187,8 +174,7 @@ namespace Corale.Colore.Core
         /// Set effect.
         /// </summary>
         /// <param name="guid">Effect ID to set.</param>
-        internal static void SetEffect(Guid guid)
-        {
+        internal static void SetEffect(Guid guid) {
             var result = NativeMethods.SetEffect(guid);
             if (result)
                 return;
@@ -202,8 +188,7 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Uninitializes the Chroma SDK.
         /// </summary>
-        internal static void UnInit()
-        {
+        internal static void UnInit() {
             var result = NativeMethods.UnInit();
             if (!result)
                 throw new NativeCallException("UnInit", result);
@@ -212,8 +197,7 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Unregisters from receiving Chroma SDK notifications.
         /// </summary>
-        internal static void UnregisterEventNotification()
-        {
+        internal static void UnregisterEventNotification() {
             var result = NativeMethods.UnregisterEventNotification();
             if (!result)
                 throw new NativeCallException("UnregisterEventNotification", result);
@@ -224,16 +208,16 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="id">Device ID, found in <see cref="Devices" />.</param>
         /// <returns>A populated <see cref="DeviceInfo" /> structure with information about the requested device.</returns>
-        internal static DeviceInfo QueryDevice(Guid id)
-        {
+        internal static DeviceInfo QueryDevice(Guid id) {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(DeviceInfo)));
 
-            try
-            {
+            try {
                 var result = NativeMethods.QueryDevice(id, ptr);
 
-                if (!result)
-                    throw new NativeCallException("QueryDevice", result);
+                if (!result) {
+                    return new DeviceInfo() { Type = DeviceType.Invalid, Connected = false };
+                    //                    throw new NativeCallException("QueryDevice", result);
+                }
 
                 if (ptr == IntPtr.Zero)
                     throw new ColoreException("Device query failed, ptr NULL.");
@@ -242,8 +226,7 @@ namespace Corale.Colore.Core
 
                 return info;
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
@@ -256,16 +239,13 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="struct">The effect structure parameter.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateDeviceEffect<T>(Guid device, Effect effect, T @struct) where T : struct
-        {
+        internal static Guid CreateDeviceEffect<T>(Guid device, Effect effect, T @struct) where T : struct {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
             Marshal.StructureToPtr(@struct, ptr, false);
-            try
-            {
+            try {
                 return CreateEffect(device, effect, ptr);
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
@@ -277,16 +257,13 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="struct">The effect structure parameter.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateKeyboardEffect<T>(Razer.Keyboard.Effects.Effect effect, T @struct) where T : struct
-        {
+        internal static Guid CreateKeyboardEffect<T>(Razer.Keyboard.Effects.Effect effect, T @struct) where T : struct {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
             Marshal.StructureToPtr(@struct, ptr, false);
-            try
-            {
+            try {
                 return CreateKeyboardEffect(effect, ptr);
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
@@ -298,16 +275,13 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="struct">Effect options struct.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateMouseEffect<T>(Razer.Mouse.Effects.Effect effect, T @struct) where T : struct
-        {
+        internal static Guid CreateMouseEffect<T>(Razer.Mouse.Effects.Effect effect, T @struct) where T : struct {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
             Marshal.StructureToPtr(@struct, ptr, false);
-            try
-            {
+            try {
                 return CreateMouseEffect(effect, ptr);
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
@@ -319,17 +293,14 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="struct">Effect options struct.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateHeadsetEffect<T>(Razer.Headset.Effects.Effect effect, T @struct) where T : struct
-        {
+        internal static Guid CreateHeadsetEffect<T>(Razer.Headset.Effects.Effect effect, T @struct) where T : struct {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
             Marshal.StructureToPtr(@struct, ptr, false);
 
-            try
-            {
+            try {
                 return CreateHeadsetEffect(effect, ptr);
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
@@ -341,17 +312,14 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="struct">Effect options struct.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateMousepadEffect<T>(Razer.Mousepad.Effects.Effect effect, T @struct) where T : struct
-        {
+        internal static Guid CreateMousepadEffect<T>(Razer.Mousepad.Effects.Effect effect, T @struct) where T : struct {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
             Marshal.StructureToPtr(@struct, ptr, false);
 
-            try
-            {
+            try {
                 return CreateMousepadEffect(effect, ptr);
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
@@ -363,17 +331,14 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="struct">Effect options struct.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateKeypadEffect<T>(Razer.Keypad.Effects.Effect effect, T @struct) where T : struct
-        {
+        internal static Guid CreateKeypadEffect<T>(Razer.Keypad.Effects.Effect effect, T @struct) where T : struct {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
             Marshal.StructureToPtr(@struct, ptr, false);
 
-            try
-            {
+            try {
                 return CreateKeypadEffect(effect, ptr);
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
@@ -385,17 +350,14 @@ namespace Corale.Colore.Core
         /// <param name="effect">The type of effect to create.</param>
         /// <param name="struct">Effect options struct.</param>
         /// <returns>A <see cref="Guid" /> for the created effect.</returns>
-        internal static Guid CreateChromaLinkEffect<T>(Razer.ChromaLink.Effects.Effect effect, T @struct) where T : struct
-        {
+        internal static Guid CreateChromaLinkEffect<T>(Razer.ChromaLink.Effects.Effect effect, T @struct) where T : struct {
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(@struct));
             Marshal.StructureToPtr(@struct, ptr, false);
 
-            try
-            {
+            try {
                 return CreateChromaLinkEffect(effect, ptr);
             }
-            finally
-            {
+            finally {
                 Marshal.FreeHGlobal(ptr);
             }
         }
