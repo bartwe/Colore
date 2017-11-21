@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -32,8 +31,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes the static effect for system devices.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Static
-    {
+    public struct Static {
         /// <summary>
         /// The size of the struct.
         /// </summary>
@@ -57,8 +55,7 @@ namespace Corale.Colore.Razer.Effects
         /// </summary>
         /// <param name="color">The color to use.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public Static(Color color, int parameter = 0)
-        {
+        public Static(Color color, int parameter = 0) {
             Color = color;
             Parameter = parameter;
             Size = Marshal.SizeOf(typeof(Static));

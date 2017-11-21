@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Represents an RGB color.
     /// </summary>
-    public partial struct Color
-    {
+    public partial struct Color {
         /// <summary>
         /// Black color.
         /// </summary>

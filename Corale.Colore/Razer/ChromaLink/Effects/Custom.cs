@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.ChromaLink.Effects
-{
+namespace Corale.Colore.Razer.ChromaLink.Effects {
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
@@ -36,8 +35,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
     /// Custom effect.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Custom : IEquatable<Custom>, IEquatable<Color[]>
-    {
+    public struct Custom : IEquatable<Custom>, IEquatable<Color[]> {
         /// <summary>
         /// Color definitions for each element in Chroma Link.
         /// </summary>
@@ -46,26 +44,21 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// according to: Constants.MaxLeds
         /// </remarks>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.MaxLeds)]
-        private readonly Color[] _colors;
+        readonly Color[] _colors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Custom" /> struct.
         /// </summary>
         /// <param name="colors">The colors to use.</param>
         /// <exception cref="ArgumentException">Thrown if the colors array supplied is of an incorrect size.</exception>
-        public Custom(Color[] colors)
-        {
+        public Custom(Color[] colors) {
             if (colors.Length != Constants.MaxLeds)
-            {
-                throw new ArgumentException("Colors array has incorrect number of elements, should be "+Constants.MaxLeds+", actual is "+colors.Length+".");
-            }
+                throw new ArgumentException("Colors array has incorrect number of elements, should be " + Constants.MaxLeds + ", actual is " + colors.Length + ".");
 
             _colors = new Color[Constants.MaxLeds];
 
             for (var index = 0; index < Constants.MaxLeds; index++)
-            {
                 this[index] = colors[index];
-            }
         }
 
         /// <summary>
@@ -73,12 +66,9 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// </summary>
         /// <param name="colors">The colors to use.</param>
         /// <exception cref="ArgumentException">Thrown if the colors array supplied is of an invalid size.</exception>
-        public Custom(IList<Color> colors)
-        {
+        public Custom(IList<Color> colors) {
             if (colors.Count != Constants.MaxLeds)
-            {
-                throw new ArgumentException("Colors array has incorrect size, should be "+Constants.MaxLeds+", actual is "+colors.Count+".");
-            }
+                throw new ArgumentException("Colors array has incorrect size, should be " + Constants.MaxLeds + ", actual is " + colors.Count + ".");
 
             _colors = new Color[Constants.MaxLeds];
 
@@ -91,8 +81,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// with every position set to a specific color.
         /// </summary>
         /// <param name="color">The <see cref="Color" /> to set each position to.</param>
-        public Custom(Color color)
-        {
+        public Custom(Color color) {
             _colors = new Color[Constants.MaxLeds];
 
             for (var index = 0; index < Constants.MaxLeds; index++)
@@ -105,9 +94,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// </summary>
         /// <param name="other">The struct to copy data from.</param>
         public Custom(Custom other)
-            : this(other._colors)
-        {
-        }
+            : this(other._colors) {}
 
         /// <summary>
         /// Gets or sets a position in the custom array.
@@ -115,12 +102,9 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// <param name="index">The index to access, zero indexed.</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
         [PublicAPI]
-        public Color this[int index]
-        {
-            get
-            {
-                if (index < 0 || index >= Constants.MaxLeds)
-                {
+        public Color this[int index] {
+            get {
+                if (index < 0 || index >= Constants.MaxLeds) {
                     throw new ArgumentOutOfRangeException(
                         "index",
                         index,
@@ -130,10 +114,8 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
                 return _colors[index];
             }
 
-            set
-            {
-                if (index < 0 || index >= Constants.MaxLeds)
-                {
+            set {
+                if (index < 0 || index >= Constants.MaxLeds) {
                     throw new ArgumentOutOfRangeException(
                         "index",
                         index,
@@ -151,8 +133,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// <param name="left">The left operand, an instance of <see cref="Custom" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are equal, otherwise <c>false</c>.</returns>
-        public static bool operator ==(Custom left, object right)
-        {
+        public static bool operator ==(Custom left, object right) {
             return left.Equals(right);
         }
 
@@ -163,8 +144,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// <param name="left">The left operand, an instance of <see cref="Custom" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are not equal, otherwise <c>false</c>.</returns>
-        public static bool operator !=(Custom left, object right)
-        {
+        public static bool operator !=(Custom left, object right) {
             return !left.Equals(right);
         }
 
@@ -174,8 +154,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// <returns>An instance of <see cref="Custom" />
         /// filled with the color black.</returns>
         [PublicAPI]
-        public static Custom Create()
-        {
+        public static Custom Create() {
             return new Custom(Color.Black);
         }
 
@@ -184,8 +163,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// </summary>
         /// <returns>A copy of this struct.</returns>
         [PublicAPI]
-        public Custom Clone()
-        {
+        public Custom Clone() {
             return new Custom(this);
         }
 
@@ -196,8 +174,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             if (_colors == null)
                 return 0;
             return _colors.GetHashCode();
@@ -207,8 +184,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// Sets all LED indices to the specified <see cref="Color" />.
         /// </summary>
         /// <param name="color">The <see cref="Color" /> to set.</param>
-        public void Set(Color color)
-        {
+        public void Set(Color color) {
             for (var index = 0; index < Constants.MaxLeds; index++)
                 this[index] = color;
         }
@@ -217,8 +193,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// Clears the colors from the array, setting them to <see cref="Color.Black" />.
         /// </summary>
         [PublicAPI]
-        public void Clear()
-        {
+        public void Clear() {
             Set(Color.Black);
         }
 
@@ -231,8 +206,7 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// </returns>
         /// <param name="obj">Another object to compare to. </param>
         /// <filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (ReferenceEquals(obj, null))
                 return false;
 
@@ -252,10 +226,8 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// otherwise, <c>false</c>.
         /// </returns>
         /// <param name="other">A <see cref="Custom" /> to compare with this object.</param>
-        public bool Equals(Custom other)
-        {
-            for (var index = 0; index < Constants.MaxLeds; index++)
-            {
+        public bool Equals(Custom other) {
+            for (var index = 0; index < Constants.MaxLeds; index++) {
                 if (this[index] != other[index])
                     return false;
             }
@@ -272,13 +244,11 @@ namespace Corale.Colore.Razer.ChromaLink.Effects
         /// <c>true</c> if the <paramref name="other" /> object has the same
         /// number of elements, and contain matching colors; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Color[] other)
-        {
+        public bool Equals(Color[] other) {
             if (other == null || other.Length != Constants.MaxLeds)
                 return false;
 
-            for (var index = 0; index < Constants.MaxLeds; index++)
-            {
+            for (var index = 0; index < Constants.MaxLeds; index++) {
                 if (other[index] != this[index])
                     return false;
             }

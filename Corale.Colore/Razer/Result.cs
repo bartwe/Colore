@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
+namespace Corale.Colore.Razer {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -40,8 +39,7 @@ namespace Corale.Colore.Razer
     /// <c>RZRESULT</c> is a <c>typedef</c> of <c>LONG</c> on C-side. <c>LONG</c> is always 32-bit in WinAPI.
     /// This means we don't need to have architecture-dependent base type.
     /// </remarks>
-    public struct Result : IEquatable<int>, IEquatable<Result>
-    {
+    public struct Result : IEquatable<int>, IEquatable<Result> {
         /// <summary>
         /// Access denied.
         /// </summary>
@@ -108,20 +106,19 @@ namespace Corale.Colore.Razer
         /// <summary>
         /// Dictionary used to cache the metadata of the pre-defined error values.
         /// </summary>
-        private static readonly IDictionary<Result, Metadata> FieldMetadata;
+        static readonly IDictionary<Result, Metadata> FieldMetadata;
 
         /// <summary>
         /// Internal result value.
         /// </summary>
-        private readonly int _value;
+        readonly int _value;
 
         /// <summary>
         /// Initializes static members of the <see cref="Result" /> struct.
         /// </summary>
         [SuppressMessage("Microsoft.Usage", "CA2207:InitializeValueTypeStaticFieldsInline",
             Justification = "This is temporary(TM) until ReSharper fixes their bug with sorting members.")]
-        static Result()
-        {
+        static Result() {
             FieldMetadata = GetMetadata();
         }
 
@@ -129,30 +126,45 @@ namespace Corale.Colore.Razer
         /// Initializes a new instance of the <see cref="Result" /> struct.
         /// </summary>
         /// <param name="value">Value to store.</param>
-        public Result(int value)
-        {
+        public Result(int value) {
             _value = value;
         }
 
         /// <summary>
         /// Gets the help description for the current error value.
         /// </summary>
-        public string Description { get {return FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Description : "Unknown.";}}
+        public string Description {
+            get {
+                return FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Description : "Unknown.";
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the result means failure.
         /// </summary>
-        public bool Failed { get {return this != RzSuccess;}}
+        public bool Failed {
+            get {
+                return this != RzSuccess;
+            }
+        }
 
         /// <summary>
         /// Gets the name of the error as defined in source code.
         /// </summary>
-        public string Name { get {return FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Name : "Unknown";}}
+        public string Name {
+            get {
+                return FieldMetadata.ContainsKey(this) ? FieldMetadata[this].Name : "Unknown";
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the result was a success.
         /// </summary>
-        public bool Success { get {return this == RzSuccess;}}
+        public bool Success {
+            get {
+                return this == RzSuccess;
+            }
+        }
 
         /// <summary>
         /// Indicates whether an instance of the <see cref="Result" /> struct is
@@ -161,8 +173,7 @@ namespace Corale.Colore.Razer
         /// <param name="left">Left operand, an instance of the <see cref="Result" /> struct.</param>
         /// <param name="right">Right operand, an object to compare with.</param>
         /// <returns><c>true</c> if the two objects are equal, otherwise <c>false</c>.</returns>
-        public static bool operator ==(Result left, object right)
-        {
+        public static bool operator ==(Result left, object right) {
             return left.Equals(right);
         }
 
@@ -174,8 +185,7 @@ namespace Corale.Colore.Razer
         /// <c>false</c> if the <see cref="Result" /> object represents a boolean <c>false</c> value,
         /// otherwise <c>true</c>.
         /// </returns>
-        public static bool operator false(Result result)
-        {
+        public static bool operator false(Result result) {
             return !result;
         }
 
@@ -185,8 +195,7 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="result">An instance of the <see cref="Result" /> to convert.</param>
         /// <returns>The integer equivalent of the <paramref name="result" />.</returns>
-        public static implicit operator int(Result result)
-        {
+        public static implicit operator int(Result result) {
             return result._value;
         }
 #pragma warning restore SA1201 // Elements must appear in the correct order
@@ -196,8 +205,7 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The <see cref="Result" /> equivalent of the <paramref name="value" />.</returns>
-        public static implicit operator Result(int value)
-        {
+        public static implicit operator Result(int value) {
             return new Result(value);
         }
 
@@ -209,8 +217,7 @@ namespace Corale.Colore.Razer
         /// <c>true</c> if the <paramref name="result" /> represents a <c>true</c> value (success),
         /// otherwise <c>false</c> (failure).
         /// </returns>
-        public static implicit operator bool(Result result)
-        {
+        public static implicit operator bool(Result result) {
             return result == RzSuccess;
         }
 
@@ -221,8 +228,7 @@ namespace Corale.Colore.Razer
         /// <param name="left">Left operand, an instance of the <see cref="Result" /> struct.</param>
         /// <param name="right">Right operand, an object to compare to.</param>
         /// <returns><c>true</c> if the two objects are not equal, otherwise <c>false</c>.</returns>
-        public static bool operator !=(Result left, object right)
-        {
+        public static bool operator !=(Result left, object right) {
             return !left.Equals(right);
         }
 
@@ -231,8 +237,7 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="result">Object to convert.</param>
         /// <returns><c>true</c> if the object represents a boolean <c>true</c> value, <c>false</c> otherwise.</returns>
-        public static bool operator true(Result result)
-        {
+        public static bool operator true(Result result) {
             return result;
         }
 
@@ -242,8 +247,7 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="other">A value to compare with this object's internal value.</param>
         /// <returns><c>true</c> if the internal value is equal to the <paramref name="other" /> parameter, otherwise <c>false</c>.</returns>
-        public bool Equals(int other)
-        {
+        public bool Equals(int other) {
             return _value.Equals(other);
         }
 
@@ -254,8 +258,7 @@ namespace Corale.Colore.Razer
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Result other)
-        {
+        public bool Equals(Result other) {
             return Equals(other._value);
         }
 
@@ -268,8 +271,7 @@ namespace Corale.Colore.Razer
         /// and represent the same value; otherwise, <c>false</c>.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (ReferenceEquals(null, obj))
                 return false;
 
@@ -289,8 +291,7 @@ namespace Corale.Colore.Razer
         /// A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return _value;
         }
 
@@ -302,22 +303,19 @@ namespace Corale.Colore.Razer
         /// of the result complete with name, description, and numeric value.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public override string ToString()
-        {
-            return Name+": "+Description+" ("+_value+")";
+        public override string ToString() {
+            return Name + ": " + Description + " (" + _value + ")";
         }
 
         /// <summary>
         /// Retrieves field metadata and returns it as a dictionary.
         /// </summary>
         /// <returns>Field metadata.</returns>
-        private static Dictionary<Result, Metadata> GetMetadata()
-        {
+        static Dictionary<Result, Metadata> GetMetadata() {
             var cache = new Dictionary<Result, Metadata>();
 
             var fieldsInfo = typeof(Result).GetFields(BindingFlags.Public | BindingFlags.Static);
-            foreach (var fieldInfo in fieldsInfo.Where(fi => fi.FieldType == typeof(Result)))
-            {
+            foreach (var fieldInfo in fieldsInfo.Where(fi => fi.FieldType == typeof(Result))) {
                 var value = fieldInfo.GetValue(null);
                 var attr = Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
@@ -331,15 +329,13 @@ namespace Corale.Colore.Razer
         /// <summary>
         /// Contains metadata for a specific result in the <see cref="Result" /> struct.
         /// </summary>
-        private struct Metadata
-        {
+        struct Metadata {
             /// <summary>
             /// Initializes a new instance of the <see cref="Metadata" /> struct.
             /// </summary>
             /// <param name="name">Result name.</param>
             /// <param name="description">Result description.</param>
-            internal Metadata(string name, string description)
-            {
+            internal Metadata(string name, string description) {
                 Name = name;
                 Description = description;
             }
@@ -347,33 +343,31 @@ namespace Corale.Colore.Razer
             /// <summary>
             /// Gets a human-readable description for the result.
             /// </summary>
-            internal string Description;
+            internal readonly string Description;
 
             /// <summary>
             /// Gets the name of the result.
             /// </summary>
-            internal string Name;
+            internal readonly string Name;
         }
 
         /// <summary>
         /// Description attribute used for fields in the <see cref="Result" /> struct.
         /// </summary>
         [AttributeUsage(AttributeTargets.Field)]
-        private sealed class DescriptionAttribute : Attribute
-        {
+        sealed class DescriptionAttribute : Attribute {
             /// <summary>
             /// Initializes a new instance of the <see cref="DescriptionAttribute" /> class.
             /// </summary>
             /// <param name="description">Description to set.</param>
-            internal DescriptionAttribute(string description)
-            {
+            internal DescriptionAttribute(string description) {
                 Description = description;
             }
 
             /// <summary>
             /// Gets a human-readable description of the result.
             /// </summary>
-            internal string Description;
+            internal readonly string Description;
         }
     }
 }

@@ -64,9 +64,9 @@ namespace Corale.Colore.Razer.Mouse.Effects {
             for (var row = 0; row < Constants.MaxRows; row++) {
                 if (colors[row].Length != Constants.MaxColumns) {
                     throw new ArgumentException(
-                    "Colors array has incorrect number of columns, should be " + Constants.MaxColumns + ", received " + colors[row].Length + " for row " + row + ".",
-                    "colors")
-                    ;
+                        "Colors array has incorrect number of columns, should be " + Constants.MaxColumns + ", received " + colors[row].Length + " for row " + row + ".",
+                        "colors")
+                        ;
                 }
 
                 for (var column = 0; column < Constants.MaxColumns; column++)
@@ -82,10 +82,9 @@ namespace Corale.Colore.Razer.Mouse.Effects {
         public CustomGrid(IList<Color> colors) {
             if (colors.Count != Constants.MaxGridLeds) {
                 throw new ArgumentException(
-
-                "Colors array has incorrect size, should be "+Constants.MaxGridLeds+", actual is "+colors.Count+".",
-                "colors")
-                ;
+                    "Colors array has incorrect size, should be " + Constants.MaxGridLeds + ", actual is " + colors.Count + ".",
+                    "colors")
+                    ;
             }
 
             _colors = new Color[Constants.MaxGridLeds];

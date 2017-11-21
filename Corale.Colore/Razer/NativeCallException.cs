@@ -23,25 +23,21 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
+namespace Corale.Colore.Razer {
     using System;
     using System.ComponentModel;
     using System.Globalization;
     using System.Runtime.Serialization;
-    using System.Security;
-    using System.Security.Permissions;
 
     /// <summary>
     /// Thrown when a native function returns an erroneous result value.
     /// </summary>
     [Serializable]
-    public sealed class NativeCallException : ColoreException
-    {
+    public sealed class NativeCallException : ColoreException {
         /// <summary>
         /// Template used to construct exception message from.
         /// </summary>
-        private const string MessageTemplate = "Call to native Chroma SDK function {0} failed with error: {1}";
+        const string MessageTemplate = "Call to native Chroma SDK function {0} failed with error: {1}";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NativeCallException" /> class.
@@ -51,8 +47,7 @@ namespace Corale.Colore.Razer
         internal NativeCallException(string function, Result result)
             : base(
                 string.Format(CultureInfo.InvariantCulture, MessageTemplate, function, result),
-                new Win32Exception(result))
-        {
+                new Win32Exception(result)) {
             Function = function;
             Result = result;
         }
@@ -62,9 +57,8 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="info">Serialization info object.</param>
         /// <param name="context">Streaming context.</param>
-        private NativeCallException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
+        NativeCallException(SerializationInfo info, StreamingContext context)
+            : base(info, context) {
             Function = info.GetString("Function");
             Result = info.GetInt32("Result");
         }
@@ -85,8 +79,7 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="info">Serialization info object.</param>
         /// <param name="context">Streaming context.</param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
+        public override void GetObjectData(SerializationInfo info, StreamingContext context) {
             base.GetObjectData(info, context);
 
             info.AddValue("Function", Function);

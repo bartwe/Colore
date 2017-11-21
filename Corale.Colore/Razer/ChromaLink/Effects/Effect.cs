@@ -23,16 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.ChromaLink.Effects
-{
+namespace Corale.Colore.Razer.ChromaLink.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported built-in Chroma Link effects.
     /// </summary>
     [PublicAPI]
-    public enum Effect
-    {
+    public enum Effect {
         /// <summary>
         /// No effect.
         /// </summary>

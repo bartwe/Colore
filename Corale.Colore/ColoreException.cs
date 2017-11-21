@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore
-{
+namespace Corale.Colore {
     using System;
     using System.Runtime.Serialization;
 
@@ -32,17 +31,14 @@ namespace Corale.Colore
     /// Generic Colore library exception.
     /// </summary>
     [Serializable]
-    public class ColoreException : Exception
-    {
+    public class ColoreException : Exception {
         /// <summary>
         /// Initializes a new instance of the <see cref="ColoreException" /> class.
         /// </summary>
         /// <param name="message">Exception message.</param>
         /// <param name="innerException">Inner exception object.</param>
         internal ColoreException(string message = null, Exception innerException = null)
-            : base(message, innerException)
-        {
-        }
+            : base(message, innerException) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColoreException" /> class
@@ -51,8 +47,6 @@ namespace Corale.Colore
         /// <param name="info">Serialization info object.</param>
         /// <param name="context">Streaming context.</param>
         protected ColoreException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+            : base(info, context) {}
     }
 }

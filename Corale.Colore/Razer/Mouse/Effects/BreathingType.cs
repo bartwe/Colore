@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported breathing effect types for the mouse.
     /// </summary>
-    public enum BreathingType
-    {
+    public enum BreathingType {
         /// <summary>
         /// Breathes a single color.
         /// </summary>

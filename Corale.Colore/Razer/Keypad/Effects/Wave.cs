@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keypad.Effects
-{
+namespace Corale.Colore.Razer.Keypad.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -33,8 +32,7 @@ namespace Corale.Colore.Razer.Keypad.Effects
     /// Wave effect.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Wave
-    {
+    public struct Wave {
         /// <summary>
         /// Direction of the wave effect.
         /// </summary>
@@ -45,8 +43,7 @@ namespace Corale.Colore.Razer.Keypad.Effects
         /// Initializes a new instance of the <see cref="Wave" /> struct.
         /// </summary>
         /// <param name="direction">Direction of the effect.</param>
-        public Wave(Direction direction)
-        {
+        public Wave(Direction direction) {
             Direction = direction;
         }
     }

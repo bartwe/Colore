@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse
-{
+namespace Corale.Colore.Razer.Mouse {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// LED definitions for the virtual grid.
     /// </summary>
-    public enum GridLed
-    {
+    public enum GridLed {
         /// <summary>
         /// The LED illuminating the scroll wheel.
         /// </summary>

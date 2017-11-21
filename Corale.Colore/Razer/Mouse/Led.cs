@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse
-{
+namespace Corale.Colore.Razer.Mouse {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// LEDs that can be the target of color changes.
     /// </summary>
-    public enum Led : uint
-    {
+    public enum Led : uint {
         /// <summary>
         /// No LED.
         /// </summary>

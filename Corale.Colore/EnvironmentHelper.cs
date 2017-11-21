@@ -23,10 +23,8 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore
-{
+namespace Corale.Colore {
     using System;
-    using System.Security;
 
     using Corale.Colore.Native.Kernel32;
 
@@ -34,14 +32,12 @@ namespace Corale.Colore
     /// Helper to get the architecture of the OS.
     /// Taken from here: http://stackoverflow.com/a/28866330/1104531
     /// </summary>
-    internal static class EnvironmentHelper
-    {
+    static class EnvironmentHelper {
         /// <summary>
         /// Determines whether the current system is 64-bit.
         /// </summary>
         /// <returns><c>true</c> if the system is 64-bit.</returns>
-        internal static bool Is64BitOperatingSystem()
-        {
+        internal static bool Is64BitOperatingSystem() {
             // Check if this process is natively an x64 process. If it is, it will only run on x64 environments, thus, the environment must be x64.
             if (IntPtr.Size == 8)
                 return true;
@@ -63,8 +59,7 @@ namespace Corale.Colore
         /// Determines whether this process is a 64-bit process.
         /// </summary>
         /// <returns><c>true</c> if this process is 64-bit, otherwise <c>false</c>.</returns>
-        internal static bool Is64BitProcess()
-        {
+        internal static bool Is64BitProcess() {
             return IntPtr.Size == 8;
         }
     }

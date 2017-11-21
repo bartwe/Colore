@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -32,8 +31,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes the reactive effect for system devices.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Reactive
-    {
+    public struct Reactive {
         /// <summary>
         /// The size of the struct.
         /// </summary>
@@ -64,8 +62,7 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="duration">Effect duration.</param>
         /// <param name="color">Effect color.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public Reactive(Duration duration, Color color, int parameter = 0)
-        {
+        public Reactive(Duration duration, Color color, int parameter = 0) {
             Duration = duration;
             Color = color;
             Parameter = parameter;

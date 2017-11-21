@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keyboard.Effects
-{
+namespace Corale.Colore.Razer.Keyboard.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
     /// Describes the static effect type.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Static
-    {
+    public struct Static {
         /// <summary>
         /// Color of the effect.
         /// </summary>
@@ -46,8 +44,7 @@ namespace Corale.Colore.Razer.Keyboard.Effects
         /// Initializes a new instance of the <see cref="Static" /> struct.
         /// </summary>
         /// <param name="color">Color to apply.</param>
-        public Static(Color color)
-        {
+        public Static(Color color) {
             Color = color;
         }
     }

@@ -23,13 +23,11 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mousepad
-{
+namespace Corale.Colore.Razer.Mousepad {
     /// <summary>
     /// Mouse pad constants.
     /// </summary>
-    public static class Constants
-    {
+    public static class Constants {
         /// <summary>
         /// Maximum number of LEDs.
         /// </summary>

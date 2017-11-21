@@ -21,20 +21,18 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Logging
-{
+namespace Corale.Colore.Logging {
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Provides methods to get loggers for classes.
     /// </summary>
-    internal static class LogManager
-    {
+    static class LogManager {
         /// <summary>
         /// Caches created logger objects by name.
         /// </summary>
-        private static readonly Dictionary<string, ILog> Cache = new Dictionary<string, ILog>();
+        static readonly Dictionary<string, ILog> Cache = new Dictionary<string, ILog>();
 
         /// <summary>
         /// Gets a logger instance with the specified name.
@@ -42,8 +40,7 @@ namespace Corale.Colore.Logging
         /// <param name="name">The name to give the logger.</param>
         /// <param name="level">The default level to set for the logger.</param>
         /// <returns>An instance of a logger with the specified name.</returns>
-        internal static ILog GetLogger(string name, LogLevel level = LogLevel.Debug)
-        {
+        internal static ILog GetLogger(string name, LogLevel level = LogLevel.Debug) {
             if (Cache.ContainsKey(name))
                 return Cache[name];
 
@@ -60,8 +57,7 @@ namespace Corale.Colore.Logging
         /// <param name="type">The type to get a logger instance for.</param>
         /// <param name="level">The default level to set for the logger.</param>
         /// <returns>An instance of a logger implementing <see cref="ILog" />.</returns>
-        internal static ILog GetLogger(Type type, LogLevel level = LogLevel.Debug)
-        {
+        internal static ILog GetLogger(Type type, LogLevel level = LogLevel.Debug) {
             return GetLogger(type.FullName, level);
         }
     }

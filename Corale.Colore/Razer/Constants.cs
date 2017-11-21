@@ -23,13 +23,11 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
+namespace Corale.Colore.Razer {
     /// <summary>
     /// The definitions of generic constant values used in the project
     /// </summary>
-    public static class Constants
-    {
+    public static class Constants {
         /// <summary>
         /// Maximum number of rows for a generic custom effect.
         /// </summary>
@@ -58,6 +56,6 @@ namespace Corale.Colore.Razer
         /// that are reserved for use by the system and values that can be used by an
         /// application to send messages within a private window class.
         /// </remarks>
-        private const uint WmApp = 0x8000;
+        const uint WmApp = 0x8000;
     }
 }

@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes a custom effect for a system device.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Custom : IEquatable<Custom>
-    {
+    public struct Custom : IEquatable<Custom> {
         /// <summary>
         /// The size of the effect struct.
         /// </summary>
@@ -52,7 +50,7 @@ namespace Corale.Colore.Razer.Effects
         /// Color values for the effect.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.MaxColors)]
-        private readonly Color[] _colors;
+        readonly Color[] _colors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Custom" /> struct.
@@ -60,8 +58,7 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="color">Color to set on all cells.</param>
         /// <param name="parameter">Additional effect parameter.</param>
         public Custom(Color color, int parameter = 0)
-            : this(parameter)
-        {
+            : this(parameter) {
             for (var index = 0; index < Constants.MaxColors; index++)
                 this[index] = color;
         }
@@ -71,8 +68,7 @@ namespace Corale.Colore.Razer.Effects
         /// </summary>
         /// <param name="other">Another <see cref="Custom" /> struct to copy colors and data from.</param>
         public Custom(Custom other)
-            : this(other.Parameter)
-        {
+            : this(other.Parameter) {
             for (var index = 0; index < Constants.MaxColors; index++)
                 this[index] = other[index];
         }
@@ -83,8 +79,7 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="colors">Colors to set.</param>
         /// <param name="parameter">Additional effect parameter.</param>
         public Custom(IList<Color> colors, int parameter = 0)
-            : this(parameter)
-        {
+            : this(parameter) {
             if (colors.Count != Constants.MaxColors)
                 throw new ArgumentException("Color array must contain correct number of colors.", "colors");
 
@@ -98,16 +93,14 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="colors">2D array of colors to set.</param>
         /// <param name="parameter">Additional effect parameter.</param>
         public Custom(Color[,] colors, int parameter = 0)
-            : this(parameter)
-        {
+            : this(parameter) {
             if (colors.GetLength(0) != Constants.MaxRows)
                 throw new ArgumentException("Color array has invalid number of rows.", "colors");
 
             if (colors.GetLength(1) != Constants.MaxColumns)
                 throw new ArgumentException("Color array has invalid number of columns.", "colors");
 
-            for (var row = 0; row < Constants.MaxRows; row++)
-            {
+            for (var row = 0; row < Constants.MaxRows; row++) {
                 for (var column = 0; column < Constants.MaxColumns; column++)
                     this[row, column] = colors[row, column];
             }
@@ -117,8 +110,7 @@ namespace Corale.Colore.Razer.Effects
         /// Initializes a new instance of the <see cref="Custom" /> struct.
         /// </summary>
         /// <param name="parameter">Effect parameter to set.</param>
-        private Custom(int parameter)
-        {
+        Custom(int parameter) {
             _colors = new Color[Constants.MaxColors];
             Parameter = parameter;
             Size = Marshal.SizeOf(typeof(Custom));
@@ -130,12 +122,9 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="index">Index to access.</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
         [PublicAPI]
-        public Color this[int index]
-        {
-            get
-            {
-                if (index < 0 || index >= Constants.MaxColors)
-                {
+        public Color this[int index] {
+            get {
+                if (index < 0 || index >= Constants.MaxColors) {
                     throw new ArgumentOutOfRangeException(
                         "index",
                         index,
@@ -145,10 +134,8 @@ namespace Corale.Colore.Razer.Effects
                 return _colors[index];
             }
 
-            set
-            {
-                if (index < 0 || index >= Constants.MaxColors)
-                {
+            set {
+                if (index < 0 || index >= Constants.MaxColors) {
                     throw new ArgumentOutOfRangeException(
                         "index",
                         index,
@@ -166,20 +153,16 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="column">The column to access.</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
         [PublicAPI]
-        public Color this[int row, int column]
-        {
-            get
-            {
-                if (row < 0 || row >= Constants.MaxRows)
-                {
+        public Color this[int row, int column] {
+            get {
+                if (row < 0 || row >= Constants.MaxRows) {
                     throw new ArgumentOutOfRangeException(
                         "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
 
-                if (column < 0 || column >= Constants.MaxColumns)
-                {
+                if (column < 0 || column >= Constants.MaxColumns) {
                     throw new ArgumentOutOfRangeException(
                         "column",
                         column,
@@ -189,18 +172,15 @@ namespace Corale.Colore.Razer.Effects
                 return this[column + row * Constants.MaxColumns];
             }
 
-            set
-            {
-                if (row < 0 || row >= Constants.MaxRows)
-                {
+            set {
+                if (row < 0 || row >= Constants.MaxRows) {
                     throw new ArgumentOutOfRangeException(
                         "row",
                         row,
                         "Attempted to access a row that does not exist.");
                 }
 
-                if (column < 0 || column >= Constants.MaxColumns)
-                {
+                if (column < 0 || column >= Constants.MaxColumns) {
                     throw new ArgumentOutOfRangeException(
                         "column",
                         column,
@@ -218,8 +198,7 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="left">The left operand, an instance of <see cref="Custom" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are equal, otherwise <c>false</c>.</returns>
-        public static bool operator ==(Custom left, object right)
-        {
+        public static bool operator ==(Custom left, object right) {
             return left.Equals(right);
         }
 
@@ -230,8 +209,7 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="left">The left operand, an instance of <see cref="Custom" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are not equal, otherwise <c>false</c>.</returns>
-        public static bool operator !=(Custom left, object right)
-        {
+        public static bool operator !=(Custom left, object right) {
             return !left.Equals(right);
         }
 
@@ -240,8 +218,7 @@ namespace Corale.Colore.Razer.Effects
         /// </summary>
         /// <returns>An instance of <see cref="Custom" />
         /// filled with the color black.</returns>
-        public static Custom Create()
-        {
+        public static Custom Create() {
             return new Custom(Color.Black);
         }
 
@@ -250,8 +227,7 @@ namespace Corale.Colore.Razer.Effects
         /// </summary>
         /// <returns>A copy of this struct.</returns>
         [PublicAPI]
-        public Custom Clone()
-        {
+        public Custom Clone() {
             return new Custom(this);
         }
 
@@ -259,8 +235,7 @@ namespace Corale.Colore.Razer.Effects
         /// Clears the colors from the grid, setting them to <see cref="Color.Black" />.
         /// </summary>
         [PublicAPI]
-        public void Clear()
-        {
+        public void Clear() {
             Set(Color.Black);
         }
 
@@ -273,8 +248,7 @@ namespace Corale.Colore.Razer.Effects
         /// </returns>
         /// <param name="obj">Another object to compare to. </param>
         /// <filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (ReferenceEquals(obj, null))
                 return false;
 
@@ -292,10 +266,8 @@ namespace Corale.Colore.Razer.Effects
         /// otherwise, <c>false</c>.
         /// </returns>
         /// <param name="other">A <see cref="Custom" /> to compare with this object.</param>
-        public bool Equals(Custom other)
-        {
-            for (var index = 0; index < Constants.MaxColors; index++)
-            {
+        public bool Equals(Custom other) {
+            for (var index = 0; index < Constants.MaxColors; index++) {
                 if (this[index] != other[index])
                     return false;
             }
@@ -307,14 +279,12 @@ namespace Corale.Colore.Razer.Effects
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
+        public override int GetHashCode() {
+            unchecked {
                 var hashCode = Size;
                 hashCode = (hashCode * 397) ^ Parameter;
                 if (_colors != null)
-                hashCode = (hashCode * 397) ^ (_colors.GetHashCode());
+                    hashCode = (hashCode * 397) ^ (_colors.GetHashCode());
                 return hashCode;
             }
         }
@@ -324,12 +294,9 @@ namespace Corale.Colore.Razer.Effects
         /// </summary>
         /// <param name="color">The <see cref="Color" /> to apply.</param>
         [PublicAPI]
-        public void Set(Color color)
-        {
+        public void Set(Color color) {
             for (var index = 0; index < Constants.MaxColors; index++)
-            {
                 this[index] = color;
-            }
         }
     }
 }

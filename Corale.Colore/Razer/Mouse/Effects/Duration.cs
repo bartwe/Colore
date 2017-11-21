@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Duration for reactive effect on mouse.
     /// </summary>
-    public enum Duration
-    {
+    public enum Duration {
         /// <summary>
         /// No duration.
         /// </summary>

@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
 
@@ -36,24 +35,22 @@ namespace Corale.Colore.Core
     /// <summary>
     /// A generic device.
     /// </summary>
-    public sealed class GenericDevice : Device, IGenericDevice
-    {
+    public sealed class GenericDevice : Device, IGenericDevice {
         /// <summary>
         /// Logger instance for this class.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(typeof(GenericDevice));
+        static readonly ILog Log = LogManager.GetLogger(typeof(GenericDevice));
 
         /// <summary>
         /// Holds generated instances of devices.
         /// </summary>
-        private static readonly Dictionary<Guid, GenericDevice> Instances = new Dictionary<Guid, GenericDevice>();
+        static readonly Dictionary<Guid, GenericDevice> Instances = new Dictionary<Guid, GenericDevice>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericDevice" /> class.
         /// </summary>
         /// <param name="deviceId">The <see cref="Guid" /> of the device.</param>
-        private GenericDevice(Guid deviceId)
-        {
+        GenericDevice(Guid deviceId) {
             Log.InfoFormat("New generic device initializing: {0}", deviceId);
 
             if (!Devices.IsValidId(deviceId))
@@ -65,22 +62,18 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets the <see cref="Guid" /> of this device.
         /// </summary>
-        public Guid DeviceId { get; set;}
+        public Guid DeviceId { get; set; }
 
         /// <inheritdoc/>
-        public override bool Connected
-        {
-            get
-            {
+        public override bool Connected {
+            get {
                 return false;
             }
         }
 
         /// <inheritdoc/>
-        public override List<Guid> ConnectedDevices
-        {
-            get
-            {
+        public override List<Guid> ConnectedDevices {
+            get {
                 return new List<Guid>();
             }
         }
@@ -92,8 +85,7 @@ namespace Corale.Colore.Core
         /// <param name="deviceId">The ID of the device to get.</param>
         /// <returns>An instance of <see cref="IGenericDevice" /> for the requested device.</returns>
         [PublicAPI]
-        public static IGenericDevice Get(Guid deviceId)
-        {
+        public static IGenericDevice Get(Guid deviceId) {
             Chroma.InitInstance();
 
             if (!Instances.ContainsKey(deviceId))
@@ -105,8 +97,7 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Clears the current effect on Generic Devices.
         /// </summary>
-        public override void Clear()
-        {
+        public override void Clear() {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.None, default(None)));
         }
 
@@ -114,8 +105,7 @@ namespace Corale.Colore.Core
         /// Sets the color of all components on this device.
         /// </summary>
         /// <param name="color">Color to set.</param>
-        public override void SetAll(Color color)
-        {
+        public override void SetAll(Color color) {
             SetStatic(new Static(color));
         }
 
@@ -123,8 +113,7 @@ namespace Corale.Colore.Core
         /// Sets a parameter-less effect on this device.
         /// </summary>
         /// <param name="effect">Effect to set.</param>
-        public void SetEffect(Effect effect)
-        {
+        public void SetEffect(Effect effect) {
             SetEffect(effect, IntPtr.Zero);
         }
 
@@ -133,8 +122,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="effect">Effect to set.</param>
         /// <param name="param">Effect-specific parameter to use.</param>
-        public void SetEffect(Effect effect, IntPtr param)
-        {
+        public void SetEffect(Effect effect, IntPtr param) {
             SetGuid(NativeWrapper.CreateEffect(DeviceId, effect, param));
         }
 
@@ -142,8 +130,7 @@ namespace Corale.Colore.Core
         /// Sets a blinking effect on this device.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetBlinking(Blinking effect)
-        {
+        public void SetBlinking(Blinking effect) {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.Blinking, effect));
         }
 
@@ -152,8 +139,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">Color of the effect.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetBlinking(Color color, int parameter = 0)
-        {
+        public void SetBlinking(Color color, int parameter = 0) {
             SetBlinking(new Blinking(color, parameter));
         }
 
@@ -161,8 +147,7 @@ namespace Corale.Colore.Core
         /// Sets a breathing effect on this device.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetBreathing(Breathing effect)
-        {
+        public void SetBreathing(Breathing effect) {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.Breathing, effect));
         }
 
@@ -171,8 +156,7 @@ namespace Corale.Colore.Core
         /// causing it to breathe between random colors.
         /// </summary>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetBreathing(int parameter = 0)
-        {
+        public void SetBreathing(int parameter = 0) {
             SetBreathing(new Breathing(parameter));
         }
 
@@ -182,8 +166,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">The color to breathe with.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetBreathing(Color color, int parameter = 0)
-        {
+        public void SetBreathing(Color color, int parameter = 0) {
             SetBreathing(new Breathing(color, parameter));
         }
 
@@ -194,8 +177,7 @@ namespace Corale.Colore.Core
         /// <param name="first">The first color to breathe with.</param>
         /// <param name="second">The second color to breathe with.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetBreathing(Color first, Color second, int parameter = 0)
-        {
+        public void SetBreathing(Color first, Color second, int parameter = 0) {
             SetBreathing(new Breathing(first, second, parameter));
         }
 
@@ -203,8 +185,7 @@ namespace Corale.Colore.Core
         /// Sets a custom effect on this device.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetCustom(Custom effect)
-        {
+        public void SetCustom(Custom effect) {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.Custom, effect));
         }
 
@@ -212,8 +193,7 @@ namespace Corale.Colore.Core
         /// Sets a reactive effect on this device.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetReactive(Reactive effect)
-        {
+        public void SetReactive(Reactive effect) {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.Reactive, effect));
         }
 
@@ -223,8 +203,7 @@ namespace Corale.Colore.Core
         /// <param name="color">Color to react with.</param>
         /// <param name="duration">How long the reaction effect should stay.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetReactive(Color color, Duration duration, int parameter = 0)
-        {
+        public void SetReactive(Color color, Duration duration, int parameter = 0) {
             SetReactive(new Reactive(duration, color, parameter));
         }
 
@@ -232,8 +211,7 @@ namespace Corale.Colore.Core
         /// Sets a spectrum cycling effect on this device.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetSpectrumCycling(SpectrumCycling effect)
-        {
+        public void SetSpectrumCycling(SpectrumCycling effect) {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.SpectrumCycling, effect));
         }
 
@@ -241,8 +219,7 @@ namespace Corale.Colore.Core
         /// Sets a spectrum cycling effect on this device.
         /// </summary>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetSpectrumCycling(int parameter = 0)
-        {
+        public void SetSpectrumCycling(int parameter = 0) {
             SetSpectrumCycling(new SpectrumCycling(parameter));
         }
 
@@ -250,8 +227,7 @@ namespace Corale.Colore.Core
         /// Sets a static effect on this device.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetStatic(Static effect)
-        {
+        public void SetStatic(Static effect) {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.Static, effect));
         }
 
@@ -260,8 +236,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">Color to set.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetStatic(Color color, int parameter = 0)
-        {
+        public void SetStatic(Color color, int parameter = 0) {
             SetStatic(new Static(color, parameter));
         }
 
@@ -269,8 +244,7 @@ namespace Corale.Colore.Core
         /// Sets a wave effect on this device.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetWave(Wave effect)
-        {
+        public void SetWave(Wave effect) {
             SetGuid(NativeWrapper.CreateDeviceEffect(DeviceId, Effect.Wave, effect));
         }
 
@@ -279,8 +253,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="direction">Direction of the wave.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public void SetWave(Direction direction, int parameter = 0)
-        {
+        public void SetWave(Direction direction, int parameter = 0) {
             SetWave(new Wave(direction, parameter));
         }
     }

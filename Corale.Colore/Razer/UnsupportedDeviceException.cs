@@ -23,13 +23,10 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
+namespace Corale.Colore.Razer {
     using System;
     using System.Globalization;
     using System.Runtime.Serialization;
-    using System.Security;
-    using System.Security.Permissions;
 
     using Corale.Colore.Annotations;
     using Corale.Colore.Core;
@@ -39,12 +36,11 @@ namespace Corale.Colore.Razer
     /// constructor of <see cref="GenericDevice" />.
     /// </summary>
     [Serializable]
-    public sealed class UnsupportedDeviceException : ColoreException
-    {
+    public sealed class UnsupportedDeviceException : ColoreException {
         /// <summary>
         /// Template for exception message.
         /// </summary>
-        private const string MessageTemplate = "Attempted to initialize an unsupported device with ID: {0}";
+        const string MessageTemplate = "Attempted to initialize an unsupported device with ID: {0}";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnsupportedDeviceException" /> class.
@@ -52,8 +48,7 @@ namespace Corale.Colore.Razer
         /// <param name="deviceId">The <see cref="Guid" /> of the device.</param>
         /// <param name="innerException">Inner exception object.</param>
         internal UnsupportedDeviceException(Guid deviceId, Exception innerException = null)
-            : base(string.Format(CultureInfo.InvariantCulture, MessageTemplate, deviceId), innerException)
-        {
+            : base(string.Format(CultureInfo.InvariantCulture, MessageTemplate, deviceId), innerException) {
             DeviceId = deviceId;
         }
 
@@ -63,9 +58,8 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="info">Serialization info object.</param>
         /// <param name="context">Streaming context.</param>
-        private UnsupportedDeviceException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
+        UnsupportedDeviceException(SerializationInfo info, StreamingContext context)
+            : base(info, context) {
             DeviceId = (Guid)info.GetValue("DeviceId", typeof(Guid));
         }
 
@@ -80,8 +74,7 @@ namespace Corale.Colore.Razer
         /// </summary>
         /// <param name="info">Serialization info object.</param>
         /// <param name="context">Streaming context.</param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
+        public override void GetObjectData(SerializationInfo info, StreamingContext context) {
             base.GetObjectData(info, context);
 
             info.AddValue("DeviceId", DeviceId);

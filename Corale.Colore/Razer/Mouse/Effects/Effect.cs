@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported built-in mouse effects.
     /// </summary>
-    public enum Effect
-    {
+    public enum Effect {
         /// <summary>
         /// No effect.
         /// </summary>

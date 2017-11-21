@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -31,8 +30,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes the wave effect for a system device.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Wave
-    {
+    public struct Wave {
         /// <summary>
         /// The size of the struct.
         /// </summary>
@@ -56,8 +54,7 @@ namespace Corale.Colore.Razer.Effects
         /// </summary>
         /// <param name="direction">Direction of the wave.</param>
         /// <param name="parameter">Additional effect parameter.</param>
-        public Wave(Direction direction, int parameter = 0)
-        {
+        public Wave(Direction direction, int parameter = 0) {
             Direction = direction;
             Parameter = parameter;
             Size = Marshal.SizeOf(typeof(Wave));

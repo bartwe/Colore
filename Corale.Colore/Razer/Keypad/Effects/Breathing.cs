@@ -23,16 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keypad.Effects
-{
+namespace Corale.Colore.Razer.Keypad.Effects {
     using Corale.Colore.Annotations;
     using Corale.Colore.Core;
 
     /// <summary>
     /// Breathing effect.
     /// </summary>
-    public struct Breathing
-    {
+    public struct Breathing {
         /// <summary>
         /// The type of breathing.
         /// </summary>
@@ -57,8 +55,7 @@ namespace Corale.Colore.Razer.Keypad.Effects
         /// <param name="type">The type of breathing effect.</param>
         /// <param name="first">Initial color.</param>
         /// <param name="second">Second color.</param>
-        public Breathing(BreathingType type, Color first, Color second)
-        {
+        public Breathing(BreathingType type, Color first, Color second) {
             Type = type;
             First = first;
             Second = second;
@@ -71,8 +68,6 @@ namespace Corale.Colore.Razer.Keypad.Effects
         /// <param name="first">Initial color.</param>
         /// <param name="second">Second color.</param>
         public Breathing(Color first, Color second)
-            : this(BreathingType.Two, first, second)
-        {
-        }
+            : this(BreathingType.Two, first, second) {}
     }
 }

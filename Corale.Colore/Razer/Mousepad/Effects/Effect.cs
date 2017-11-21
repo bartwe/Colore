@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mousepad.Effects
-{
+namespace Corale.Colore.Razer.Mousepad.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Effects supported by Chroma mouse pads.
     /// </summary>
-    public enum Effect
-    {
+    public enum Effect {
         /// <summary>
         /// No effect.
         /// </summary>

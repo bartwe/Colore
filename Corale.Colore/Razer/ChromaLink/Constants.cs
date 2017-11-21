@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.ChromaLink
-{
+namespace Corale.Colore.Razer.ChromaLink {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Chroma Link constants.
     /// </summary>
-    public static class Constants
-    {
+    public static class Constants {
         /// <summary>
         /// Maximum number of LEDs.
         /// </summary>

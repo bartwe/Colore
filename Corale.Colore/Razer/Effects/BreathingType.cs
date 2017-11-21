@@ -21,15 +21,13 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported breathing effect types for system devices.
     /// </summary>
-    public enum BreathingType
-    {
+    public enum BreathingType {
         /// <summary>
         /// Device fades between one color and no color.
         /// </summary>

@@ -21,13 +21,11 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Logging
-{
+namespace Corale.Colore.Logging {
     /// <summary>
     /// Available logging levels for the internal loggers.
     /// </summary>
-    internal enum LogLevel
-    {
+    enum LogLevel {
         /// <summary>
         /// A <c>DEBUG</c> level message.
         /// </summary>

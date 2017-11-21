@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
     /// Reactive effect.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Reactive
-    {
+    public struct Reactive {
         /// <summary>
         /// The LED on which to apply the effect.
         /// </summary>
@@ -60,8 +58,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="led">The LED on which to apply the effect.</param>
         /// <param name="duration">Duration of the effect.</param>
         /// <param name="color">Color of the effect.</param>
-        public Reactive(Led led, Duration duration, Color color)
-        {
+        public Reactive(Led led, Duration duration, Color color) {
             Led = led;
             Duration = duration;
             Color = color;
@@ -74,8 +71,6 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="duration">Duration of the effect.</param>
         /// <param name="color">Color of the effect.</param>
         public Reactive(Duration duration, Color color)
-            : this(Led.All, duration, color)
-        {
-        }
+            : this(Led.All, duration, color) {}
     }
 }

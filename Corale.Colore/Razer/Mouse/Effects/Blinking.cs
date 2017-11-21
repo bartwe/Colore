@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
     /// Mouse effect that causes a specified LED to blink.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Blinking
-    {
+    public struct Blinking {
         /// <summary>
         /// The LED on which to apply the effect.
         /// </summary>
@@ -53,8 +51,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// </summary>
         /// <param name="led">The LED on which to apply the effect.</param>
         /// <param name="color">Color for the blinking effect.</param>
-        public Blinking(Led led, Color color)
-        {
+        public Blinking(Led led, Color color) {
             Led = led;
             Color = color;
         }

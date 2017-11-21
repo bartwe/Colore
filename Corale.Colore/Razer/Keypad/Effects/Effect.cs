@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keypad.Effects
-{
+namespace Corale.Colore.Razer.Keypad.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported effects for Chroma keypads.
     /// </summary>
-    public enum Effect
-    {
+    public enum Effect {
         /// <summary>
         /// No effect.
         /// </summary>

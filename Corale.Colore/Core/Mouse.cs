@@ -23,52 +23,52 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
 
     using Corale.Colore.Annotations;
     using Corale.Colore.Logging;
+    using Corale.Colore.Razer;
     using Corale.Colore.Razer.Mouse;
     using Corale.Colore.Razer.Mouse.Effects;
+
+    using Effect = Corale.Colore.Razer.Mouse.Effects.Effect;
 
     /// <summary>
     /// Class for interacting with a Chroma mouse.
     /// </summary>
     [PublicAPI]
-    public sealed class Mouse : Device, IMouse
-    {
+    public sealed class Mouse : Device, IMouse {
         /// <summary>
         /// Logger instance for this class.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Mouse));
+        static readonly ILog Log = LogManager.GetLogger(typeof(Mouse));
 
         /// <summary>
         /// Lock object for thread-safe init.
         /// </summary>
-        private static readonly object InitLock = new object();
+        static readonly object InitLock = new object();
 
         /// <summary>
         /// Holds the application-wide instance of the <see cref="IMouse" /> interface.
         /// </summary>
-        private static IMouse _instance;
+        static IMouse _instance;
 
         /// <summary>
         /// Internal instance of a <see cref="Custom" /> struct.
         /// </summary>
-        private Custom _custom;
+        Custom _custom;
 
         /// <summary>
         /// Internal instance of a <see cref="CustomGrid" /> struct.
         /// </summary>
-        private CustomGrid _customGrid;
+        CustomGrid _customGrid;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="Mouse" /> class from being created.
         /// </summary>
-        private Mouse()
-        {
+        Mouse() {
             Log.Info("Mouse is initializing");
             Chroma.InitInstance();
             _custom = Custom.Create();
@@ -79,12 +79,9 @@ namespace Corale.Colore.Core
         /// Gets the application-wide instance of the <see cref="IMouse" /> interface.
         /// </summary>
         [PublicAPI]
-        public static IMouse Instance
-        {
-            get
-            {
-                lock (InitLock)
-                {
+        public static IMouse Instance {
+            get {
+                lock (InitLock) {
                     return _instance ?? (_instance = new Mouse());
                 }
             }
@@ -93,28 +90,23 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets a list of connected devices for this type
         /// </summary>
-        public override List<Guid> ConnectedDevices
-        {
-            get
-            {
-                return Chroma.Instance.Query(Razer.DeviceType.Mouse);
+        public override List<Guid> ConnectedDevices {
+            get {
+                return Chroma.Instance.Query(DeviceType.Mouse);
             }
         }
 
         /// <summary>
         /// Gets or sets the <see cref="Color" /> for a specific LED index on the mouse.
         /// </summary>
-        /// <param name="index">The index to query, between <c>0</c> and <see cref="Constants.MaxLeds" /> (exclusive upper-bound).</param>
+        /// <param name="index">The index to query, between <c>0</c> and <see cref="Razer.Mouse.Constants.MaxLeds" /> (exclusive upper-bound).</param>
         /// <returns>The <see cref="Color" /> at the specified index.</returns>
-        public Color this[int index]
-        {
-            get
-            {
+        public Color this[int index] {
+            get {
                 return _custom[index];
             }
 
-            set
-            {
+            set {
                 _custom[index] = value;
                 SetCustom(_custom);
             }
@@ -125,15 +117,12 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="led">The <see cref="Led" /> to query.</param>
         /// <returns>The <see cref="Color" /> currently set for the specified <see cref="Led" />.</returns>
-        public Color this[Led led]
-        {
-            get
-            {
+        public Color this[Led led] {
+            get {
                 return _custom[led];
             }
 
-            set
-            {
+            set {
                 _custom[led] = value;
                 SetCustom(_custom);
             }
@@ -143,18 +132,15 @@ namespace Corale.Colore.Core
         /// Gets or sets the <see cref="Color" /> for a specific position
         /// on the mouse's virtual grid.
         /// </summary>
-        /// <param name="row">The row to query, between <c>0</c> and <see cref="Constants.MaxRows" /> (exclusive upper-bound).</param>
-        /// <param name="column">The column to query, between <c>0</c> and <see cref="Constants.MaxColumns" /> (exclusive upper-bound).</param>
+        /// <param name="row">The row to query, between <c>0</c> and <see cref="Razer.Mouse.Constants.MaxRows" /> (exclusive upper-bound).</param>
+        /// <param name="column">The column to query, between <c>0</c> and <see cref="Razer.Mouse.Constants.MaxColumns" /> (exclusive upper-bound).</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
-        public Color this[int row, int column]
-        {
-            get
-            {
+        public Color this[int row, int column] {
+            get {
                 return _customGrid[row, column];
             }
 
-            set
-            {
+            set {
                 _customGrid[row, column] = value;
                 SetGrid(_customGrid);
             }
@@ -166,15 +152,12 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="led">The <see cref="GridLed" /> to query.</param>
         /// <returns>The <see cref="Color" /> currently set for the specified <see cref="GridLed" />.</returns>
-        public Color this[GridLed led]
-        {
-            get
-            {
+        public Color this[GridLed led] {
+            get {
                 return _customGrid[led];
             }
 
-            set
-            {
+            set {
                 _customGrid[led] = value;
                 SetGrid(_customGrid);
             }
@@ -186,10 +169,8 @@ namespace Corale.Colore.Core
         /// <param name="led">Which LED to modify.</param>
         /// <param name="color">Color to set.</param>
         /// <param name="clear">If <c>true</c>, the mouse will first be cleared before setting the LED.</param>
-        public void SetLed(Led led, Color color, bool clear = false)
-        {
-            if (clear)
-            {
+        public void SetLed(Led led, Color color, bool clear = false) {
+            if (clear) {
                 _custom.Clear();
 
                 // Clear the grid effect as well, this way the mouse
@@ -203,11 +184,10 @@ namespace Corale.Colore.Core
 
         /// <summary>
         /// Sets an effect without any parameters.
-        /// Currently, this only works for the <see cref="Effect.None" /> effect.
+        /// Currently, this only works for the <see cref="Razer.Mouse.Effects.Effect.None" /> effect.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetEffect(Effect effect)
-        {
+        public void SetEffect(Effect effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(effect, IntPtr.Zero));
         }
 
@@ -215,8 +195,7 @@ namespace Corale.Colore.Core
         /// Sets a breathing effect on the mouse.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Breathing" /> effect.</param>
-        public void SetBreathing(Breathing effect)
-        {
+        public void SetBreathing(Breathing effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.Breathing, effect));
         }
 
@@ -227,8 +206,7 @@ namespace Corale.Colore.Core
         /// <param name="first">First color to breathe into.</param>
         /// <param name="second">Second color to breathe into.</param>
         /// <param name="led">The LED(s) on which to apply the effect.</param>
-        public void SetBreathing(Color first, Color second, Led led = Led.All)
-        {
+        public void SetBreathing(Color first, Color second, Led led = Led.All) {
             SetBreathing(new Breathing(led, first, second));
         }
 
@@ -239,8 +217,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">The color to breathe.</param>
         /// <param name="led">The LED(s) on which to apply the effect.</param>
-        public void SetBreathing(Color color, Led led = Led.All)
-        {
+        public void SetBreathing(Color color, Led led = Led.All) {
             SetBreathing(new Breathing(led, color));
         }
 
@@ -248,8 +225,7 @@ namespace Corale.Colore.Core
         /// Instructs the mouse to breathe random colors.
         /// </summary>
         /// <param name="led">The LED(s) on which to apply the effect.</param>
-        public void SetBreathing(Led led = Led.All)
-        {
+        public void SetBreathing(Led led = Led.All) {
             SetBreathing(new Breathing(led));
         }
 
@@ -257,8 +233,7 @@ namespace Corale.Colore.Core
         /// Sets a static color on the mouse.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Static" /> effect.</param>
-        public void SetStatic(Static effect)
-        {
+        public void SetStatic(Static effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.Static, effect));
         }
 
@@ -267,8 +242,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">The color to use.</param>
         /// <param name="led">Which LED(s) to affect.</param>
-        public void SetStatic(Color color, Led led = Led.All)
-        {
+        public void SetStatic(Color color, Led led = Led.All) {
             SetStatic(new Static(led, color));
         }
 
@@ -276,8 +250,7 @@ namespace Corale.Colore.Core
         /// Starts a blinking effect on the specified LED.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Blinking" /> effect.</param>
-        public void SetBlinking(Blinking effect)
-        {
+        public void SetBlinking(Blinking effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.Blinking, effect));
         }
 
@@ -286,8 +259,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">The color to blink with.</param>
         /// <param name="led">The LED(s) to affect.</param>
-        public void SetBlinking(Color color, Led led = Led.All)
-        {
+        public void SetBlinking(Color color, Led led = Led.All) {
             SetBlinking(new Blinking(led, color));
         }
 
@@ -295,8 +267,7 @@ namespace Corale.Colore.Core
         /// Sets a reactive effect on the mouse.
         /// </summary>
         /// <param name="effect">Effect options struct.</param>
-        public void SetReactive(Reactive effect)
-        {
+        public void SetReactive(Reactive effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.Reactive, effect));
         }
 
@@ -306,8 +277,7 @@ namespace Corale.Colore.Core
         /// <param name="duration">How long the effect should last.</param>
         /// <param name="color">The color to react with.</param>
         /// <param name="led">Which LED(s) to affect.</param>
-        public void SetReactive(Duration duration, Color color, Led led = Led.All)
-        {
+        public void SetReactive(Duration duration, Color color, Led led = Led.All) {
             SetReactive(new Reactive(led, duration, color));
         }
 
@@ -315,8 +285,7 @@ namespace Corale.Colore.Core
         /// Sets a spectrum cycling effect on the mouse.
         /// </summary>
         /// <param name="effect">Effect options struct.</param>
-        public void SetSpectrumCycling(SpectrumCycling effect)
-        {
+        public void SetSpectrumCycling(SpectrumCycling effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.SpectrumCycling, effect));
         }
 
@@ -324,8 +293,7 @@ namespace Corale.Colore.Core
         /// Sets a spectrum cycling effect on the mouse.
         /// </summary>
         /// <param name="led">The LED(s) to affect.</param>
-        public void SetSpectrumCycling(Led led = Led.All)
-        {
+        public void SetSpectrumCycling(Led led = Led.All) {
             SetSpectrumCycling(new SpectrumCycling(led));
         }
 
@@ -333,8 +301,7 @@ namespace Corale.Colore.Core
         /// Sets a wave effect on the mouse.
         /// </summary>
         /// <param name="effect">Effect options struct.</param>
-        public void SetWave(Wave effect)
-        {
+        public void SetWave(Wave effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.Wave, effect));
         }
 
@@ -342,8 +309,7 @@ namespace Corale.Colore.Core
         /// Sets a wave effect on the mouse.
         /// </summary>
         /// <param name="direction">Direction of the wave.</param>
-        public void SetWave(Direction direction)
-        {
+        public void SetWave(Direction direction) {
             SetWave(new Wave(direction));
         }
 
@@ -351,8 +317,7 @@ namespace Corale.Colore.Core
         /// Sets the color of all LEDs on the mouse.
         /// </summary>
         /// <param name="color">Color to set.</param>
-        public override void SetAll(Color color)
-        {
+        public override void SetAll(Color color) {
             // We update both the Custom and CustomGrid effect to keep them both
             // as synced as possible.
             _custom.Set(color);
@@ -364,8 +329,7 @@ namespace Corale.Colore.Core
         /// Sets a custom effect on the mouse.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Custom" /> struct.</param>
-        public void SetCustom(Custom effect)
-        {
+        public void SetCustom(Custom effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.Custom, effect));
         }
 
@@ -373,16 +337,14 @@ namespace Corale.Colore.Core
         /// Sets a custom grid effect on the mouse.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="CustomGrid" /> struct.</param>
-        public void SetGrid(CustomGrid effect)
-        {
+        public void SetGrid(CustomGrid effect) {
             SetGuid(NativeWrapper.CreateMouseEffect(Effect.CustomGrid, effect));
         }
 
         /// <summary>
         /// Clears the current effect on the Mouse.
         /// </summary>
-        public override void Clear()
-        {
+        public override void Clear() {
             _custom.Clear();
             _customGrid.Clear();
             SetEffect(Effect.None);

@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
+namespace Corale.Colore.Razer {
     using System;
 
     using Corale.Colore.Annotations;
@@ -32,8 +31,7 @@ namespace Corale.Colore.Razer
     /// <summary>
     /// Contains device IDs for devices that have Chroma support.
     /// </summary>
-    public static class Devices
-    {
+    public static class Devices {
         /// <summary>
         /// Blackwidow Chroma edition.
         /// </summary>
@@ -294,17 +292,17 @@ namespace Corale.Colore.Razer
         /// </summary>
         [PublicAPI]
         public static readonly Guid BlackwidowXTe = new Guid(
-           0x2d84dd51,
-           0x3290,
-           0x4aac,
-           0x9a,
-           0x89,
-           0xd8,
-           0xaf,
-           0xde,
-           0x38,
-           0xb5,
-           0x7c);
+            0x2d84dd51,
+            0x3290,
+            0x4aac,
+            0x9a,
+            0x89,
+            0xd8,
+            0xaf,
+            0xde,
+            0x38,
+            0xb5,
+            0x7c);
 
         /// <summary>
         /// Mamba (wireless) Chroma edition.
@@ -448,8 +446,7 @@ namespace Corale.Colore.Razer
         /// <param name="id">the <see cref="Guid" /> to check.</param>
         /// <returns><c>true</c> if it's a valid device identifier, otherwise <c>false</c>.</returns>
         [PublicAPI]
-        public static bool IsValidId(Guid id)
-        {
+        public static bool IsValidId(Guid id) {
             return id == Blackwidow || id == Deathadder || id == Orbweaver || id == Tartarus || id == MambaTe
                    || id == BlackwidowTe || id == Kraken71 || id == Firefly || id == Deathstalker || id == Diamondback
                    || id == Mamba || id == OverwatchKeyboard || id == Orochi || id == BladeStealth || id == Naga

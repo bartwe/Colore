@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Events
-{
+namespace Corale.Colore.Events {
     using System;
 
     using Corale.Colore.Annotations;
@@ -32,14 +31,12 @@ namespace Corale.Colore.Events
     /// <summary>
     /// Event arguments for the application state event.
     /// </summary>
-    public sealed class ApplicationStateEventArgs : EventArgs
-    {
+    public sealed class ApplicationStateEventArgs : EventArgs {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationStateEventArgs" /> class.
         /// </summary>
         /// <param name="enabled">Value indicating whether the application has been enabled.</param>
-        internal ApplicationStateEventArgs(bool enabled)
-        {
+        internal ApplicationStateEventArgs(bool enabled) {
             Enabled = enabled;
         }
 

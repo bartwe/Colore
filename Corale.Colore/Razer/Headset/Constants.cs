@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Headset
-{
+namespace Corale.Colore.Razer.Headset {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Holds various keyboard constants used in Razer's API.
     /// </summary>
-    public static class Constants
-    {
+    public static class Constants {
         /// <summary>
         /// The maximum number of rows on the keyboard
         /// </summary>

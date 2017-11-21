@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using Corale.Colore.Annotations;
     using Corale.Colore.Razer.Keypad;
     using Corale.Colore.Razer.Keypad.Effects;
@@ -32,8 +31,7 @@ namespace Corale.Colore.Core
     /// <summary>
     /// Interface for keypad functions.
     /// </summary>
-    public interface IKeypad : IDevice
-    {
+    public interface IKeypad : IDevice {
         /// <summary>
         /// Gets or sets a color at the specified position in the keypad's
         /// grid layout.

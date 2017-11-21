@@ -23,13 +23,11 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse
-{
+namespace Corale.Colore.Razer.Mouse {
     /// <summary>
     /// Mouse constants.
     /// </summary>
-    public static class Constants
-    {
+    public static class Constants {
         /// <summary>
         /// Maximum number of custom LEDs.
         /// </summary>

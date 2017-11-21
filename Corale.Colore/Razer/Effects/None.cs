@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -31,8 +30,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes the <c>NO_EFFECT</c> effect.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct None
-    {
+    public struct None {
         /// <summary>
         /// The size of the struct.
         /// </summary>
@@ -49,8 +47,7 @@ namespace Corale.Colore.Razer.Effects
         /// Initializes a new instance of the <see cref="None" /> struct.
         /// </summary>
         /// <param name="parameter">Additional effect parameter to set.</param>
-        public None(int parameter = 0)
-        {
+        public None(int parameter = 0) {
             Parameter = parameter;
             Size = Marshal.SizeOf(typeof(None));
         }

@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keyboard
-{
+namespace Corale.Colore.Razer.Keyboard {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Definition of all keys available on the keyboard.
     /// </summary>
-    public enum Key
-    {
+    public enum Key {
         /// <summary>
         /// The Razer logo on the keyboard.
         /// </summary>

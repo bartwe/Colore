@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keypad
-{
+namespace Corale.Colore.Razer.Keypad {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Keypad constants.
     /// </summary>
-    public static class Constants
-    {
+    public static class Constants {
         /// <summary>
         /// Maximum number of rows.
         /// </summary>

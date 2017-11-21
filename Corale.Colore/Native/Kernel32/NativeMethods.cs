@@ -23,20 +23,18 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Native.Kernel32
-{
+namespace Corale.Colore.Native.Kernel32 {
     using System;
     using System.Runtime.InteropServices;
 
     /// <summary>
     /// Native methods from <c>kernel32</c> module.
     /// </summary>
-    internal static class NativeMethods
-    {
+    static class NativeMethods {
         /// <summary>
         /// Name of the DLL from which functions are imported.
         /// </summary>
-        private const string DllName = "kernel32.dll";
+        const string DllName = "kernel32.dll";
 
         /// <summary>
         /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).

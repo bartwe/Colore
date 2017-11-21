@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
+namespace Corale.Colore.Razer {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Device types supported by the Chroma SDK.
     /// </summary>
-    public enum DeviceType
-    {
+    public enum DeviceType {
         /// <summary>
         /// A keyboard device.
         /// </summary>

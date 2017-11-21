@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mousepad.Effects
-{
+namespace Corale.Colore.Razer.Mousepad.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported directions for mouse pad wave effect.
     /// </summary>
-    public enum Direction
-    {
+    public enum Direction {
         /// <summary>
         /// No direction.
         /// </summary>

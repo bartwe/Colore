@@ -21,23 +21,20 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Logging
-{
+namespace Corale.Colore.Logging {
     using System;
 
     /// <summary>
     /// Base logger class implementing some default behaviour like delegating
     /// logging commands to the base <c>Log</c> method.
     /// </summary>
-    internal abstract class Logger : ILog
-    {
+    abstract class Logger : ILog {
         /// <summary>
         /// Initializes a new instance of the <see cref="Logger" /> class.
         /// </summary>
         /// <param name="name">The name of the logger.</param>
         /// <param name="level">Configured threshold level for logging.</param>
-        protected Logger(string name, LogLevel level)
-        {
+        protected Logger(string name, LogLevel level) {
             Name = name;
             Level = level;
         }
@@ -45,12 +42,12 @@ namespace Corale.Colore.Logging
         /// <summary>
         /// Gets the name of the logger.
         /// </summary>
-        public string Name { get; set;}
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets the configured level threshold.
         /// </summary>
-        public LogLevel Level { get; set;}
+        public LogLevel Level { get; set; }
 
         /// <summary>
         /// Logs a message.
@@ -79,8 +76,7 @@ namespace Corale.Colore.Logging
         /// Logs a message at the <see cref="LogLevel.Debug" /> level.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public virtual void Debug(string message)
-        {
+        public virtual void Debug(string message) {
             Log(LogLevel.Debug, message);
         }
 
@@ -90,8 +86,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="exception">The exception object to include.</param>
-        public virtual void Debug(string message, Exception exception)
-        {
+        public virtual void Debug(string message, Exception exception) {
             Log(LogLevel.Debug, message, exception);
         }
 
@@ -100,8 +95,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="format">Format string.</param>
         /// <param name="args">Format parameters.</param>
-        public virtual void DebugFormat(string format, params object[] args)
-        {
+        public virtual void DebugFormat(string format, params object[] args) {
             LogFormat(LogLevel.Debug, format, args);
         }
 
@@ -109,8 +103,7 @@ namespace Corale.Colore.Logging
         /// Logs a message at the <see cref="LogLevel.Info" /> level.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public virtual void Info(string message)
-        {
+        public virtual void Info(string message) {
             Log(LogLevel.Info, message);
         }
 
@@ -120,8 +113,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="exception">The exception object to include.</param>
-        public virtual void Info(string message, Exception exception)
-        {
+        public virtual void Info(string message, Exception exception) {
             Log(LogLevel.Info, message, exception);
         }
 
@@ -130,8 +122,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="format">Format string.</param>
         /// <param name="args">Format parameters.</param>
-        public virtual void InfoFormat(string format, params object[] args)
-        {
+        public virtual void InfoFormat(string format, params object[] args) {
             LogFormat(LogLevel.Info, format, args);
         }
 
@@ -139,8 +130,7 @@ namespace Corale.Colore.Logging
         /// Logs a message at the <see cref="LogLevel.Warn" /> level.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public virtual void Warn(string message)
-        {
+        public virtual void Warn(string message) {
             Log(LogLevel.Warn, message);
         }
 
@@ -150,8 +140,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="exception">The exception object to include.</param>
-        public virtual void Warn(string message, Exception exception)
-        {
+        public virtual void Warn(string message, Exception exception) {
             Log(LogLevel.Warn, message, exception);
         }
 
@@ -160,8 +149,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="format">Format string.</param>
         /// <param name="args">Format parameters.</param>
-        public virtual void WarnFormat(string format, params object[] args)
-        {
+        public virtual void WarnFormat(string format, params object[] args) {
             LogFormat(LogLevel.Warn, format, args);
         }
 
@@ -169,8 +157,7 @@ namespace Corale.Colore.Logging
         /// Logs a message at the <see cref="LogLevel.Error" /> level.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public virtual void Error(string message)
-        {
+        public virtual void Error(string message) {
             Log(LogLevel.Error, message);
         }
 
@@ -180,8 +167,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="exception">The exception object to include.</param>
-        public virtual void Error(string message, Exception exception)
-        {
+        public virtual void Error(string message, Exception exception) {
             Log(LogLevel.Error, message, exception);
         }
 
@@ -190,8 +176,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="format">Format string.</param>
         /// <param name="args">Format parameters.</param>
-        public virtual void ErrorFormat(string format, params object[] args)
-        {
+        public virtual void ErrorFormat(string format, params object[] args) {
             LogFormat(LogLevel.Error, format, args);
         }
 
@@ -199,8 +184,7 @@ namespace Corale.Colore.Logging
         /// Logs a message at the <see cref="LogLevel.Fatal" /> level.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public virtual void Fatal(string message)
-        {
+        public virtual void Fatal(string message) {
             Log(LogLevel.Fatal, message);
         }
 
@@ -210,8 +194,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="message">The message to log.</param>
         /// <param name="exception">The exception object to include.</param>
-        public virtual void Fatal(string message, Exception exception)
-        {
+        public virtual void Fatal(string message, Exception exception) {
             Log(LogLevel.Fatal, message, exception);
         }
 
@@ -220,8 +203,7 @@ namespace Corale.Colore.Logging
         /// </summary>
         /// <param name="format">Format string.</param>
         /// <param name="args">Format parameters.</param>
-        public virtual void FatalFormat(string format, params object[] args)
-        {
+        public virtual void FatalFormat(string format, params object[] args) {
             LogFormat(LogLevel.Fatal, format, args);
         }
     }

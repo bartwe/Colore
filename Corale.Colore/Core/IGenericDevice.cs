@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
 
     using Corale.Colore.Annotations;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Core
     /// <summary>
     /// Interface for generic devices.
     /// </summary>
-    public interface IGenericDevice : IDevice
-    {
+    public interface IGenericDevice : IDevice {
         /// <summary>
         /// Gets the <see cref="Guid" /> of this device.
         /// </summary>

@@ -21,15 +21,13 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Logging
-{
+namespace Corale.Colore.Logging {
     using System;
 
     /// <summary>
     /// Describes a logger.
     /// </summary>
-    internal interface ILog
-    {
+    interface ILog {
         /// <summary>
         /// Gets the name of the logger.
         /// </summary>

@@ -23,9 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
-    using System;
+namespace Corale.Colore.Razer {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -34,8 +32,7 @@ namespace Corale.Colore.Razer
     /// Information about a device.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct DeviceInfo
-    {
+    public struct DeviceInfo {
         /// <summary>
         /// The type of device this is.
         /// </summary>

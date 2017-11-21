@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System.Collections.Generic;
 
     using Corale.Colore.Annotations;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Core
     /// <summary>
     /// Interface for keyboard functionality.
     /// </summary>
-    public interface IKeyboard : IDevice
-    {
+    public interface IKeyboard : IDevice {
         /// <summary>
         /// Gets or sets the <see cref="Color" /> for a specific <see cref="Key" /> on the keyboard.
         /// The SDK will translate this appropriately depending on user configuration.

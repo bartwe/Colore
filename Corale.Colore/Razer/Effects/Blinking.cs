@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -32,8 +31,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes a blinking effect.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Blinking
-    {
+    public struct Blinking {
         /// <summary>
         /// The size of the struct.
         /// </summary>
@@ -57,8 +55,7 @@ namespace Corale.Colore.Razer.Effects
         /// </summary>
         /// <param name="color">The color to use for the effect.</param>
         /// <param name="parameter">Additional parameter value to set.</param>
-        public Blinking(Color color, int parameter = 0)
-        {
+        public Blinking(Color color, int parameter = 0) {
             Color = color;
             Parameter = parameter;
             Size = Marshal.SizeOf(typeof(Blinking));

@@ -23,16 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer
-{
+namespace Corale.Colore.Razer {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Generic device effects.
     /// </summary>
     /// <remarks>Not all devices are compatible with every effect type.</remarks>
-    public enum Effect
-    {
+    public enum Effect {
         /// <summary>
         /// No effect.
         /// </summary>

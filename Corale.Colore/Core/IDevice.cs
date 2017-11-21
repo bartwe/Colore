@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
 
@@ -33,8 +32,7 @@ namespace Corale.Colore.Core
     /// <summary>
     /// Interface for functionality common with all devices.
     /// </summary>
-    public interface IDevice
-    {
+    public interface IDevice {
         /// <summary>
         /// Gets a value indicating whether this device
         /// is connected or not.

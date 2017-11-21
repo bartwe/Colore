@@ -23,16 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Headset.Effects
-{
+namespace Corale.Colore.Razer.Headset.Effects {
     using Corale.Colore.Annotations;
     using Corale.Colore.Core;
 
     /// <summary>
     /// A breathing effect for a headset.
     /// </summary>
-    public struct Breathing
-    {
+    public struct Breathing {
         /// <summary>
         /// The color of the effect.
         /// </summary>
@@ -43,8 +41,7 @@ namespace Corale.Colore.Razer.Headset.Effects
         /// Initializes a new instance of the <see cref="Breathing" /> struct.
         /// </summary>
         /// <param name="color">The color to set.</param>
-        public Breathing(Color color)
-        {
+        public Breathing(Color color) {
             Color = color;
         }
     }

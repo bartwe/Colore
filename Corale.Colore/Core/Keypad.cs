@@ -23,45 +23,45 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
 
     using Corale.Colore.Logging;
-    using Corale.Colore.Razer.Keypad;
+    using Corale.Colore.Razer;
     using Corale.Colore.Razer.Keypad.Effects;
+
+    using Effect = Corale.Colore.Razer.Keypad.Effects.Effect;
+
     /// <summary>
     /// Class for interacting with a Chroma keypad.
     /// </summary>
-    public sealed class Keypad : Device, IKeypad
-    {
+    public sealed class Keypad : Device, IKeypad {
         /// <summary>
         /// Logger instance for this class.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Keypad));
+        static readonly ILog Log = LogManager.GetLogger(typeof(Keypad));
 
         /// <summary>
         /// Lock object for thread-safe init.
         /// </summary>
-        private static readonly object InitLock = new object();
+        static readonly object InitLock = new object();
 
         /// <summary>
         /// Singleton instance of this class.
         /// </summary>
-        private static IKeypad _instance;
+        static IKeypad _instance;
 
         /// <summary>
         /// Internal instance of a <see cref="Custom" /> struct used for
         /// the indexer.
         /// </summary>
-        private Custom _custom;
+        Custom _custom;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="Keypad" /> class from being created.
         /// </summary>
-        private Keypad()
-        {
+        Keypad() {
             Log.Debug("Keypad is initializing");
             Chroma.InitInstance();
 
@@ -71,12 +71,9 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets the application-wide instance of the <see cref="IKeypad" /> interface.
         /// </summary>
-        public static IKeypad Instance
-        {
-            get
-            {
-                lock (InitLock)
-                {
+        public static IKeypad Instance {
+            get {
+                lock (InitLock) {
                     return _instance ?? (_instance = new Keypad());
                 }
             }
@@ -85,11 +82,9 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets a list of connected devices for this type
         /// </summary>
-        public override List<Guid> ConnectedDevices
-        {
-            get
-            {
-                return Chroma.Instance.Query(Razer.DeviceType.Keypad);
+        public override List<Guid> ConnectedDevices {
+            get {
+                return Chroma.Instance.Query(DeviceType.Keypad);
             }
         }
 
@@ -97,18 +92,15 @@ namespace Corale.Colore.Core
         /// Gets or sets a color at the specified position in the keypad's
         /// grid layout.
         /// </summary>
-        /// <param name="row">The row to access (between <c>0</c> and <see cref="Constants.MaxRows" />, exclusive upper-bound).</param>
-        /// <param name="column">The column to access (between <c>0</c> and <see cref="Constants.MaxColumns" />, exclusive upper-bound).</param>
+        /// <param name="row">The row to access (between <c>0</c> and <see cref="Razer.Keypad.Constants.MaxRows" />, exclusive upper-bound).</param>
+        /// <param name="column">The column to access (between <c>0</c> and <see cref="Razer.Keypad.Constants.MaxColumns" />, exclusive upper-bound).</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
-        public Color this[int row, int column]
-        {
-            get
-            {
+        public Color this[int row, int column] {
+            get {
                 return _custom[row, column];
             }
 
-            set
-            {
+            set {
                 _custom[row, column] = value;
                 SetCustom(_custom);
             }
@@ -120,8 +112,7 @@ namespace Corale.Colore.Core
         /// <param name="row">The row to query.</param>
         /// <param name="column">The column to query.</param>
         /// <returns><c>true</c> if the position has a color set that is not black, otherwise <c>false</c>.</returns>
-        public bool IsSet(int row, int column)
-        {
+        public bool IsSet(int row, int column) {
             return this[row, column] != Color.Black;
         }
 
@@ -129,19 +120,17 @@ namespace Corale.Colore.Core
         /// Sets the color of all components on this device.
         /// </summary>
         /// <param name="color">Color to set.</param>
-        public override void SetAll(Color color)
-        {
+        public override void SetAll(Color color) {
             _custom.Set(color);
             SetCustom(_custom);
         }
 
         /// <summary>
         /// Sets an effect without any parameters.
-        /// Currently, this only works for the <see cref="Effect.None" /> effect.
+        /// Currently, this only works for the <see cref="Razer.Keypad.Effects.Effect.None" /> effect.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetEffect(Effect effect)
-        {
+        public void SetEffect(Effect effect) {
             SetGuid(NativeWrapper.CreateKeypadEffect(effect, IntPtr.Zero));
         }
 
@@ -149,8 +138,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Breathing" /> effect on the keypad.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Breathing" /> struct.</param>
-        public void SetBreathing(Breathing effect)
-        {
+        public void SetBreathing(Breathing effect) {
             SetGuid(NativeWrapper.CreateKeypadEffect(Effect.Breathing, effect));
         }
 
@@ -160,8 +148,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="first">The first color to breathe into.</param>
         /// <param name="second">Second color to breathe into.</param>
-        public void SetBreathing(Color first, Color second)
-        {
+        public void SetBreathing(Color first, Color second) {
             SetBreathing(new Breathing(first, second));
         }
 
@@ -169,8 +156,7 @@ namespace Corale.Colore.Core
         /// Sets an effect on the keypad to breathe
         /// between randomly chosen colors.
         /// </summary>
-        public void SetBreathing()
-        {
+        public void SetBreathing() {
             SetBreathing(new Breathing(BreathingType.Random, Color.Black, Color.Black));
         }
 
@@ -178,8 +164,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Custom" /> effect on the keypad.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Custom" /> struct.</param>
-        public void SetCustom(Custom effect)
-        {
+        public void SetCustom(Custom effect) {
             SetGuid(NativeWrapper.CreateKeypadEffect(Effect.Custom, effect));
         }
 
@@ -187,8 +172,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Reactive" /> effect on the keypad.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Reactive" /> struct.</param>
-        public void SetReactive(Reactive effect)
-        {
+        public void SetReactive(Reactive effect) {
             SetGuid(NativeWrapper.CreateKeypadEffect(Effect.Reactive, effect));
         }
 
@@ -198,8 +182,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">Color of the effect.</param>
         /// <param name="duration">Duration of the effect.</param>
-        public void SetReactive(Color color, Duration duration)
-        {
+        public void SetReactive(Color color, Duration duration) {
             SetReactive(new Reactive(color, duration));
         }
 
@@ -207,8 +190,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Static" /> effect on the keypad.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Static" /> struct.</param>
-        public void SetStatic(Static effect)
-        {
+        public void SetStatic(Static effect) {
             SetGuid(NativeWrapper.CreateKeypadEffect(Effect.Static, effect));
         }
 
@@ -216,8 +198,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Static" /> effect on the keypad.
         /// </summary>
         /// <param name="color">Color of the effect.</param>
-        public void SetStatic(Color color)
-        {
+        public void SetStatic(Color color) {
             SetStatic(new Static(color));
         }
 
@@ -225,8 +206,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Wave" /> effect on the keypad.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Wave" /> struct.</param>
-        public void SetWave(Wave effect)
-        {
+        public void SetWave(Wave effect) {
             SetGuid(NativeWrapper.CreateKeypadEffect(Effect.Wave, effect));
         }
 
@@ -234,16 +214,14 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Wave" /> effect on the keypad.
         /// </summary>
         /// <param name="direction">Direction of the wave.</param>
-        public void SetWave(Direction direction)
-        {
+        public void SetWave(Direction direction) {
             SetWave(new Wave(direction));
         }
 
         /// <summary>
         /// Clears the current effect on the Keypad.
         /// </summary>
-        public override void Clear()
-        {
+        public override void Clear() {
             _custom.Clear();
             SetEffect(Effect.None);
         }

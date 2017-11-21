@@ -23,16 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using Corale.Colore.Annotations;
     using Corale.Colore.Razer.Mousepad.Effects;
 
     /// <summary>
     /// Interface for mouse pad functionality.
     /// </summary>
-    public interface IMousepad : IDevice
-    {
+    public interface IMousepad : IDevice {
         /// <summary>
         /// Gets or sets a specific LED on the mouse pad.
         /// </summary>

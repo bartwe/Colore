@@ -23,20 +23,17 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keyboard
-{
+namespace Corale.Colore.Razer.Keyboard {
     using System.Collections.Generic;
 
     /// <summary>
     /// Contains methods to determine if a grid positions is safe.
     /// </summary>
-    public static class PositionData
-    {
+    public static class PositionData {
         /// <summary>
         /// Set of positions that are unsafe to use.
         /// </summary>
-        internal static readonly HashSet<int> UnsafePositions = new HashSet<int>
-        {
+        internal static readonly HashSet<int> UnsafePositions = new HashSet<int> {
             0x0000,
             0x0002,
             0x0012,

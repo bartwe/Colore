@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Wave effect.
     /// </summary>
-    public struct Wave
-    {
+    public struct Wave {
         /// <summary>
         /// The direction of the wave effect.
         /// </summary>
@@ -42,8 +40,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// Initializes a new instance of the <see cref="Wave" /> struct.
         /// </summary>
         /// <param name="direction">The direction of the effect.</param>
-        public Wave(Direction direction)
-        {
+        public Wave(Direction direction) {
             Direction = direction;
         }
     }

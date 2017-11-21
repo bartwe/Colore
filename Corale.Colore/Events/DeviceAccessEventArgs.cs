@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Events
-{
+namespace Corale.Colore.Events {
     using System;
 
     using Corale.Colore.Annotations;
@@ -32,14 +31,12 @@ namespace Corale.Colore.Events
     /// <summary>
     /// Event arguments for the device access event.
     /// </summary>
-    public sealed class DeviceAccessEventArgs : EventArgs
-    {
+    public sealed class DeviceAccessEventArgs : EventArgs {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceAccessEventArgs" /> class.
         /// </summary>
         /// <param name="granted">Value indicating whether device access was granted.</param>
-        internal DeviceAccessEventArgs(bool granted)
-        {
+        internal DeviceAccessEventArgs(bool granted) {
             Granted = granted;
         }
 

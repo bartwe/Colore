@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Spectrum cycling effect.
     /// </summary>
-    public struct SpectrumCycling
-    {
+    public struct SpectrumCycling {
         /// <summary>
         /// The LED on which to apply the effect.
         /// </summary>
@@ -42,8 +40,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// Initializes a new instance of the <see cref="SpectrumCycling" /> struct.
         /// </summary>
         /// <param name="led">The LED on which to apply the effect.</param>
-        public SpectrumCycling(Led led)
-        {
+        public SpectrumCycling(Led led) {
             Led = led;
         }
     }

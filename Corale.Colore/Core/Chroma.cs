@@ -37,6 +37,8 @@ namespace Corale.Colore.Core {
 
     using Microsoft.Win32;
 
+    using NativeMethods = Corale.Colore.Native.Kernel32.NativeMethods;
+
     /// <summary>
     /// Main class for interacting with the Chroma SDK.
     /// </summary>
@@ -64,7 +66,7 @@ namespace Corale.Colore.Core {
         /// <summary>
         /// Gets the <see cref="System.Version" /> of Colore.
         /// </summary>
-        public Version Version { get; set;}
+        public Version Version { get; set; }
 
         /// <summary>
         /// Keeps track of whether we have registered to receive Chroma events.
@@ -151,7 +153,7 @@ namespace Corale.Colore.Core {
                 _connectedDevices = new Dictionary<Guid, DeviceInfo>();
 
                 var devices = (from field in typeof(Devices).GetFields() where field.FieldType == typeof(Guid) select (Guid)field.GetValue(typeof(Devices))).ToList();
-                foreach (Guid deviceId in devices) {
+                foreach (var deviceId in devices) {
                     var deviceInfo = Query(deviceId);
                     if (deviceInfo.Connected)
                         _connectedDevices.Add(deviceId, deviceInfo);
@@ -455,11 +457,11 @@ namespace Corale.Colore.Core {
 
 #if ANYCPU
             if (EnvironmentHelper.Is64BitProcess() && EnvironmentHelper.Is64BitOperatingSystem()) {
-                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
+                dllValid = NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
                 regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";
             }
             else
-                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
+                dllValid = NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
 #elif WIN64
             dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
             regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";

@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keyboard.Effects
-{
+namespace Corale.Colore.Razer.Keyboard.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported duration lengths.
     /// </summary>
-    public enum Duration
-    {
+    public enum Duration {
         /// <summary>
         /// No duration.
         /// </summary>

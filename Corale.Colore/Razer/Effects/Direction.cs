@@ -21,15 +21,13 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Supported directions for the system wave effect.
     /// </summary>
-    public enum Direction
-    {
+    public enum Direction {
         /// <summary>
         /// Left to right.
         /// </summary>

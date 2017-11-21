@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
     /// Describes the breathing effect type.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Breathing
-    {
+    public struct Breathing {
         /// <summary>
         /// The LED on which to apply the effect.
         /// </summary>
@@ -67,8 +65,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="type">The type of breathing effect to create.</param>
         /// <param name="first">The initial <see cref="Color" /> to use.</param>
         /// <param name="second">The second color.</param>
-        public Breathing(Led led, BreathingType type, Color first, Color second)
-        {
+        public Breathing(Led led, BreathingType type, Color first, Color second) {
             Led = led;
             Type = type;
             First = first;
@@ -81,9 +78,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// </summary>
         /// <param name="led">The LED on which to apply the effect.</param>
         public Breathing(Led led)
-            : this(led, BreathingType.Random, Color.Black, Color.Black)
-        {
-        }
+            : this(led, BreathingType.Random, Color.Black, Color.Black) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Breathing" /> struct for
@@ -92,9 +87,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="led">The LED on which to apply the effect.</param>
         /// <param name="first">The color to breathe to.</param>
         public Breathing(Led led, Color first)
-            : this(led, BreathingType.One, first, Color.Black)
-        {
-        }
+            : this(led, BreathingType.One, first, Color.Black) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Breathing" /> struct for
@@ -104,9 +97,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="first">Initial color.</param>
         /// <param name="second">Second color.</param>
         public Breathing(Led led, Color first, Color second)
-            : this(led, BreathingType.Two, first, second)
-        {
-        }
+            : this(led, BreathingType.Two, first, second) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Breathing" /> struct for
@@ -116,9 +107,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="first">Initial color.</param>
         /// <param name="second">Second color.</param>
         public Breathing(BreathingType type, Color first, Color second)
-            : this(Led.All, type, first, second)
-        {
-        }
+            : this(Led.All, type, first, second) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Breathing" /> struct for
@@ -126,9 +115,7 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// </summary>
         /// <param name="first">The <see cref="Color" /> to breathe to.</param>
         public Breathing(Color first)
-            : this(BreathingType.One, first, Color.Black)
-        {
-        }
+            : this(BreathingType.One, first, Color.Black) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Breathing" /> struct for
@@ -137,8 +124,6 @@ namespace Corale.Colore.Razer.Mouse.Effects
         /// <param name="first">Initial color.</param>
         /// <param name="second">Second color.</param>
         public Breathing(Color first, Color second)
-            : this(BreathingType.Two, first, second)
-        {
-        }
+            : this(BreathingType.Two, first, second) {}
     }
 }

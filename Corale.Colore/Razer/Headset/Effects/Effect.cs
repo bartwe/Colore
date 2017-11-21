@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Headset.Effects
-{
+namespace Corale.Colore.Razer.Headset.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Standard effects for headsets.
     /// </summary>
-    public enum Effect
-    {
+    public enum Effect {
         /// <summary>
         /// No effect.
         /// </summary>

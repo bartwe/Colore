@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Events
-{
+namespace Corale.Colore.Events {
     using System;
 
     using Corale.Colore.Annotations;
@@ -32,14 +31,12 @@ namespace Corale.Colore.Events
     /// <summary>
     /// Event arguments for the Chroma SDK support event.
     /// </summary>
-    public sealed class SdkSupportEventArgs : EventArgs
-    {
+    public sealed class SdkSupportEventArgs : EventArgs {
         /// <summary>
         /// Initializes a new instance of the <see cref="SdkSupportEventArgs" /> class.
         /// </summary>
         /// <param name="enabled">Value indicating whether SDK support is enabled.</param>
-        internal SdkSupportEventArgs(bool enabled)
-        {
+        internal SdkSupportEventArgs(bool enabled) {
             Enabled = enabled;
         }
 

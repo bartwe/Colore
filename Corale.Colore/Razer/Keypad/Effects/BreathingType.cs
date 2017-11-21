@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keypad.Effects
-{
+namespace Corale.Colore.Razer.Keypad.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Breathing types supported for keypads.
     /// </summary>
-    public enum BreathingType
-    {
+    public enum BreathingType {
         /// <summary>
         /// Breathes between two colors.
         /// </summary>

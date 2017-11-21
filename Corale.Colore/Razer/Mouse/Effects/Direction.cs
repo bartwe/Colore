@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mouse.Effects
-{
+namespace Corale.Colore.Razer.Mouse.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Direction for wave effect on mouse.
     /// </summary>
-    public enum Direction
-    {
+    public enum Direction {
         /// <summary>
         /// Wave goes from the front of the mouse to the back.
         /// </summary>

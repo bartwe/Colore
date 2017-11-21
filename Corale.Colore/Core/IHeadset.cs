@@ -23,17 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using Corale.Colore.Annotations;
     using Corale.Colore.Razer.Headset.Effects;
 
     /// <summary>
     /// Interface for headset functionality.
     /// </summary>
-    public interface IHeadset : IDevice
-    {
-
+    public interface IHeadset : IDevice {
         /// <summary>
         /// Gets or sets a specific LED on the headset.
         /// </summary>

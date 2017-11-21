@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore
-{
+namespace Corale.Colore {
     using System;
 
     using Corale.Colore.Annotations;
@@ -32,8 +31,7 @@ namespace Corale.Colore
     /// <summary>
     /// Describes an SDK version.
     /// </summary>
-    public struct SdkVersion : IEquatable<SdkVersion>, IComparable<SdkVersion>, IComparable
-    {
+    public struct SdkVersion : IEquatable<SdkVersion>, IComparable<SdkVersion>, IComparable {
         /// <summary>
         /// The major part of the version.
         /// </summary>
@@ -58,8 +56,7 @@ namespace Corale.Colore
         /// <param name="major">The major component of the version.</param>
         /// <param name="minor">The minor component of the version.</param>
         /// <param name="revision">The revision component of the version.</param>
-        public SdkVersion(int major, int minor, int revision)
-        {
+        public SdkVersion(int major, int minor, int revision) {
             Major = major;
             Minor = minor;
             Revision = revision;
@@ -72,8 +69,7 @@ namespace Corale.Colore
         /// <param name="left">The left operand, an instance of <see cref="SdkVersion" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are equal, otherwise <c>false</c>.</returns>
-        public static bool operator ==(SdkVersion left, object right)
-        {
+        public static bool operator ==(SdkVersion left, object right) {
             return left.Equals(right);
         }
 
@@ -84,8 +80,7 @@ namespace Corale.Colore
         /// <param name="left">The left operand, an instance of <see cref="SdkVersion" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are not equal, otherwise <c>false</c>.</returns>
-        public static bool operator !=(SdkVersion left, object right)
-        {
+        public static bool operator !=(SdkVersion left, object right) {
             return !left.Equals(right);
         }
 
@@ -96,8 +91,7 @@ namespace Corale.Colore
         /// <param name="left">The left operand, an instance of <see cref="SdkVersion" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if <paramref name="left" /> is less than <paramref name="right" />, otherwise <c>false</c>.</returns>
-        public static bool operator <(SdkVersion left, object right)
-        {
+        public static bool operator <(SdkVersion left, object right) {
             return left.CompareTo(right) < 0;
         }
 
@@ -108,8 +102,7 @@ namespace Corale.Colore
         /// <param name="left">The left operand, an instance of <see cref="SdkVersion" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if <paramref name="left" /> is greater than <paramref name="right" />, otherwise <c>false</c>.</returns>
-        public static bool operator >(SdkVersion left, object right)
-        {
+        public static bool operator >(SdkVersion left, object right) {
             return left.CompareTo(right) > 0;
         }
 
@@ -120,8 +113,7 @@ namespace Corale.Colore
         /// <param name="left">The left operand, an instance of <see cref="SdkVersion" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if <paramref name="left" /> is less than or equal to <paramref name="right" />, otherwise <c>false</c>.</returns>
-        public static bool operator <=(SdkVersion left, object right)
-        {
+        public static bool operator <=(SdkVersion left, object right) {
             return left.CompareTo(right) <= 0;
         }
 
@@ -132,8 +124,7 @@ namespace Corale.Colore
         /// <param name="left">The left operand, an instance of <see cref="SdkVersion" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if <paramref name="left" /> is greater than or equal to <paramref name="right" />, otherwise <c>false</c>.</returns>
-        public static bool operator >=(SdkVersion left, object right)
-        {
+        public static bool operator >=(SdkVersion left, object right) {
             return left.CompareTo(right) >= 0;
         }
 
@@ -144,8 +135,7 @@ namespace Corale.Colore
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(SdkVersion other)
-        {
+        public bool Equals(SdkVersion other) {
             return Major == other.Major && Minor == other.Minor && Revision == other.Revision;
         }
 
@@ -156,8 +146,7 @@ namespace Corale.Colore
         /// true if <paramref name="obj"/> and this instance are the same type and represent the same value; otherwise, false.
         /// </returns>
         /// <param name="obj">Another object to compare to. </param>
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             return obj is SdkVersion && Equals((SdkVersion)obj);
         }
 
@@ -167,10 +156,8 @@ namespace Corale.Colore
         /// <returns>
         /// A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
+        public override int GetHashCode() {
+            unchecked {
                 var hashCode = Major;
                 hashCode = (hashCode * 397) ^ Minor;
                 hashCode = (hashCode * 397) ^ Revision;
@@ -204,8 +191,7 @@ namespace Corale.Colore
         /// </list>
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(SdkVersion other)
-        {
+        public int CompareTo(SdkVersion other) {
             if (Major != other.Major)
                 return Major.CompareTo(other.Major);
 
@@ -242,8 +228,7 @@ namespace Corale.Colore
         /// </returns>
         /// <param name="obj">An object to compare with this instance. </param>
         /// <exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
-        public int CompareTo(object obj)
-        {
+        public int CompareTo(object obj) {
             if (!(obj is SdkVersion))
                 throw new ArgumentException("Object must be of type SdkVersion", "obj");
 
@@ -256,9 +241,8 @@ namespace Corale.Colore
         /// <returns>
         /// A <see cref="T:System.String"/> representing this struct instance.
         /// </returns>
-        public override string ToString()
-        {
-            return Major+"."+Minor+"."+Revision;
+        public override string ToString() {
+            return Major + "." + Minor + "." + Revision;
         }
     }
 }

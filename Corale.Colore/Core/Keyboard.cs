@@ -23,48 +23,48 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Corale.Colore.Annotations;
     using Corale.Colore.Logging;
+    using Corale.Colore.Razer;
     using Corale.Colore.Razer.Keyboard;
     using Corale.Colore.Razer.Keyboard.Effects;
+
+    using Effect = Corale.Colore.Razer.Keyboard.Effects.Effect;
 
     /// <summary>
     /// Class for interacting with a Chroma keyboard.
     /// </summary>
     [PublicAPI]
-    public sealed class Keyboard : Device, IKeyboard
-    {
+    public sealed class Keyboard : Device, IKeyboard {
         /// <summary>
         /// Logger instance for this class.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Keyboard));
+        static readonly ILog Log = LogManager.GetLogger(typeof(Keyboard));
 
         /// <summary>
         /// Lock object for thread-safe initialization.
         /// </summary>
-        private static readonly object InitLock = new object();
+        static readonly object InitLock = new object();
 
         /// <summary>
         /// Holds the application-wide instance of the <see cref="Keyboard" /> class.
         /// </summary>
-        private static IKeyboard _instance;
+        static IKeyboard _instance;
 
         /// <summary>
         /// Grid struct used for the helper methods.
         /// </summary>
-        private Custom _grid;
+        Custom _grid;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="Keyboard" /> class from being created.
         /// </summary>
-        private Keyboard()
-        {
+        Keyboard() {
             Log.Info("Keyboard initializing...");
 
             Chroma.InitInstance();
@@ -79,12 +79,9 @@ namespace Corale.Colore.Core
         /// Gets the application-wide instance of the <see cref="IKeyboard" /> interface.
         /// </summary>
         [PublicAPI]
-        public static IKeyboard Instance
-        {
-            get
-            {
-                lock (InitLock)
-                {
+        public static IKeyboard Instance {
+            get {
+                lock (InitLock) {
                     return _instance ?? (_instance = new Keyboard());
                 }
             }
@@ -93,11 +90,9 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets a list of connected devices for this type
         /// </summary>
-        public override List<Guid> ConnectedDevices
-        {
-            get
-            {
-                return Chroma.Instance.Query(Razer.DeviceType.Keyboard);
+        public override List<Guid> ConnectedDevices {
+            get {
+                return Chroma.Instance.Query(DeviceType.Keyboard);
             }
         }
 
@@ -107,15 +102,12 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="key">The key to access.</param>
         /// <returns>The color currently set for the specified key.</returns>
-        public Color this[Key key]
-        {
-            get
-            {
+        public Color this[Key key] {
+            get {
                 return _grid[key];
             }
 
-            set
-            {
+            set {
                 SetKey(key, value);
             }
         }
@@ -124,18 +116,15 @@ namespace Corale.Colore.Core
         /// Gets or sets the <see cref="Color" /> for a specific row and column on the
         /// keyboard grid.
         /// </summary>
-        /// <param name="row">Row to query, between 0 and <see cref="Constants.MaxRows" /> (exclusive upper-bound).</param>
-        /// <param name="column">Column to query, between 0 and <see cref="Constants.MaxColumns" /> (exclusive upper-bound).</param>
+        /// <param name="row">Row to query, between 0 and <see cref="Razer.Keyboard.Constants.MaxRows" /> (exclusive upper-bound).</param>
+        /// <param name="column">Column to query, between 0 and <see cref="Razer.Keyboard.Constants.MaxColumns" /> (exclusive upper-bound).</param>
         /// <returns>The color currently set on the specified position.</returns>
-        public Color this[int row, int column]
-        {
-            get
-            {
+        public Color this[int row, int column] {
+            get {
                 return _grid[row, column];
             }
 
-            set
-            {
+            set {
                 SetPosition(row, column, value);
             }
         }
@@ -150,8 +139,7 @@ namespace Corale.Colore.Core
         /// regardless of the physical layout of the keyboard.
         /// </remarks>
         [PublicAPI]
-        public static bool IsKeySafe(Key key)
-        {
+        public static bool IsKeySafe(Key key) {
             var attr =
                 typeof(Key).GetMember(key.ToString())[0].GetCustomAttributes(typeof(UnsafeKeyAttribute), false)
                                                         .FirstOrDefault();
@@ -170,8 +158,7 @@ namespace Corale.Colore.Core
         /// regardless of the physical layout of the keyboard.
         /// </remarks>
         [PublicAPI]
-        public static bool IsPositionSafe(int row, int column)
-        {
+        public static bool IsPositionSafe(int row, int column) {
             return !PositionData.UnsafePositions.Contains((row << 8) | column);
         }
 
@@ -180,8 +167,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="key">Key to check.</param>
         /// <returns><c>true</c> if the key has a color set, otherwise <c>false</c>.</returns>
-        public bool IsSet(Key key)
-        {
+        public bool IsSet(Key key) {
             return _grid[key] != Color.Black;
         }
 
@@ -189,8 +175,7 @@ namespace Corale.Colore.Core
         /// Sets a breathing effect on the keyboard.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetBreathing(Breathing effect)
-        {
+        public void SetBreathing(Breathing effect) {
             SetGuid(NativeWrapper.CreateKeyboardEffect(Effect.Breathing, effect));
         }
 
@@ -198,8 +183,7 @@ namespace Corale.Colore.Core
         /// Sets the color of all keys on the keyboard.
         /// </summary>
         /// <param name="color">Color to set.</param>
-        public override void SetAll(Color color)
-        {
+        public override void SetAll(Color color) {
             _grid.Set(color);
             SetGuid(NativeWrapper.CreateKeyboardEffect(Effect.Custom, _grid));
         }
@@ -210,8 +194,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="first">Color to start from.</param>
         /// <param name="second">Color to reach, before going back to <paramref name="first" />.</param>
-        public void SetBreathing(Color first, Color second)
-        {
+        public void SetBreathing(Color first, Color second) {
             SetBreathing(new Breathing(first, second));
         }
 
@@ -219,8 +202,7 @@ namespace Corale.Colore.Core
         /// Sets a breathing effect on the keyboard, fading
         /// between randomly chosen colors.
         /// </summary>
-        public void SetBreathing()
-        {
+        public void SetBreathing() {
             SetBreathing(new Breathing(BreathingType.Random, Color.Black, Color.Black));
         }
 
@@ -230,8 +212,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="color">Color to emit on key press.</param>
         /// <param name="duration">How long to illuminate the key after being pressed.</param>
-        public void SetReactive(Color color, Duration duration)
-        {
+        public void SetReactive(Color color, Duration duration) {
             SetReactive(new Reactive(color, duration));
         }
 
@@ -243,8 +224,7 @@ namespace Corale.Colore.Core
         /// This will overwrite the current internal <see cref="Custom" />
         /// struct in the <see cref="Keyboard" /> class.
         /// </remarks>
-        public void SetCustom(Custom effect)
-        {
+        public void SetCustom(Custom effect) {
             _grid = effect;
             SetGuid(NativeWrapper.CreateKeyboardEffect(Effect.Custom, _grid));
         }
@@ -253,31 +233,28 @@ namespace Corale.Colore.Core
         /// Sets a wave effect on the keyboard in the specified direction.
         /// </summary>
         /// <param name="direction">Direction of the wave.</param>
-        public void SetWave(Direction direction)
-        {
+        public void SetWave(Direction direction) {
             SetWave(new Wave(direction));
         }
 
         /// <summary>
         /// Sets an effect without any parameters.
-        /// Currently, this only works for the <see cref="Effect.None" /> and <see cref="Effect.SpectrumCycling" /> effects.
+        /// Currently, this only works for the <see cref="Razer.Keyboard.Effects.Effect.None" /> and <see cref="Razer.Keyboard.Effects.Effect.SpectrumCycling" /> effects.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetEffect(Effect effect)
-        {
+        public void SetEffect(Effect effect) {
             SetGuid(NativeWrapper.CreateKeyboardEffect(effect, IntPtr.Zero));
         }
 
         /// <summary>
         /// Sets the color on a specific row and column on the keyboard grid.
         /// </summary>
-        /// <param name="row">Row to set, between 0 and <see cref="Constants.MaxRows" /> (exclusive upper-bound).</param>
-        /// <param name="column">Column to set, between 0 and <see cref="Constants.MaxColumns" /> (exclusive upper-bound).</param>
+        /// <param name="row">Row to set, between 0 and <see cref="Razer.Keyboard.Constants.MaxRows" /> (exclusive upper-bound).</param>
+        /// <param name="column">Column to set, between 0 and <see cref="Razer.Keyboard.Constants.MaxColumns" /> (exclusive upper-bound).</param>
         /// <param name="color">Color to set.</param>
         /// <param name="clear">Whether or not to clear the existing colors before setting this one.</param>
         /// <exception cref="ArgumentException">Thrown if the row or column parameters are outside the valid ranges.</exception>
-        public void SetPosition(int row, int column, Color color, bool clear = false)
-        {
+        public void SetPosition(int row, int column, Color color, bool clear = false) {
             if (clear)
                 _grid.Clear();
 
@@ -291,8 +268,7 @@ namespace Corale.Colore.Core
         /// <param name="key">Key to modify.</param>
         /// <param name="color">Color to set.</param>
         /// <param name="clear">If true, the keyboard will first be cleared before setting the key.</param>
-        public void SetKey(Key key, Color color, bool clear = false)
-        {
+        public void SetKey(Key key, Color color, bool clear = false) {
             if (clear)
                 _grid.Clear();
 
@@ -306,8 +282,7 @@ namespace Corale.Colore.Core
         /// <param name="color">The <see cref="Color" /> to apply.</param>
         /// <param name="key">First key to change.</param>
         /// <param name="keys">Additional keys that should also have the color applied.</param>
-        public void SetKeys(Color color, Key key, params Key[] keys)
-        {
+        public void SetKeys(Color color, Key key, params Key[] keys) {
             SetKey(key, color);
             foreach (var additional in keys)
                 SetKey(additional, color);
@@ -322,8 +297,7 @@ namespace Corale.Colore.Core
         /// If <c>true</c>, the keyboard keys will be cleared before
         /// applying the new colors.
         /// </param>
-        public void SetKeys(IEnumerable<Key> keys, Color color, bool clear = false)
-        {
+        public void SetKeys(IEnumerable<Key> keys, Color color, bool clear = false) {
             if (clear)
                 Clear();
 
@@ -335,8 +309,7 @@ namespace Corale.Colore.Core
         /// Sets a reactive effect on the keyboard.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetReactive(Reactive effect)
-        {
+        public void SetReactive(Reactive effect) {
             SetGuid(NativeWrapper.CreateKeyboardEffect(Effect.Reactive, effect));
         }
 
@@ -344,8 +317,7 @@ namespace Corale.Colore.Core
         /// Sets a static color on the keyboard.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetStatic(Static effect)
-        {
+        public void SetStatic(Static effect) {
             SetGuid(NativeWrapper.CreateKeyboardEffect(Effect.Static, effect));
         }
 
@@ -353,16 +325,14 @@ namespace Corale.Colore.Core
         /// Sets a wave effect on the keyboard.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetWave(Wave effect)
-        {
+        public void SetWave(Wave effect) {
             SetGuid(NativeWrapper.CreateKeyboardEffect(Effect.Wave, effect));
         }
 
         /// <summary>
         /// Clears the current effect on the Keyboard.
         /// </summary>
-        public override void Clear()
-        {
+        public override void Clear() {
             _grid.Clear();
             SetEffect(Effect.None);
         }

@@ -21,15 +21,13 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Effect durations for system reactive effect.
     /// </summary>
-    public enum Duration
-    {
+    public enum Duration {
         /// <summary>
         /// Short duration.
         /// </summary>

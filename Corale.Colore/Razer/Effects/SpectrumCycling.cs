@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -31,8 +30,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes the spectrum cycling effect for system devices.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct SpectrumCycling
-    {
+    public struct SpectrumCycling {
         /// <summary>
         /// The size of the struct.
         /// </summary>
@@ -49,8 +47,7 @@ namespace Corale.Colore.Razer.Effects
         /// Initializes a new instance of the <see cref="SpectrumCycling" /> struct.
         /// </summary>
         /// <param name="parameter">Additional effect parameter to set.</param>
-        public SpectrumCycling(int parameter)
-        {
+        public SpectrumCycling(int parameter) {
             Parameter = parameter;
             Size = Marshal.SizeOf(typeof(None));
         }
@@ -60,8 +57,7 @@ namespace Corale.Colore.Razer.Effects
         /// with default values.
         /// </summary>
         /// <returns>A new instance of the <see cref="SpectrumCycling" /> struct.</returns>
-        public static SpectrumCycling Create()
-        {
+        public static SpectrumCycling Create() {
             return new SpectrumCycling(0);
         }
     }

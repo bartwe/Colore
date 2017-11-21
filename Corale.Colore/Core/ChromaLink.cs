@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------
 // <copyright file="ChromaLink.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
 //
@@ -22,50 +22,45 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using Corale.Colore.Annotations;
     using Corale.Colore.Logging;
-
-    using Razer.ChromaLink;
-    using Razer.ChromaLink.Effects;
+    using Corale.Colore.Razer.ChromaLink;
+    using Corale.Colore.Razer.ChromaLink.Effects;
 
     /// <summary>
     /// Class for interacting with a Chroma Link.
     /// </summary>
     [PublicAPI]
-    public sealed class ChromaLink : Device, IChromaLink
-    {
+    public sealed class ChromaLink : Device, IChromaLink {
         /// <summary>
         /// Logger instance for this class.
         /// </summary>
-        private static readonly ILog Log = LogManager.GetLogger(typeof(ChromaLink));
+        static readonly ILog Log = LogManager.GetLogger(typeof(ChromaLink));
 
         /// <summary>
         /// Lock object for thread-safe init.
         /// </summary>
-        private static readonly object InitLock = new object();
+        static readonly object InitLock = new object();
 
         /// <summary>
         /// Singleton instance of this class.
         /// </summary>
-        private static IChromaLink _instance;
+        static IChromaLink _instance;
 
         /// <summary>
         /// Internal instance of a <see cref="Custom" /> struct used for
         /// the indexer.
         /// </summary>
-        private Custom _custom;
+        Custom _custom;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ChromaLink" /> class from being created.
         /// </summary>
-        private ChromaLink()
-        {
+        ChromaLink() {
             Log.Debug("Chroma Link is initializing");
             Chroma.InitInstance();
 
@@ -81,12 +76,9 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Gets the application-wide instance of the <see cref="IChromaLink" /> interface.
         /// </summary>
-        public static IChromaLink Instance
-        {
-            get
-            {
-                lock (InitLock)
-                {
+        public static IChromaLink Instance {
+            get {
+                lock (InitLock) {
                     return _instance ?? (_instance = new ChromaLink());
                 }
             }
@@ -97,15 +89,12 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="index">The index to access (between <c>0</c> and <see cref="Constants.MaxLeds" />, exclusive upper-bound).</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
-        public Color this[int index]
-        {
-            get
-            {
+        public Color this[int index] {
+            get {
                 return _custom[index];
             }
 
-            set
-            {
+            set {
                 _custom[index] = value;
                 SetCustom(_custom);
             }
@@ -116,8 +105,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="index">The index to query.</param>
         /// <returns><c>true</c> if the position has a color set that is not black, otherwise <c>false</c>.</returns>
-        public bool IsSet(int index)
-        {
+        public bool IsSet(int index) {
             return this[index] != Color.Black;
         }
 
@@ -125,8 +113,7 @@ namespace Corale.Colore.Core
         /// Sets the color of all lights in Chroma Link
         /// </summary>
         /// <param name="color">Color to set.</param>
-        public override void SetAll(Color color)
-        {
+        public override void SetAll(Color color) {
             _custom.Set(color);
             SetCustom(_custom);
         }
@@ -136,8 +123,7 @@ namespace Corale.Colore.Core
         /// Currently, this only works for the <see cref="Effect.None" /> and <see cref="Effect.Static" /> effects.
         /// </summary>
         /// <param name="effect">Effect options.</param>
-        public void SetEffect(Effect effect)
-        {
+        public void SetEffect(Effect effect) {
             SetGuid(NativeWrapper.CreateChromaLinkEffect(effect, IntPtr.Zero));
         }
 
@@ -145,8 +131,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Custom" /> effect on the Chroma Link.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Custom" /> struct.</param>
-        public void SetCustom(Custom effect)
-        {
+        public void SetCustom(Custom effect) {
             SetGuid(NativeWrapper.CreateChromaLinkEffect(Effect.Custom, effect));
         }
 
@@ -154,8 +139,7 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Static" /> effect on the Chroma Link.
         /// </summary>
         /// <param name="effect">An instance of the <see cref="Static" /> struct.</param>
-        public void SetStatic(Static effect)
-        {
+        public void SetStatic(Static effect) {
             SetGuid(NativeWrapper.CreateChromaLinkEffect(Effect.Static, effect));
         }
 
@@ -163,16 +147,14 @@ namespace Corale.Colore.Core
         /// Sets a <see cref="Static" /> effect on the Chroma Link.
         /// </summary>
         /// <param name="color">Color of the effect.</param>
-        public void SetStatic(Color color)
-        {
+        public void SetStatic(Color color) {
             SetStatic(new Static(color));
         }
 
         /// <summary>
         /// Clears the current effect on the Chroma Link.
         /// </summary>
-        public override void Clear()
-        {
+        public override void Clear() {
             SetEffect(Effect.None);
         }
     }

@@ -23,15 +23,13 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keyboard.Effects
-{
+namespace Corale.Colore.Razer.Keyboard.Effects {
     using Corale.Colore.Annotations;
 
     /// <summary>
     /// Direction of the wave effect.
     /// </summary>
-    public enum Direction
-    {
+    public enum Direction {
         /// <summary>
         /// No direction.
         /// </summary>

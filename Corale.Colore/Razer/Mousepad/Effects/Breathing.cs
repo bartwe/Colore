@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mousepad.Effects
-{
+namespace Corale.Colore.Razer.Mousepad.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -34,8 +33,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
     /// A breathing effect.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Breathing
-    {
+    public struct Breathing {
         /// <summary>
         /// The type of breathing effect.
         /// </summary>
@@ -60,8 +58,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// <param name="type">The type of breathing effect.</param>
         /// <param name="first">Initial color.</param>
         /// <param name="second">Second color.</param>
-        public Breathing(BreathingType type, Color first, Color second)
-        {
+        public Breathing(BreathingType type, Color first, Color second) {
             Type = type;
             First = first;
             Second = second;
@@ -74,8 +71,6 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// <param name="first">Initial color.</param>
         /// <param name="second">Second color.</param>
         public Breathing(Color first, Color second)
-            : this(BreathingType.Two, first, second)
-        {
-        }
+            : this(BreathingType.Two, first, second) {}
     }
 }

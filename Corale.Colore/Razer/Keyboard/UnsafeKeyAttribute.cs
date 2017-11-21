@@ -23,15 +23,12 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Keyboard
-{
+namespace Corale.Colore.Razer.Keyboard {
     using System;
 
     /// <summary>
     /// Marks a <see cref="Key" /> value as unsafe.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class UnsafeKeyAttribute : Attribute
-    {
-    }
+    public class UnsafeKeyAttribute : Attribute {}
 }

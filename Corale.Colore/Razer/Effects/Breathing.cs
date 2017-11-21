@@ -21,8 +21,7 @@
 //     "Razer" is a trademark of Razer USA Ltd.
 // </copyright>
 
-namespace Corale.Colore.Razer.Effects
-{
+namespace Corale.Colore.Razer.Effects {
     using System.Runtime.InteropServices;
 
     using Corale.Colore.Annotations;
@@ -32,8 +31,7 @@ namespace Corale.Colore.Razer.Effects
     /// Describes a breathing effect for a system device.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Breathing
-    {
+    public struct Breathing {
         /// <summary>
         /// The size of the struct.
         /// </summary>
@@ -71,8 +69,7 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="first">Primary effect color.</param>
         /// <param name="second">Secondary effect color.</param>
         /// <param name="parameter">Additional effect parameter to set.</param>
-        public Breathing(BreathingType type, Color first, Color second, int parameter = 0)
-        {
+        public Breathing(BreathingType type, Color first, Color second, int parameter = 0) {
             Type = type;
             First = first;
             Second = second;
@@ -86,9 +83,7 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="color">Color to breathe with.</param>
         /// <param name="parameter">Additional effect parameter to set.</param>
         public Breathing(Color color, int parameter = 0)
-            : this(BreathingType.One, color, Color.Black, parameter)
-        {
-        }
+            : this(BreathingType.One, color, Color.Black, parameter) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Breathing" /> struct.
@@ -97,18 +92,14 @@ namespace Corale.Colore.Razer.Effects
         /// <param name="second">Secondary effect color.</param>
         /// <param name="parameter">Additional effect parameter to set.</param>
         public Breathing(Color first, Color second, int parameter = 0)
-            : this(BreathingType.Two, first, second, parameter)
-        {
-        }
+            : this(BreathingType.Two, first, second, parameter) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Breathing" /> struct.
         /// </summary>
         /// <param name="parameter">Additional effect parameter to set.</param>
         public Breathing(int parameter)
-            : this(BreathingType.Random, Color.Black, Color.Black, parameter)
-        {
-        }
+            : this(BreathingType.Random, Color.Black, Color.Black, parameter) {}
 
         /// <summary>
         /// Returns a new instance of the <see cref="Breathing" /> struct
@@ -116,8 +107,7 @@ namespace Corale.Colore.Razer.Effects
         /// zero.
         /// </summary>
         /// <returns>A new instance of the <see cref="Breathing" /> struct.</returns>
-        public static Breathing Create()
-        {
+        public static Breathing Create() {
             return new Breathing(0);
         }
     }

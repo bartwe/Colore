@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using Corale.Colore.Annotations;
     using Corale.Colore.Razer.Mouse;
     using Corale.Colore.Razer.Mouse.Effects;
@@ -32,8 +31,7 @@ namespace Corale.Colore.Core
     /// <summary>
     /// Interface for mouse functionality.
     /// </summary>
-    public interface IMouse : IDevice
-    {
+    public interface IMouse : IDevice {
         /// <summary>
         /// Gets or sets the <see cref="Color" /> for a specific LED index on the mouse.
         /// </summary>

@@ -23,8 +23,7 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Razer.Mousepad.Effects
-{
+namespace Corale.Colore.Razer.Mousepad.Effects {
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
@@ -36,21 +35,19 @@ namespace Corale.Colore.Razer.Mousepad.Effects
     /// Custom effect for mouse pad.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Custom : IEquatable<Custom>, IEquatable<IList<Color>>
-    {
+    public struct Custom : IEquatable<Custom>, IEquatable<IList<Color>> {
         /// <summary>
         /// Colors for the LEDs.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.MaxLeds)]
-        private readonly Color[] _colors;
+        readonly Color[] _colors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Custom" /> struct with
         /// a default color to apply to every LED.
         /// </summary>
         /// <param name="color">The color to set every LED to initially.</param>
-        public Custom(Color color)
-        {
+        public Custom(Color color) {
             _colors = new Color[Constants.MaxLeds];
 
             for (var i = 0; i < _colors.Length; i++)
@@ -62,10 +59,8 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// </summary>
         /// <param name="colors">The colors to use.</param>
         /// <exception cref="ArgumentException">Thrown if the colors list supplied is of an incorrect size.</exception>
-        public Custom(IList<Color> colors)
-        {
-            if (colors.Count != Constants.MaxLeds)
-            {
+        public Custom(IList<Color> colors) {
+            if (colors.Count != Constants.MaxLeds) {
                 throw new ArgumentException(
                     "Invalid length of color list, expected " + Constants.MaxLeds + " but received " + colors.Count,
                     "colors");
@@ -83,9 +78,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// </summary>
         /// <param name="other">The struct to copy data from.</param>
         public Custom(Custom other)
-            : this(other._colors)
-        {
-        }
+            : this(other._colors) {}
 
         /// <summary>
         /// Gets or sets LEDs in the custom array.
@@ -93,12 +86,9 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// <param name="led">Index of the LED to access.</param>
         /// <returns>The <see cref="Color" /> at the specified position.</returns>
         [PublicAPI]
-        public Color this[int led]
-        {
-            get
-            {
-                if (led < 0 || led >= Constants.MaxLeds)
-                {
+        public Color this[int led] {
+            get {
+                if (led < 0 || led >= Constants.MaxLeds) {
                     throw new ArgumentOutOfRangeException(
                         "led",
                         led,
@@ -108,10 +98,8 @@ namespace Corale.Colore.Razer.Mousepad.Effects
                 return _colors[led];
             }
 
-            set
-            {
-                if (led < 0 || led >= Constants.MaxLeds)
-                {
+            set {
+                if (led < 0 || led >= Constants.MaxLeds) {
                     throw new ArgumentOutOfRangeException(
                         "led",
                         led,
@@ -129,8 +117,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// <param name="left">The left operand, an instance of <see cref="Custom" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are equal, otherwise <c>false</c>.</returns>
-        public static bool operator ==(Custom left, object right)
-        {
+        public static bool operator ==(Custom left, object right) {
             return left.Equals(right);
         }
 
@@ -141,8 +128,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// <param name="left">The left operand, an instance of <see cref="Custom" />.</param>
         /// <param name="right">The right operand, any type of object.</param>
         /// <returns><c>true</c> if the two objects are not equal, otherwise <c>false</c>.</returns>
-        public static bool operator !=(Custom left, object right)
-        {
+        public static bool operator !=(Custom left, object right) {
             return !left.Equals(right);
         }
 
@@ -151,8 +137,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// </summary>
         /// <returns>An instance of <see cref="Custom" /> filled with the color black.</returns>
         [PublicAPI]
-        public static Custom Create()
-        {
+        public static Custom Create() {
             return new Custom(Color.Black);
         }
 
@@ -161,8 +146,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// </summary>
         /// <returns>A copy of this struct.</returns>
         [PublicAPI]
-        public Custom Clone()
-        {
+        public Custom Clone() {
             return new Custom(this);
         }
 
@@ -173,8 +157,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             if (_colors == null)
                 return 0;
             return _colors.GetHashCode();
@@ -185,8 +168,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// </summary>
         /// <param name="color">The <see cref="Color" /> to set the LEDs to.</param>
         [PublicAPI]
-        public void Set(Color color)
-        {
+        public void Set(Color color) {
             for (var i = 0; i < Constants.MaxLeds; i++)
                 _colors[i] = color;
         }
@@ -195,8 +177,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// Clears the colors in this <see cref="Custom" /> struct (sets to <see cref="Color.Black" />).
         /// </summary>
         [PublicAPI]
-        public void Clear()
-        {
+        public void Clear() {
             Set(Color.Black);
         }
 
@@ -209,8 +190,7 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// and represent the same value; otherwise, <c>false</c>.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (ReferenceEquals(obj, null))
                 return false;
 
@@ -228,10 +208,8 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Custom other)
-        {
-            for (var i = 0; i < Constants.MaxLeds; i++)
-            {
+        public bool Equals(Custom other) {
+            for (var i = 0; i < Constants.MaxLeds; i++) {
                 if (this[i] != other[i])
                     return false;
             }
@@ -247,13 +225,11 @@ namespace Corale.Colore.Razer.Mousepad.Effects
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(IList<Color> other)
-        {
+        public bool Equals(IList<Color> other) {
             if (other == null || other.Count != Constants.MaxLeds)
                 return false;
 
-            for (var i = 0; i < Constants.MaxLeds; i++)
-            {
+            for (var i = 0; i < Constants.MaxLeds; i++) {
                 if (this[i] != other[i])
                     return false;
             }

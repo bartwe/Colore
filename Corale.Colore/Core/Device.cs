@@ -23,16 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
+namespace Corale.Colore.Core {
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Base class for devices, containing code common between all devices.
     /// </summary>
-    public abstract class Device : IDevice
-    {
+    public abstract class Device : IDevice {
         /// <summary>
         /// Gets or sets the ID of the currently active effect.
         /// </summary>
@@ -42,10 +40,8 @@ namespace Corale.Colore.Core
         /// Gets a value indicating whether this device
         /// is connected
         /// </summary>
-        public virtual bool Connected
-        {
-            get
-            {
+        public virtual bool Connected {
+            get {
                 return ConnectedDevices.Count > 0;
             }
         }
@@ -70,8 +66,7 @@ namespace Corale.Colore.Core
         /// Updates the device to use the effect pointed to by the specified GUID.
         /// </summary>
         /// <param name="guid">GUID to set.</param>
-        public void SetGuid(Guid guid)
-        {
+        public void SetGuid(Guid guid) {
             DeleteCurrentEffect();
             NativeWrapper.SetEffect(guid);
             CurrentEffectId = guid;
@@ -80,8 +75,7 @@ namespace Corale.Colore.Core
         /// <summary>
         /// Deletes the currently set effect.
         /// </summary>
-        internal void DeleteCurrentEffect()
-        {
+        internal void DeleteCurrentEffect() {
             if (CurrentEffectId == Guid.Empty)
                 return;
 

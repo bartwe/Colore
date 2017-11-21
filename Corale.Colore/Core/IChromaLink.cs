@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------
 // <copyright file="IChromaLink.cs" company="Corale">
 //     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
 //
@@ -23,18 +23,14 @@
 // </copyright>
 // ---------------------------------------------------------------------------------------
 
-namespace Corale.Colore.Core
-{
-    using System.Collections.Generic;
-
+namespace Corale.Colore.Core {
     using Corale.Colore.Annotations;
-    using Razer.ChromaLink.Effects;
+    using Corale.Colore.Razer.ChromaLink.Effects;
 
     /// <summary>
     /// Interface for Chroma Link functionality.
     /// </summary>
-    public interface IChromaLink : IDevice
-    {
+    public interface IChromaLink : IDevice {
         /// <summary>
         /// Gets or sets the <see cref="Color" /> for a specific zone on the Chroma Link device.
         /// The SDK will translate this appropriately depending on user configuration.
