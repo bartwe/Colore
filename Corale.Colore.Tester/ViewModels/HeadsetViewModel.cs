@@ -59,6 +59,8 @@ namespace Corale.Colore.Tester.ViewModels
 
         public ICommand ClearCommand => new DelegateCommand(() => Core.Headset.Instance.Clear());
 
+        public string Connected => "Connected: " + Core.Headset.Instance.Connected.ToString();
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged(string propertyName)
         {

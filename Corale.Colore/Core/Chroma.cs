@@ -26,7 +26,10 @@
 namespace Corale.Colore.Core
 {
     using System;
+
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     using Corale.Colore.Annotations;
     using Corale.Colore.Events;
@@ -52,6 +55,11 @@ namespace Corale.Colore.Core
         /// Holds the application-wide instance of the <see cref="IChroma" /> interface.
         /// </summary>
         private static IChroma _instance;
+
+        /// <summary>
+        /// Keeps a record of connected devices.
+        /// </summary>
+        private static IDictionary<Guid, DeviceInfo> _connectedDevices;
 
         /// <summary>
         /// Keeps track of whether we have registered to receive Chroma events.
@@ -139,6 +147,28 @@ namespace Corale.Colore.Core
         /// </summary>
         [PublicAPI]
         public static bool SdkAvailable => RegistryHelper.IsSdkAvailable();
+        
+        /// <summary>
+        /// Gets a list of currently connected devices.
+        /// </summary>
+        [PublicAPI]
+        public IDictionary<Guid, DeviceInfo> ConnectedDevices
+        {
+            get
+            {
+                _connectedDevices = new Dictionary<Guid, DeviceInfo>();
+
+            var devices = (from field in typeof(Devices).GetFields() where field.FieldType == typeof(Guid) select (Guid)field.GetValue(typeof(Devices))).ToList();
+            foreach (Guid deviceId in devices)
+            {
+                var deviceInfo = Query(deviceId);
+                if (deviceInfo.Connected)
+                    _connectedDevices.Add(deviceId, deviceInfo);
+            }
+
+            return _connectedDevices;
+            }
+        }
 
         /// <summary>
         /// Gets an instance of the <see cref="IKeyboard" /> interface
@@ -191,6 +221,75 @@ namespace Corale.Colore.Core
         /// Gets the <see cref="System.Version" /> of Colore.
         /// </summary>
         public Version Version { get; }
+        
+        /// <summary>
+        /// Checks if the Chroma SDK is available on this system.
+        /// </summary>
+        /// <returns><c>true</c> if Chroma SDK is available, otherwise <c>false</c>.</returns>
+        [PublicAPI]
+        [SecurityCritical]
+        public static bool IsSdkAvailable()
+        {
+            bool dllValid;
+            var regKey = @"SOFTWARE\Razer Chroma SDK";
+
+#if ANYCPU
+            if (EnvironmentHelper.Is64BitProcess() && EnvironmentHelper.Is64BitOperatingSystem())
+            {
+                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
+                regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";
+            }
+            else
+                dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
+#elif WIN64
+            dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK64.dll") != IntPtr.Zero;
+            regKey = @"SOFTWARE\Wow6432Node\Razer Chroma SDK";
+#else
+            dllValid = Native.Kernel32.NativeMethods.LoadLibrary("RzChromaSDK.dll") != IntPtr.Zero;
+#endif
+
+            bool regEnabled;
+
+            try
+            {
+                using (var key = Registry.LocalMachine.OpenSubKey(regKey))
+                {
+                    if (key != null)
+                    {
+                        var value = key.GetValue("Enable");
+
+                        if (value is int)
+                            regEnabled = (int)value == 1;
+                        else
+                        {
+                            regEnabled = true;
+                            Log.Warn(
+                                "Chroma SDK has changed registry setting format. Please update Colore to latest version.");
+                            Log.DebugFormat("New Enabled type: {0}", value.GetType());
+                        }
+                    }
+                    else
+                        regEnabled = false;
+                }
+            }
+            catch (SecurityException ex)
+            {
+                // If we can't access the registry, best to just assume
+                // it is enabled.
+                Log.Warn("System raised SecurityException during read of SDK enable flag in registry.", ex);
+                regEnabled = true;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                // If we can't access the registry, best to just assume
+                // it is enabled.
+                Log.Warn("Not authorized to read registry for SDK enable flag.", ex);
+                regEnabled = true;
+            }
+
+            return dllValid && regEnabled;
+        }
+
 
         /// <summary>
         /// Initializes the SDK if it hasn't already.
@@ -201,6 +300,7 @@ namespace Corale.Colore.Core
         /// result in <emph>undefined behaviour</emph>. Usage of this method is
         /// <strong>at your own risk</strong>.</span>
         /// </remarks>
+        [SecuritySafeCritical]
         public void Initialize()
         {
             if (Initialized)
@@ -258,6 +358,7 @@ namespace Corale.Colore.Core
         /// </summary>
         /// <param name="deviceId">The device ID to query for, valid IDs can be found in <see cref="Devices" />.</param>
         /// <returns>A struct with information regarding the device type and whether it's connected.</returns>
+        [SecurityCritical]
         public DeviceInfo Query(Guid deviceId)
         {
             if (!Devices.IsValidId(deviceId))
@@ -265,6 +366,18 @@ namespace Corale.Colore.Core
 
             Log.DebugFormat("Information for {0} requested", deviceId);
             return NativeWrapper.QueryDevice(deviceId);
+        }
+
+        /// <summary>
+        /// Queries the SDK for connected devices of a specific device type.
+        /// </summary>
+        /// <param name="deviceType">The device type to query for, valid types can be found in <see cref="DeviceType" />.</param>
+        /// <returns>A list with information regarding the devices that are connected.</returns>
+        [SecurityCritical]
+        public List<Guid> Query(DeviceType deviceType)
+        {
+            Log.DebugFormat("Information for {0} requested", deviceType);
+            return Instance.ConnectedDevices.Where(x => x.Value.Type == DeviceType.Headset).Select(x => x.Key).ToList();
         }
 
         /// <summary>

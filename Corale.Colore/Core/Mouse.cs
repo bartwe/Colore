@@ -26,6 +26,7 @@
 namespace Corale.Colore.Core
 {
     using System;
+    using System.Collections.Generic;
 
     using Corale.Colore.Annotations;
     using Corale.Colore.Logging;
@@ -86,6 +87,17 @@ namespace Corale.Colore.Core
                 {
                     return _instance ?? (_instance = new Mouse());
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of connected devices for this type
+        /// </summary>
+        public override List<Guid> ConnectedDevices
+        {
+            get
+            {
+                return Chroma.Instance.Query(Razer.DeviceType.Mouse);
             }
         }
 

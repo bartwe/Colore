@@ -68,7 +68,6 @@ namespace Corale.Colore.Core
             Log.Info("Keyboard initializing...");
 
             Chroma.InitInstance();
-
             CurrentEffectId = Guid.Empty;
 
             // We keep a local copy of a grid to speed up grid operations
@@ -88,6 +87,17 @@ namespace Corale.Colore.Core
                 {
                     return _instance ?? (_instance = new Keyboard());
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of connected devices for this type
+        /// </summary>
+        public override List<Guid> ConnectedDevices
+        {
+            get
+            {
+                return Chroma.Instance.Query(Razer.DeviceType.Keyboard);
             }
         }
 
