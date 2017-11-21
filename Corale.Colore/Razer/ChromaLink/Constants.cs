@@ -1,6 +1,6 @@
-﻿// ---------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------
 // <copyright file="Constants.cs" company="Corale">
-//     Copyright © 2015-2016 by Adam Hellberg and Brandon Scott.
+//     Copyright � 2015-2016 by Adam Hellberg and Brandon Scott.
 //
 //     Permission is hereby granted, free of charge, to any person obtaining a copy of
 //     this software and associated documentation files (the "Software"), to deal in
@@ -36,6 +36,6 @@ namespace Corale.Colore.Razer.ChromaLink
         /// Maximum number of LEDs.
         /// </summary>
         [PublicAPI]
-        public const int MaxLEDs = 5;
+        public const int MaxLeds = 5;
     }
 }

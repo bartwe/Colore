@@ -245,6 +245,7 @@ namespace Corale.Colore.Core
             ((Device)Keypad).DeleteCurrentEffect();
             ((Device)Mousepad).DeleteCurrentEffect();
             ((Device)Headset).DeleteCurrentEffect();
+            ((Device)ChromaLink).DeleteCurrentEffect();
 
             Unregister();
             NativeWrapper.UnInit();
